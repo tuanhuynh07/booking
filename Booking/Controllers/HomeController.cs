@@ -28,7 +28,6 @@ namespace Booking.Controllers
         }
         public ActionResult Product()
         {
-
             ViewBag.Message = "Your contact page.";
             return View();
         }

@@ -1,0 +1,133 @@
+﻿/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    /*padding-top: 50px;
+    padding-bottom: 20px;*/
+}
+
+.admin_top{
+    position: relative;
+    height: 100px;
+    text-align: center;
+    font-size: 14px;
+    background: #e2e2e2;
+    color: #C6242E;    
+    -moz-box-shadow: 0 0 8px #888;
+    -webkit-box-shadow: 0 0 8px#888;
+    box-shadow: 0 0 8px #888;
+}
+.admin_top img{
+    float: left;
+}
+.admin_top p{
+    position: absolute;
+    float: right;
+    right: 100px;
+    top: 10px;
+}
+.admin_top span{
+    position: absolute;
+    float: right;
+    right: 50px;
+    top: 5px
+}
+.form_login{
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    height: 400px;
+    width: 600px;
+    background: #fff;
+    border: 1px solid #888;
+    border-radius: 5px;
+    -moz-box-shadow: 0 0 10px #888;
+    -webkit-box-shadow: 0 0 10px#888;
+    box-shadow: 0 0 10px #888;
+}
+.bor_top{
+    width: 100%;
+    height: 8px;
+    position: absolute;
+    background: #C6242E;
+}
+
+.icon_login{
+    float: right;
+    padding: 5px;
+    background: #C6242E;
+    color: #e2e2e2
+
+}
+.form_login p{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 24px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #C6242E
+}
+.login{
+    width: 100%;
+    padding: 10px 40px;
+    line-height: 5px;
+}
+.login input{
+    width: 100%;
+	max-width: 100%;
+    height: 40px;
+    display: block;
+    outline: none;
+    padding: 10px 15px;
+    border: 1px solid #C6242E;
+    border-radius: 3px;
+
+}
+.login .bt_lg{
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+    display: block;
+    outline: none;
+    text-align: center;
+    border: 1px solid #C6242E;
+    border-radius: 3px;
+    background: #C6242E;
+    color: #fff;
+}
+.bor_bottom{
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    background: #c4c4c4;
+    bottom: 0;
+    color: #C6242E;
+    padding: 20px;
+}
+.bor_bottom a{
+    text-decoration: none;
+    color: #C6242E;
+    float: right;
+
+}
+.navbar-fixed-top, .navbar-fixed-bottom{
+	position:relative;
+}
+.navbar-header {
+	min-width: 300px;
+}
+.logo {
+	float: left;
+	width: 50px;
+	margin-right: 5px;
+}
+.navbar-brand {
+	display: block;
+	white-space: nowrap;
+}
+.sidebar-left{
+	width:20%;
+	float:left;
+	background-color:#F0F0F0;
+}
+.sidebar-left .nav{
+	text-transform:uppercase
+}

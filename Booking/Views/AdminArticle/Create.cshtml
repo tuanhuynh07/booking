@@ -1,0 +1,143 @@
+﻿@model Booking.Models.ARTICLE
+@{
+    ViewBag.Title = "Tạo Bài viết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    string strUrl = Request.Url.AbsoluteUri;
+    string strPath = Request.ApplicationPath;
+    string host = Request.Url.Host;
+    string urlHome = "/";
+    if (strPath != "/")
+    {
+        urlHome = strPath + urlHome;
+    }
+}
+<section class="content-header">
+    <h1>
+        Quản lý Bài viết
+    </h1>
+</section>
+<section class="content">
+    @if (TempData["articleNameError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["articleNameError"]
+        </div>
+    }
+    @if (TempData["articleImageError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["articleImageError"]
+        </div>
+    }
+    @if (TempData["articleContentError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["articleContentError"]
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tạo mới Bài viết thuộc Danh mục: <b><i>@ViewBag.categoryName</i></b></h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm("create", "adminarticle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="ARTICLE_TITLE">Tiêu đề bài viết <span style="color:red;">(*)</span></label>@Html.ValidationMessageFor(model => model.ARTICLE_TITLE, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.ARTICLE_TITLE, new { @class = "form-control", @placeholder = "Nhập tiêu đề..." })
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_BRIEF">Nội dung mô tả</label>
+                                @Html.TextAreaFor(model => model.ARTICLE_BRIEF, new { @class = "form-control", @placeholder = "Nhập mô tả...", @cols = "80", @rows = "4" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_CONTENT">Nội dung <span style="color:red;">(*)</span></label>
+                                @Html.TextAreaFor(model => model.ARTICLE_CONTENT, new { @class = "form-control", @placeholder = "Nhập nội dung...", @cols = "80", @rows = "4" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_TAGS">Từ khóa <span style="color:red"><i>(Các từ khóa cách nhau bởi dấu ";")</i></span></label>
+                                @Html.TextBoxFor(model => model.ARTICLE_TAGS, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_CREATEDATE">Ngày đăng</label>
+                                @Html.TextBoxFor(model => model.ARTICLE_CREATEDATE, "{0:dd/MM/yyyy}", new { @Value = DateTime.Now.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture), @class = "form-control" })
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBox("ARTICLE_IS_HOT") Bài viết nổi bật
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_IMAGE_LARGE">Ảnh đại diện (Kích thước 600x450) <span style="color:red;">(*)</span></label>
+                                @Html.TextBoxFor(model => model.ARTICLE_IMAGE_LARGE, new { @type = "file", @class = "form-control", @onchange = "displayImage(this)" })
+                                <img style="display: none; max-width:600px;height:auto" id="image_large" src="">
+                                @*crop<div class="container col-md-12">
+                                        <div class="row">
+                                            <div class="col col-6 img-container">
+                                                <img style="display: none; max-width:100%;height:auto" id="image" src="" alt="Picture">
+                                            </div>
+                                            <div class="col col-6 img-container" style="padding-top:10px;">
+                                                <canvas id="canvasResize" width="600"></canvas>
+                                                <canvas id="canvas" height="5" width="5"></canvas>
+                                                <label class="imgW" style="display:none"></label>
+                                                <label class="imgH" style="display:none"></label>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="imgX1" id="imgX1" />
+                                        <input type="hidden" name="imgY1" id="imgY1" />
+                                        <input type="hidden" name="imgWidth" id="imgWidth" />
+                                        <input type="hidden" name="imgHeight" id="imgHeight" />
+                                        <input type="hidden" name="imgCropped" id="imgCropped" />
+                                    </div>*@
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_IMAGE_THUMB">Ảnh nhỏ (Kích thước 160x120) <span style="color:red;">(*)</span></label>
+                                @Html.TextBoxFor(model => model.ARTICLE_IMAGE_THUMB, new { @type = "file", @class = "form-control", @onchange = "displayImageThumb(this)" })
+                                <img style="width:auto;height:auto" id="image_thumb" src="">
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_FILE_NAME_1">File đính kèm 1</label>
+                                @Html.TextBoxFor(model => model.ARTICLE_FILE_NAME_1, new { @type = "file", @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ARTICLE_FILE_NAME_2">File đính kèm 2</label>
+                                @Html.TextBoxFor(model => model.ARTICLE_FILE_NAME_2, new { @type = "file", @class = "form-control" })
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBox("ARTICLE_DISABLE") Xuất bản bài viết
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:red;"><i>Không bỏ trống trường có ký hiệu (*).</i></label>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Thêm mới</button>
+                            <button type="reset" class="btn btn-default">Làm mới</button>
+                            <a href="@(urlHome + "adminarticle/articelincategory/" + ViewBag.Id)" class="btn btn-default">Quay lại</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="@(urlHome + "content/ckeditor/ckeditor.js")"></script>
+<script src="@(urlHome + "content/ckfinder/ckfinder.js")"></script>
+<script>
+    CKEDITOR.replace('ARTICLE_CONTENT', {
+        filebrowserImageUploadUrl: '/Upload.ashx',
+        height: 350
+    });
+    CKEDITOR.config.autoParagraph = false;
+    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+</script>

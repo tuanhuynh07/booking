@@ -26,10 +26,5 @@ namespace Booking.Controllers
 
             return View();
         }
-        public ActionResult Product()
-        {
-            ViewBag.Message = "Your contact page.";
-            return View();
-        }
     }
 }

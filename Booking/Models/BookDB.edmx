@@ -1,0 +1,1133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB_BOOKINGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ACCOUNT">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="USER_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="USER_FULL_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="USER_PASSWORD" Type="nvarchar" MaxLength="150" />
+          <Property Name="USER_VALID_ADMIN" Type="nvarchar" MaxLength="100" />
+          <Property Name="USER_IS_ADMIN" Type="bit" />
+          <Property Name="USER_CREATEDATE" Type="datetime" />
+          <Property Name="USER_CREATEBY" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="USER_ALLOW_CATEGORY" Type="bit" />
+          <Property Name="USER_ALLOW_ARTICLE" Type="bit" />
+          <Property Name="USER_ALLOW_MEDIA" Type="bit" />
+          <Property Name="USER_ALLOW_USER" Type="bit" />
+          <Property Name="ROLE_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="USER_ACTIVED" Type="bit" />
+        </EntityType>
+        <EntityType Name="ARTICLE">
+          <Key>
+            <PropertyRef Name="ARTICLE_ID" />
+          </Key>
+          <Property Name="ARTICLE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ARTICLE_TITLE" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_BRIEF" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ARTICLE_CONTENT" Type="nvarchar(max)" />
+          <Property Name="ARTICLE_TAGS" Type="nvarchar" MaxLength="500" />
+          <Property Name="ARTICLE_IS_HOT" Type="bit" />
+          <Property Name="ARTICLE_IMAGE_LARGE" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_IMAGE_THUMB" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_FILE_NAME_1" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_FILE_PATH_1" Type="nchar" MaxLength="200" />
+          <Property Name="ARTICLE_FILE_NAME_2" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_FILE_PATH_2" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_RATE_COUNT" Type="int" />
+          <Property Name="ARTICLE_RATE_SUM_STAR" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ARTICLE_VIEW_TOTAL" Type="int" />
+          <Property Name="ARTICLE_CREATEDATE" Type="datetime" />
+          <Property Name="ARTICLE_CREATEBY" Type="nvarchar" MaxLength="50" />
+          <Property Name="ARTICLE_ALIAS" Type="nvarchar" MaxLength="200" />
+          <Property Name="ARTICLE_DISABLE" Type="bit" />
+          <Property Name="CATEGORY_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CATEGORY_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_ALIAS" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="BOOKING_ROOM">
+          <Key>
+            <PropertyRef Name="CUSTOMER_ID" />
+            <PropertyRef Name="ROOM_ID" />
+            <PropertyRef Name="DATE_BEGIN" />
+          </Key>
+          <Property Name="CUSTOMER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DATE_BEGIN" Type="datetime" Nullable="false" />
+          <Property Name="DATE_FINISH" Type="datetime" />
+          <Property Name="NUMBER_NIGHT" Type="smallint" />
+        </EntityType>
+        <EntityType Name="CATEGORY">
+          <Key>
+            <PropertyRef Name="CATEGORY_ID" />
+          </Key>
+          <Property Name="CATEGORY_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CATEGORY_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_ORDER" Type="smallint" />
+          <Property Name="CATEGORY_IS_SHOW_MENU" Type="bit" />
+          <Property Name="CATEGORY_IS_SHOW_FOOTER" Type="bit" />
+          <Property Name="CATEGORY_LINK" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_ALIAS" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_CREATEDATE" Type="datetime" />
+          <Property Name="CATEGORY_CREATEBY" Type="nvarchar" MaxLength="50" />
+          <Property Name="CATEGORY_PARENT_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CATEGORY_IMAGE" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_ISMEDIA" Type="bit" />
+          <Property Name="CATEGORY_AREA_HOME" Type="smallint" />
+        </EntityType>
+        <EntityType Name="COMMENT">
+          <Key>
+            <PropertyRef Name="COMMENT_ID" />
+          </Key>
+          <Property Name="COMMENT_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FROM_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TO_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="MESSEGER" Type="nvarchar" MaxLength="2000" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="COMMENT_DISABLE" Type="bit" />
+        </EntityType>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUSTOMER_ID" />
+          </Key>
+          <Property Name="CUSTOMER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LAST_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="FIRST_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="200" />
+          <Property Name="PHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="IS_MEMBER" Type="bit" />
+        </EntityType>
+        <EntityType Name="HITCOUTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DAY_NUMBER" Type="int" />
+          <Property Name="WEEKNUMBER" Type="int" />
+          <Property Name="MONTHNUMBER" Type="int" />
+          <Property Name="TOTALNUMBER" Type="int" />
+          <Property Name="MaxOnNumber" Type="int" />
+          <Property Name="DATE_TIME" Type="datetime" />
+          <Property Name="MaxOnDay" Type="datetime" />
+          <Property Name="MaxConnection" Type="int" />
+        </EntityType>
+        <EntityType Name="HOTEL">
+          <Key>
+            <PropertyRef Name="HOTEL_ID" />
+          </Key>
+          <Property Name="HOTEL_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="HOTEL_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="HOTEL_ADDRESS" Type="nvarchar" MaxLength="1000" />
+          <Property Name="HOTEL_CREATEDATE" Type="datetime" />
+          <Property Name="HOTEL_DESCRIPTION" Type="nvarchar(max)" />
+          <Property Name="HOTEL_BRIEF" Type="nvarchar" MaxLength="2000" />
+          <Property Name="NUMBER_RATING" Type="int" />
+          <Property Name="TOTAL_RATING" Type="int" />
+          <Property Name="TOTAL_ROOM" Type="int" />
+          <Property Name="PRICE_GENERAL" Type="int" />
+          <Property Name="HOTEL_STAR" Type="int" />
+          <Property Name="HOTEL_LEVEL" Type="smallint" />
+          <Property Name="HOTEL_STATUS" Type="bit" />
+          <Property Name="HOTEL_IMAGE" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MEDIA_ARRAY" Type="nvarchar" MaxLength="500" />
+          <Property Name="HOTEL_CHECKIN" Type="nvarchar(max)" />
+          <Property Name="HOTEL_MAP" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="LANGUAGE">
+          <Key>
+            <PropertyRef Name="LANGUAGE_ID" />
+          </Key>
+          <Property Name="LANGUAGE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LANGUAGE_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="LANGUAGE_CODE" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MEDIA">
+          <Key>
+            <PropertyRef Name="MEDIA_ID" />
+          </Key>
+          <Property Name="MEDIA_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="MEDIA_TITLE" Type="nvarchar" MaxLength="200" />
+          <Property Name="MEDIA_IMAGE_PATH" Type="nvarchar" MaxLength="200" />
+          <Property Name="MEDIA_PATH_VIDEO" Type="nvarchar" MaxLength="200" />
+          <Property Name="MEDIA_EMBED_VIDEO" Type="nvarchar" MaxLength="2000" />
+          <Property Name="MEDIA_ORDER" Type="int" />
+          <Property Name="MEDIA_CREATEDATE" Type="datetime" />
+          <Property Name="MEDIA_CREATEBY" Type="nvarchar" MaxLength="200" />
+          <Property Name="MEDIA_DISABLE" Type="bit" />
+          <Property Name="MEDIA_ALIAS" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CATEGORY_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="CATEGORY_ALIAS" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="MEMBER_USERNAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="MEMBER_PASSWORD" Type="nvarchar" MaxLength="50" />
+          <Property Name="MEMBER_CREATEDATE" Type="datetime" />
+          <Property Name="CUSTOMER_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="NUMBER_BOOK" Type="int" />
+          <Property Name="MEMBER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LAST_DATE_VISIT" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROLE_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="ROLE_ALLOW_ADD" Type="bit" />
+          <Property Name="ROLE_ALLOW_UPDATE" Type="bit" />
+          <Property Name="ROLE_ALLOW_DELETE" Type="bit" />
+          <Property Name="ROLE_ALLOW_VIEW" Type="bit" />
+        </EntityType>
+        <EntityType Name="ROLE-CATEGORY">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+            <PropertyRef Name="CATEGORY_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CATEGORY_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROOM">
+          <Key>
+            <PropertyRef Name="ROOM_ID" />
+          </Key>
+          <Property Name="ROOM_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="ROOM_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ROOM_ACREAGE" Type="nvarchar" MaxLength="200" />
+          <Property Name="NUMBER_BED" Type="int" />
+          <Property Name="ROOM_PRICE" Type="int" />
+          <Property Name="ROOM_TYPE_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="HOTEL_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ROOM_IMAGE" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ROOM_STATUS" Type="bit" />
+        </EntityType>
+        <EntityType Name="ROOM_TYPE">
+          <Key>
+            <PropertyRef Name="ROOM_TYPE_ID" />
+          </Key>
+          <Property Name="ROOM_TYPE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_TYPE_NAME" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_ACCOUNT_ROLE">
+          <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
+          <End Role="ACCOUNT" Type="Self.ACCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="ACCOUNT">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ARTICLE_CATEGORY">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="0..1" />
+          <End Role="ARTICLE" Type="Self.ARTICLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="CATEGORY_ID" />
+            </Principal>
+            <Dependent Role="ARTICLE">
+              <PropertyRef Name="CATEGORY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_ROOM_CUSTOMER">
+          <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="1" />
+          <End Role="BOOKING_ROOM" Type="Self.BOOKING_ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_ROOM_ROOM">
+          <End Role="ROOM" Type="Self.ROOM" Multiplicity="1" />
+          <End Role="BOOKING_ROOM" Type="Self.BOOKING_ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOM">
+              <PropertyRef Name="ROOM_ID" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM">
+              <PropertyRef Name="ROOM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEMBER_CUSTOMER">
+          <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="0..1" />
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Principal>
+            <Dependent Role="MEMBER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE-CATEGORY_CATEGORY">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
+          <End Role="ROLE-CATEGORY" Type="Self.ROLE-CATEGORY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="CATEGORY_ID" />
+            </Principal>
+            <Dependent Role="ROLE-CATEGORY">
+              <PropertyRef Name="CATEGORY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE-CATEGORY_ROLE">
+          <End Role="ROLE" Type="Self.ROLE" Multiplicity="1" />
+          <End Role="ROLE-CATEGORY" Type="Self.ROLE-CATEGORY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="ROLE-CATEGORY">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_HOTEL">
+          <End Role="HOTEL" Type="Self.HOTEL" Multiplicity="0..1" />
+          <End Role="ROOM" Type="Self.ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOTEL">
+              <PropertyRef Name="HOTEL_ID" />
+            </Principal>
+            <Dependent Role="ROOM">
+              <PropertyRef Name="HOTEL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_ROOM_TYPE">
+          <End Role="ROOM_TYPE" Type="Self.ROOM_TYPE" Multiplicity="0..1" />
+          <End Role="ROOM" Type="Self.ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOM_TYPE">
+              <PropertyRef Name="ROOM_TYPE_ID" />
+            </Principal>
+            <Dependent Role="ROOM">
+              <PropertyRef Name="ROOM_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DB_BOOKINGModelStoreContainer">
+          <EntitySet Name="ACCOUNT" EntityType="Self.ACCOUNT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ARTICLE" EntityType="Self.ARTICLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKING_ROOM" EntityType="Self.BOOKING_ROOM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMMENT" EntityType="Self.COMMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CUSTOMER" EntityType="Self.CUSTOMER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HITCOUTER" EntityType="Self.HITCOUTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HOTEL" EntityType="Self.HOTEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LANGUAGE" EntityType="Self.LANGUAGE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDIA" EntityType="Self.MEDIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLE-CATEGORY" EntityType="Self.ROLE-CATEGORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROOM" EntityType="Self.ROOM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROOM_TYPE" EntityType="Self.ROOM_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ACCOUNT_ROLE" Association="Self.FK_ACCOUNT_ROLE">
+            <End Role="ROLE" EntitySet="ROLE" />
+            <End Role="ACCOUNT" EntitySet="ACCOUNT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ARTICLE_CATEGORY" Association="Self.FK_ARTICLE_CATEGORY">
+            <End Role="CATEGORY" EntitySet="CATEGORY" />
+            <End Role="ARTICLE" EntitySet="ARTICLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_ROOM_CUSTOMER" Association="Self.FK_BOOKING_ROOM_CUSTOMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMER" />
+            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_ROOM_ROOM" Association="Self.FK_BOOKING_ROOM_ROOM">
+            <End Role="ROOM" EntitySet="ROOM" />
+            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEMBER_CUSTOMER" Association="Self.FK_MEMBER_CUSTOMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMER" />
+            <End Role="MEMBER" EntitySet="MEMBER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE-CATEGORY_CATEGORY" Association="Self.FK_ROLE-CATEGORY_CATEGORY">
+            <End Role="CATEGORY" EntitySet="CATEGORY" />
+            <End Role="ROLE-CATEGORY" EntitySet="ROLE-CATEGORY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE-CATEGORY_ROLE" Association="Self.FK_ROLE-CATEGORY_ROLE">
+            <End Role="ROLE" EntitySet="ROLE" />
+            <End Role="ROLE-CATEGORY" EntitySet="ROLE-CATEGORY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_HOTEL" Association="Self.FK_ROOM_HOTEL">
+            <End Role="HOTEL" EntitySet="HOTEL" />
+            <End Role="ROOM" EntitySet="ROOM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_ROOM_TYPE" Association="Self.FK_ROOM_ROOM_TYPE">
+            <End Role="ROOM_TYPE" EntitySet="ROOM_TYPE" />
+            <End Role="ROOM" EntitySet="ROOM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_BOOKINGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ACCOUNT">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="USER_FULL_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="USER_PASSWORD" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="USER_VALID_ADMIN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="USER_IS_ADMIN" Type="Boolean" />
+          <Property Name="USER_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="USER_CREATEBY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="USER_ALLOW_CATEGORY" Type="Boolean" />
+          <Property Name="USER_ALLOW_ARTICLE" Type="Boolean" />
+          <Property Name="USER_ALLOW_MEDIA" Type="Boolean" />
+          <Property Name="USER_ALLOW_USER" Type="Boolean" />
+          <Property Name="ROLE_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="USER_ACTIVED" Type="Boolean" />
+          <NavigationProperty Name="ROLE" Relationship="Self.FK_ACCOUNT_ROLE" FromRole="ACCOUNT" ToRole="ROLE" />
+        </EntityType>
+        <EntityType Name="ARTICLE">
+          <Key>
+            <PropertyRef Name="ARTICLE_ID" />
+          </Key>
+          <Property Name="ARTICLE_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ARTICLE_TITLE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_BRIEF" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_CONTENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_TAGS" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_IS_HOT" Type="Boolean" />
+          <Property Name="ARTICLE_IMAGE_LARGE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_IMAGE_THUMB" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_FILE_NAME_1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_FILE_PATH_1" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="ARTICLE_FILE_NAME_2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_FILE_PATH_2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_RATE_COUNT" Type="Int32" />
+          <Property Name="ARTICLE_RATE_SUM_STAR" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ARTICLE_VIEW_TOTAL" Type="Int32" />
+          <Property Name="ARTICLE_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="ARTICLE_CREATEBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_ALIAS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ARTICLE_DISABLE" Type="Boolean" />
+          <Property Name="CATEGORY_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CATEGORY_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_ALIAS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CATEGORY" Relationship="Self.FK_ARTICLE_CATEGORY" FromRole="ARTICLE" ToRole="CATEGORY" />
+        </EntityType>
+        <EntityType Name="BOOKING_ROOM">
+          <Key>
+            <PropertyRef Name="CUSTOMER_ID" />
+            <PropertyRef Name="ROOM_ID" />
+            <PropertyRef Name="DATE_BEGIN" />
+          </Key>
+          <Property Name="CUSTOMER_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DATE_BEGIN" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATE_FINISH" Type="DateTime" Precision="3" />
+          <Property Name="NUMBER_NIGHT" Type="Int16" />
+          <NavigationProperty Name="CUSTOMER" Relationship="Self.FK_BOOKING_ROOM_CUSTOMER" FromRole="BOOKING_ROOM" ToRole="CUSTOMER" />
+          <NavigationProperty Name="ROOM" Relationship="Self.FK_BOOKING_ROOM_ROOM" FromRole="BOOKING_ROOM" ToRole="ROOM" />
+        </EntityType>
+        <EntityType Name="CATEGORY">
+          <Key>
+            <PropertyRef Name="CATEGORY_ID" />
+          </Key>
+          <Property Name="CATEGORY_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CATEGORY_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_ORDER" Type="Int16" />
+          <Property Name="CATEGORY_IS_SHOW_MENU" Type="Boolean" />
+          <Property Name="CATEGORY_IS_SHOW_FOOTER" Type="Boolean" />
+          <Property Name="CATEGORY_LINK" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_ALIAS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="CATEGORY_CREATEBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_PARENT_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CATEGORY_IMAGE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_ISMEDIA" Type="Boolean" />
+          <Property Name="CATEGORY_AREA_HOME" Type="Int16" />
+          <NavigationProperty Name="ARTICLEs" Relationship="Self.FK_ARTICLE_CATEGORY" FromRole="CATEGORY" ToRole="ARTICLE" />
+          <NavigationProperty Name="ROLEs" Relationship="Self.ROLE_CATEGORY" FromRole="CATEGORY" ToRole="ROLE" />
+        </EntityType>
+        <EntityType Name="COMMENT">
+          <Key>
+            <PropertyRef Name="COMMENT_ID" />
+          </Key>
+          <Property Name="COMMENT_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FROM_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TO_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MESSEGER" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="COMMENT_DISABLE" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUSTOMER_ID" />
+          </Key>
+          <Property Name="CUSTOMER_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="IS_MEMBER" Type="Boolean" />
+          <NavigationProperty Name="BOOKING_ROOM" Relationship="Self.FK_BOOKING_ROOM_CUSTOMER" FromRole="CUSTOMER" ToRole="BOOKING_ROOM" />
+          <NavigationProperty Name="MEMBERs" Relationship="Self.FK_MEMBER_CUSTOMER" FromRole="CUSTOMER" ToRole="MEMBER" />
+        </EntityType>
+        <EntityType Name="HITCOUTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DAY_NUMBER" Type="Int32" />
+          <Property Name="WEEKNUMBER" Type="Int32" />
+          <Property Name="MONTHNUMBER" Type="Int32" />
+          <Property Name="TOTALNUMBER" Type="Int32" />
+          <Property Name="MaxOnNumber" Type="Int32" />
+          <Property Name="DATE_TIME" Type="DateTime" Precision="3" />
+          <Property Name="MaxOnDay" Type="DateTime" Precision="3" />
+          <Property Name="MaxConnection" Type="Int32" />
+        </EntityType>
+        <EntityType Name="HOTEL">
+          <Key>
+            <PropertyRef Name="HOTEL_ID" />
+          </Key>
+          <Property Name="HOTEL_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="HOTEL_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="HOTEL_ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="HOTEL_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="HOTEL_DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HOTEL_BRIEF" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="NUMBER_RATING" Type="Int32" />
+          <Property Name="TOTAL_RATING" Type="Int32" />
+          <Property Name="TOTAL_ROOM" Type="Int32" />
+          <Property Name="PRICE_GENERAL" Type="Int32" />
+          <Property Name="HOTEL_STAR" Type="Int32" />
+          <Property Name="HOTEL_LEVEL" Type="Int16" />
+          <Property Name="HOTEL_STATUS" Type="Boolean" />
+          <Property Name="HOTEL_IMAGE" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MEDIA_ARRAY" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HOTEL_CHECKIN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HOTEL_MAP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ROOMs" Relationship="Self.FK_ROOM_HOTEL" FromRole="HOTEL" ToRole="ROOM" />
+        </EntityType>
+        <EntityType Name="LANGUAGE">
+          <Key>
+            <PropertyRef Name="LANGUAGE_ID" />
+          </Key>
+          <Property Name="LANGUAGE_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LANGUAGE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LANGUAGE_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MEDIA_ID" />
+          </Key>
+          <Property Name="MEDIA_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="MEDIA_TITLE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MEDIA_IMAGE_PATH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MEDIA_PATH_VIDEO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MEDIA_EMBED_VIDEO" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="MEDIA_ORDER" Type="Int32" />
+          <Property Name="MEDIA_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MEDIA_CREATEBY" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MEDIA_DISABLE" Type="Boolean" />
+          <Property Name="MEDIA_ALIAS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CATEGORY_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CATEGORY_ALIAS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="MEMBER_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MEMBER_PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MEMBER_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="CUSTOMER_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NUMBER_BOOK" Type="Int32" />
+          <Property Name="MEMBER_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LAST_DATE_VISIT" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CUSTOMER" Relationship="Self.FK_MEMBER_CUSTOMER" FromRole="MEMBER" ToRole="CUSTOMER" />
+        </EntityType>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROLE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ROLE_ALLOW_ADD" Type="Boolean" />
+          <Property Name="ROLE_ALLOW_UPDATE" Type="Boolean" />
+          <Property Name="ROLE_ALLOW_DELETE" Type="Boolean" />
+          <Property Name="ROLE_ALLOW_VIEW" Type="Boolean" />
+          <NavigationProperty Name="ACCOUNTs" Relationship="Self.FK_ACCOUNT_ROLE" FromRole="ROLE" ToRole="ACCOUNT" />
+          <NavigationProperty Name="CATEGORies" Relationship="Self.ROLE_CATEGORY" FromRole="ROLE" ToRole="CATEGORY" />
+        </EntityType>
+        <EntityType Name="ROOM">
+          <Key>
+            <PropertyRef Name="ROOM_ID" />
+          </Key>
+          <Property Name="ROOM_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ROOM_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ROOM_ACREAGE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NUMBER_BED" Type="Int32" />
+          <Property Name="ROOM_PRICE" Type="Int32" />
+          <Property Name="ROOM_TYPE_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="HOTEL_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ROOM_IMAGE" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ROOM_STATUS" Type="Boolean" />
+          <NavigationProperty Name="BOOKING_ROOM" Relationship="Self.FK_BOOKING_ROOM_ROOM" FromRole="ROOM" ToRole="BOOKING_ROOM" />
+          <NavigationProperty Name="HOTEL" Relationship="Self.FK_ROOM_HOTEL" FromRole="ROOM" ToRole="HOTEL" />
+          <NavigationProperty Name="ROOM_TYPE" Relationship="Self.FK_ROOM_ROOM_TYPE" FromRole="ROOM" ToRole="ROOM_TYPE" />
+        </EntityType>
+        <EntityType Name="ROOM_TYPE">
+          <Key>
+            <PropertyRef Name="ROOM_TYPE_ID" />
+          </Key>
+          <Property Name="ROOM_TYPE_ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_TYPE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ROOMs" Relationship="Self.FK_ROOM_ROOM_TYPE" FromRole="ROOM_TYPE" ToRole="ROOM" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_ACCOUNT_ROLE">
+          <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
+          <End Role="ACCOUNT" Type="Self.ACCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="ACCOUNT">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ARTICLE_CATEGORY">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="0..1" />
+          <End Role="ARTICLE" Type="Self.ARTICLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="CATEGORY_ID" />
+            </Principal>
+            <Dependent Role="ARTICLE">
+              <PropertyRef Name="CATEGORY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_ROOM_CUSTOMER">
+          <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="1" />
+          <End Role="BOOKING_ROOM" Type="Self.BOOKING_ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_ROOM_ROOM">
+          <End Role="ROOM" Type="Self.ROOM" Multiplicity="1" />
+          <End Role="BOOKING_ROOM" Type="Self.BOOKING_ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOM">
+              <PropertyRef Name="ROOM_ID" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM">
+              <PropertyRef Name="ROOM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEMBER_CUSTOMER">
+          <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="0..1" />
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Principal>
+            <Dependent Role="MEMBER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_HOTEL">
+          <End Role="HOTEL" Type="Self.HOTEL" Multiplicity="0..1" />
+          <End Role="ROOM" Type="Self.ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOTEL">
+              <PropertyRef Name="HOTEL_ID" />
+            </Principal>
+            <Dependent Role="ROOM">
+              <PropertyRef Name="HOTEL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_ROOM_TYPE">
+          <End Role="ROOM_TYPE" Type="Self.ROOM_TYPE" Multiplicity="0..1" />
+          <End Role="ROOM" Type="Self.ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOM_TYPE">
+              <PropertyRef Name="ROOM_TYPE_ID" />
+            </Principal>
+            <Dependent Role="ROOM">
+              <PropertyRef Name="ROOM_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ROLE_CATEGORY">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="*" />
+          <End Role="ROLE" Type="Self.ROLE" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DB_BOOKINGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACCOUNTs" EntityType="Self.ACCOUNT" />
+          <EntitySet Name="ARTICLEs" EntityType="Self.ARTICLE" />
+          <EntitySet Name="BOOKING_ROOM" EntityType="Self.BOOKING_ROOM" />
+          <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
+          <EntitySet Name="COMMENTs" EntityType="Self.COMMENT" />
+          <EntitySet Name="CUSTOMERs" EntityType="Self.CUSTOMER" />
+          <EntitySet Name="HITCOUTERs" EntityType="Self.HITCOUTER" />
+          <EntitySet Name="HOTELs" EntityType="Self.HOTEL" />
+          <EntitySet Name="LANGUAGEs" EntityType="Self.LANGUAGE" />
+          <EntitySet Name="MEDIA" EntityType="Self.Medium" />
+          <EntitySet Name="MEMBERs" EntityType="Self.MEMBER" />
+          <EntitySet Name="ROLEs" EntityType="Self.ROLE" />
+          <EntitySet Name="ROOMs" EntityType="Self.ROOM" />
+          <EntitySet Name="ROOM_TYPE" EntityType="Self.ROOM_TYPE" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_ACCOUNT_ROLE" Association="Self.FK_ACCOUNT_ROLE">
+            <End Role="ROLE" EntitySet="ROLEs" />
+            <End Role="ACCOUNT" EntitySet="ACCOUNTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ARTICLE_CATEGORY" Association="Self.FK_ARTICLE_CATEGORY">
+            <End Role="CATEGORY" EntitySet="CATEGORies" />
+            <End Role="ARTICLE" EntitySet="ARTICLEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_ROOM_CUSTOMER" Association="Self.FK_BOOKING_ROOM_CUSTOMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_ROOM_ROOM" Association="Self.FK_BOOKING_ROOM_ROOM">
+            <End Role="ROOM" EntitySet="ROOMs" />
+            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEMBER_CUSTOMER" Association="Self.FK_MEMBER_CUSTOMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_HOTEL" Association="Self.FK_ROOM_HOTEL">
+            <End Role="HOTEL" EntitySet="HOTELs" />
+            <End Role="ROOM" EntitySet="ROOMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_ROOM_TYPE" Association="Self.FK_ROOM_ROOM_TYPE">
+            <End Role="ROOM_TYPE" EntitySet="ROOM_TYPE" />
+            <End Role="ROOM" EntitySet="ROOMs" />
+          </AssociationSet>
+          <AssociationSet Name="ROLE_CATEGORY" Association="Self.ROLE_CATEGORY">
+            <End Role="CATEGORY" EntitySet="CATEGORies" />
+            <End Role="ROLE" EntitySet="ROLEs" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DB_BOOKINGModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DB_BOOKINGModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_BOOKINGModelStoreContainer" CdmEntityContainer="DB_BOOKINGEntities">
+          <EntitySetMapping Name="ACCOUNTs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.ACCOUNT">
+              <MappingFragment StoreEntitySet="ACCOUNT">
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+                <ScalarProperty Name="USER_FULL_NAME" ColumnName="USER_FULL_NAME" />
+                <ScalarProperty Name="USER_PASSWORD" ColumnName="USER_PASSWORD" />
+                <ScalarProperty Name="USER_VALID_ADMIN" ColumnName="USER_VALID_ADMIN" />
+                <ScalarProperty Name="USER_IS_ADMIN" ColumnName="USER_IS_ADMIN" />
+                <ScalarProperty Name="USER_CREATEDATE" ColumnName="USER_CREATEDATE" />
+                <ScalarProperty Name="USER_CREATEBY" ColumnName="USER_CREATEBY" />
+                <ScalarProperty Name="USER_ALLOW_CATEGORY" ColumnName="USER_ALLOW_CATEGORY" />
+                <ScalarProperty Name="USER_ALLOW_ARTICLE" ColumnName="USER_ALLOW_ARTICLE" />
+                <ScalarProperty Name="USER_ALLOW_MEDIA" ColumnName="USER_ALLOW_MEDIA" />
+                <ScalarProperty Name="USER_ALLOW_USER" ColumnName="USER_ALLOW_USER" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="USER_ACTIVED" ColumnName="USER_ACTIVED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ARTICLEs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.ARTICLE">
+              <MappingFragment StoreEntitySet="ARTICLE">
+                <ScalarProperty Name="ARTICLE_ID" ColumnName="ARTICLE_ID" />
+                <ScalarProperty Name="ARTICLE_TITLE" ColumnName="ARTICLE_TITLE" />
+                <ScalarProperty Name="ARTICLE_BRIEF" ColumnName="ARTICLE_BRIEF" />
+                <ScalarProperty Name="ARTICLE_CONTENT" ColumnName="ARTICLE_CONTENT" />
+                <ScalarProperty Name="ARTICLE_TAGS" ColumnName="ARTICLE_TAGS" />
+                <ScalarProperty Name="ARTICLE_IS_HOT" ColumnName="ARTICLE_IS_HOT" />
+                <ScalarProperty Name="ARTICLE_IMAGE_LARGE" ColumnName="ARTICLE_IMAGE_LARGE" />
+                <ScalarProperty Name="ARTICLE_IMAGE_THUMB" ColumnName="ARTICLE_IMAGE_THUMB" />
+                <ScalarProperty Name="ARTICLE_FILE_NAME_1" ColumnName="ARTICLE_FILE_NAME_1" />
+                <ScalarProperty Name="ARTICLE_FILE_PATH_1" ColumnName="ARTICLE_FILE_PATH_1" />
+                <ScalarProperty Name="ARTICLE_FILE_NAME_2" ColumnName="ARTICLE_FILE_NAME_2" />
+                <ScalarProperty Name="ARTICLE_FILE_PATH_2" ColumnName="ARTICLE_FILE_PATH_2" />
+                <ScalarProperty Name="ARTICLE_RATE_COUNT" ColumnName="ARTICLE_RATE_COUNT" />
+                <ScalarProperty Name="ARTICLE_RATE_SUM_STAR" ColumnName="ARTICLE_RATE_SUM_STAR" />
+                <ScalarProperty Name="ARTICLE_VIEW_TOTAL" ColumnName="ARTICLE_VIEW_TOTAL" />
+                <ScalarProperty Name="ARTICLE_CREATEDATE" ColumnName="ARTICLE_CREATEDATE" />
+                <ScalarProperty Name="ARTICLE_CREATEBY" ColumnName="ARTICLE_CREATEBY" />
+                <ScalarProperty Name="ARTICLE_ALIAS" ColumnName="ARTICLE_ALIAS" />
+                <ScalarProperty Name="ARTICLE_DISABLE" ColumnName="ARTICLE_DISABLE" />
+                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+                <ScalarProperty Name="CATEGORY_NAME" ColumnName="CATEGORY_NAME" />
+                <ScalarProperty Name="CATEGORY_ALIAS" ColumnName="CATEGORY_ALIAS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKING_ROOM">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.BOOKING_ROOM">
+              <MappingFragment StoreEntitySet="BOOKING_ROOM">
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="ROOM_ID" ColumnName="ROOM_ID" />
+                <ScalarProperty Name="DATE_BEGIN" ColumnName="DATE_BEGIN" />
+                <ScalarProperty Name="DATE_FINISH" ColumnName="DATE_FINISH" />
+                <ScalarProperty Name="NUMBER_NIGHT" ColumnName="NUMBER_NIGHT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORies">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.CATEGORY">
+              <MappingFragment StoreEntitySet="CATEGORY">
+                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+                <ScalarProperty Name="CATEGORY_NAME" ColumnName="CATEGORY_NAME" />
+                <ScalarProperty Name="CATEGORY_ORDER" ColumnName="CATEGORY_ORDER" />
+                <ScalarProperty Name="CATEGORY_IS_SHOW_MENU" ColumnName="CATEGORY_IS_SHOW_MENU" />
+                <ScalarProperty Name="CATEGORY_IS_SHOW_FOOTER" ColumnName="CATEGORY_IS_SHOW_FOOTER" />
+                <ScalarProperty Name="CATEGORY_LINK" ColumnName="CATEGORY_LINK" />
+                <ScalarProperty Name="CATEGORY_ALIAS" ColumnName="CATEGORY_ALIAS" />
+                <ScalarProperty Name="CATEGORY_CREATEDATE" ColumnName="CATEGORY_CREATEDATE" />
+                <ScalarProperty Name="CATEGORY_CREATEBY" ColumnName="CATEGORY_CREATEBY" />
+                <ScalarProperty Name="CATEGORY_PARENT_ID" ColumnName="CATEGORY_PARENT_ID" />
+                <ScalarProperty Name="CATEGORY_IMAGE" ColumnName="CATEGORY_IMAGE" />
+                <ScalarProperty Name="CATEGORY_ISMEDIA" ColumnName="CATEGORY_ISMEDIA" />
+                <ScalarProperty Name="CATEGORY_AREA_HOME" ColumnName="CATEGORY_AREA_HOME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMMENTs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.COMMENT">
+              <MappingFragment StoreEntitySet="COMMENT">
+                <ScalarProperty Name="COMMENT_ID" ColumnName="COMMENT_ID" />
+                <ScalarProperty Name="FROM_ID" ColumnName="FROM_ID" />
+                <ScalarProperty Name="TO_ID" ColumnName="TO_ID" />
+                <ScalarProperty Name="MESSEGER" ColumnName="MESSEGER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="COMMENT_DISABLE" ColumnName="COMMENT_DISABLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CUSTOMERs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.CUSTOMER">
+              <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="IS_MEMBER" ColumnName="IS_MEMBER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HITCOUTERs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.HITCOUTER">
+              <MappingFragment StoreEntitySet="HITCOUTER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DAY_NUMBER" ColumnName="DAY_NUMBER" />
+                <ScalarProperty Name="WEEKNUMBER" ColumnName="WEEKNUMBER" />
+                <ScalarProperty Name="MONTHNUMBER" ColumnName="MONTHNUMBER" />
+                <ScalarProperty Name="TOTALNUMBER" ColumnName="TOTALNUMBER" />
+                <ScalarProperty Name="MaxOnNumber" ColumnName="MaxOnNumber" />
+                <ScalarProperty Name="DATE_TIME" ColumnName="DATE_TIME" />
+                <ScalarProperty Name="MaxOnDay" ColumnName="MaxOnDay" />
+                <ScalarProperty Name="MaxConnection" ColumnName="MaxConnection" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOTELs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.HOTEL">
+              <MappingFragment StoreEntitySet="HOTEL">
+                <ScalarProperty Name="HOTEL_ID" ColumnName="HOTEL_ID" />
+                <ScalarProperty Name="HOTEL_NAME" ColumnName="HOTEL_NAME" />
+                <ScalarProperty Name="HOTEL_ADDRESS" ColumnName="HOTEL_ADDRESS" />
+                <ScalarProperty Name="HOTEL_CREATEDATE" ColumnName="HOTEL_CREATEDATE" />
+                <ScalarProperty Name="HOTEL_DESCRIPTION" ColumnName="HOTEL_DESCRIPTION" />
+                <ScalarProperty Name="HOTEL_BRIEF" ColumnName="HOTEL_BRIEF" />
+                <ScalarProperty Name="NUMBER_RATING" ColumnName="NUMBER_RATING" />
+                <ScalarProperty Name="TOTAL_RATING" ColumnName="TOTAL_RATING" />
+                <ScalarProperty Name="TOTAL_ROOM" ColumnName="TOTAL_ROOM" />
+                <ScalarProperty Name="PRICE_GENERAL" ColumnName="PRICE_GENERAL" />
+                <ScalarProperty Name="HOTEL_STAR" ColumnName="HOTEL_STAR" />
+                <ScalarProperty Name="HOTEL_LEVEL" ColumnName="HOTEL_LEVEL" />
+                <ScalarProperty Name="HOTEL_STATUS" ColumnName="HOTEL_STATUS" />
+                <ScalarProperty Name="HOTEL_IMAGE" ColumnName="HOTEL_IMAGE" />
+                <ScalarProperty Name="MEDIA_ARRAY" ColumnName="MEDIA_ARRAY" />
+                <ScalarProperty Name="HOTEL_CHECKIN" ColumnName="HOTEL_CHECKIN" />
+                <ScalarProperty Name="HOTEL_MAP" ColumnName="HOTEL_MAP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LANGUAGEs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.LANGUAGE">
+              <MappingFragment StoreEntitySet="LANGUAGE">
+                <ScalarProperty Name="LANGUAGE_ID" ColumnName="LANGUAGE_ID" />
+                <ScalarProperty Name="LANGUAGE_NAME" ColumnName="LANGUAGE_NAME" />
+                <ScalarProperty Name="LANGUAGE_CODE" ColumnName="LANGUAGE_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDIA">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.Medium">
+              <MappingFragment StoreEntitySet="MEDIA">
+                <ScalarProperty Name="MEDIA_ID" ColumnName="MEDIA_ID" />
+                <ScalarProperty Name="MEDIA_TITLE" ColumnName="MEDIA_TITLE" />
+                <ScalarProperty Name="MEDIA_IMAGE_PATH" ColumnName="MEDIA_IMAGE_PATH" />
+                <ScalarProperty Name="MEDIA_PATH_VIDEO" ColumnName="MEDIA_PATH_VIDEO" />
+                <ScalarProperty Name="MEDIA_EMBED_VIDEO" ColumnName="MEDIA_EMBED_VIDEO" />
+                <ScalarProperty Name="MEDIA_ORDER" ColumnName="MEDIA_ORDER" />
+                <ScalarProperty Name="MEDIA_CREATEDATE" ColumnName="MEDIA_CREATEDATE" />
+                <ScalarProperty Name="MEDIA_CREATEBY" ColumnName="MEDIA_CREATEBY" />
+                <ScalarProperty Name="MEDIA_DISABLE" ColumnName="MEDIA_DISABLE" />
+                <ScalarProperty Name="MEDIA_ALIAS" ColumnName="MEDIA_ALIAS" />
+                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+                <ScalarProperty Name="CATEGORY_NAME" ColumnName="CATEGORY_NAME" />
+                <ScalarProperty Name="CATEGORY_ALIAS" ColumnName="CATEGORY_ALIAS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBERs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.MEMBER">
+              <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="MEMBER_USERNAME" ColumnName="MEMBER_USERNAME" />
+                <ScalarProperty Name="MEMBER_PASSWORD" ColumnName="MEMBER_PASSWORD" />
+                <ScalarProperty Name="MEMBER_CREATEDATE" ColumnName="MEMBER_CREATEDATE" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="NUMBER_BOOK" ColumnName="NUMBER_BOOK" />
+                <ScalarProperty Name="MEMBER_ID" ColumnName="MEMBER_ID" />
+                <ScalarProperty Name="LAST_DATE_VISIT" ColumnName="LAST_DATE_VISIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLEs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.ROLE">
+              <MappingFragment StoreEntitySet="ROLE">
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="ROLE_NAME" ColumnName="ROLE_NAME" />
+                <ScalarProperty Name="ROLE_ALLOW_ADD" ColumnName="ROLE_ALLOW_ADD" />
+                <ScalarProperty Name="ROLE_ALLOW_UPDATE" ColumnName="ROLE_ALLOW_UPDATE" />
+                <ScalarProperty Name="ROLE_ALLOW_DELETE" ColumnName="ROLE_ALLOW_DELETE" />
+                <ScalarProperty Name="ROLE_ALLOW_VIEW" ColumnName="ROLE_ALLOW_VIEW" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROOMs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.ROOM">
+              <MappingFragment StoreEntitySet="ROOM">
+                <ScalarProperty Name="ROOM_ID" ColumnName="ROOM_ID" />
+                <ScalarProperty Name="ROOM_NAME" ColumnName="ROOM_NAME" />
+                <ScalarProperty Name="ROOM_CODE" ColumnName="ROOM_CODE" />
+                <ScalarProperty Name="ROOM_ACREAGE" ColumnName="ROOM_ACREAGE" />
+                <ScalarProperty Name="NUMBER_BED" ColumnName="NUMBER_BED" />
+                <ScalarProperty Name="ROOM_PRICE" ColumnName="ROOM_PRICE" />
+                <ScalarProperty Name="ROOM_TYPE_ID" ColumnName="ROOM_TYPE_ID" />
+                <ScalarProperty Name="HOTEL_ID" ColumnName="HOTEL_ID" />
+                <ScalarProperty Name="ROOM_IMAGE" ColumnName="ROOM_IMAGE" />
+                <ScalarProperty Name="ROOM_STATUS" ColumnName="ROOM_STATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROOM_TYPE">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.ROOM_TYPE">
+              <MappingFragment StoreEntitySet="ROOM_TYPE">
+                <ScalarProperty Name="ROOM_TYPE_ID" ColumnName="ROOM_TYPE_ID" />
+                <ScalarProperty Name="ROOM_TYPE_NAME" ColumnName="ROOM_TYPE_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ROLE_CATEGORY" TypeName="DB_BOOKINGModel.ROLE_CATEGORY" StoreEntitySet="ROLE-CATEGORY">
+            <EndProperty Name="CATEGORY">
+              <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+            </EndProperty>
+            <EndProperty Name="ROLE">
+              <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DB_BOOKINGModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DB_BOOKINGModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DB_BOOKINGModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DB_BOOKINGModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_BOOKINGModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DB_BOOKINGModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_BOOKINGModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DB_BOOKINGModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DB_BOOKINGModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

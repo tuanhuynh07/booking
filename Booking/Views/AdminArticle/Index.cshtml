@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách Danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ListOfCategory = ViewBag.ListOfCategory;
+    var id = ViewBag.Id;
+}
+<section class="content-header">
+    <h1>
+        Quản lý Bài viết
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                    <h3 class="widget-user-username">WEBSITE</h3>
+                    <h5 class="widget-user-desc">Danh mục Bài viết</h5>
+                </div>
+                <div class="box-footer no-padding">
+                    @Html.Raw(ListOfCategory)
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

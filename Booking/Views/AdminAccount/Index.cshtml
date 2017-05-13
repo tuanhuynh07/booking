@@ -1,0 +1,105 @@
+﻿
+@using System.Linq
+@using Classes
+@using Booking.Models
+@model IEnumerable<Booking.Models.ACCOUNT>
+
+@{
+    ViewBag.Title = "Danh sách Người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1>Danh sách Người dùng</h1>
+</section>
+<section class="content">
+    <div class="row" style="padding-bottom: 10px;">
+        <div class="col-md-12">
+            @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary pull-left" })
+        </div>
+    </div>
+    <div class="box">
+        <table class="table table-hover table-bordered">
+            <tbody>
+                <tr>
+                    <th style="width: 50px">STT</th>
+                    <th>
+                        Tên đăng nhập
+                    </th>
+                    <th>
+                        Họ tên
+                    </th>
+                    <th>
+                        Là Admin
+                    </th>
+                    <th>
+                        Ngày tạo
+                    </th>
+                    <th>
+                        Tạo bởi
+                    </th>
+                    <th>
+                        Kích hoạt
+                    </th>
+                    <th>
+                        Vai trò
+                    </th>
+                    <th style="width: 50px; text-align: center">Chức năng</th>
+                </tr>
+                @{
+                    int stt = 0;
+                    DB_BOOKINGEntities db = new DB_BOOKINGEntities();
+                }
+                @foreach (var item in Model)
+                {
+                    stt++;
+                    List<ACCOUNT> userCreatedBy = db.ACCOUNTs.Where(u => u.USER_ID == item.USER_CREATEBY).ToList();
+                    <tr>
+                        <td>@stt</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.USER_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.USER_FULL_NAME)
+                        </td>
+                        <td align="center">
+                            @Html.Raw(Utililies.GetStatusIcon(item.USER_IS_ADMIN))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.USER_CREATEDATE)
+                        </td>
+                        <td>
+                            @(userCreatedBy.Any() ? userCreatedBy.Single().USER_NAME : "")
+                        </td>
+                        <td align="center">
+                            @Html.Raw(Utililies.GetStatusIcon(item.USER_ACTIVED))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ROLE.ROLE_NAME)
+                        </td>
+                        <td align="center">
+                            @*@Html.ActionLink("Sửa", "Edit", new {id = item.USER_ID}) |
+                                @Html.ActionLink("Xóa", "Delete", new {id = item.USER_ID})*@
+                            <ul class="contro_function" style="width: 70px">
+                                <li>
+                                    <a title="Cập nhật" href="@Url.Action("Edit", new { id = item.USER_ID })">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <a title="Xóa" href="@Url.Action("Delete", new { id = item.USER_ID })">
+                                        <i class="fa fa-remove" style="color:red;"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+
+        </table>
+    </div>
+</section>
+

@@ -1,0 +1,123 @@
+﻿@model Booking.Models.ACCOUNT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>USER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_FULL_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_FULL_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_PASSWORD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_PASSWORD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_VALID_ADMIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_VALID_ADMIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_IS_ADMIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_IS_ADMIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_CREATEDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_CREATEDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_CREATEBY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_CREATEBY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_ALLOW_CATEGORY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_ALLOW_CATEGORY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_ALLOW_ARTICLE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_ALLOW_ARTICLE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_ALLOW_MEDIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_ALLOW_MEDIA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_ALLOW_USER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_ALLOW_USER)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USER_ACTIVED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USER_ACTIVED)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROLE.ROLE_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROLE.ROLE_NAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.USER_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

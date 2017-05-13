@@ -7,5 +7,8 @@ namespace Booking.Models
 {
     public class HotelModels
     {
+
+
+
     }
 }

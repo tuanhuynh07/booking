@@ -33,8 +33,10 @@ namespace Booking.Models
         public string CATEGORY_IMAGE { get; set; }
         public Nullable<bool> CATEGORY_ISMEDIA { get; set; }
         public Nullable<short> CATEGORY_AREA_HOME { get; set; }
+        public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
     
         public virtual ICollection<ARTICLE> ARTICLEs { get; set; }
         public virtual ICollection<ROLE> ROLEs { get; set; }
+        public virtual TRANSLATION_CATEGORY TRANSLATION_CATEGORY { get; set; }
     }
 }

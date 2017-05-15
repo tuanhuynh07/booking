@@ -42,6 +42,12 @@ namespace Booking.Models
         public virtual DbSet<ROOM> ROOMs { get; set; }
         public virtual DbSet<ROOM_TYPE> ROOM_TYPE { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<TRANSLATION> TRANSLATIONs { get; set; }
+        public virtual DbSet<TRANSLATION_ARTICLE> TRANSLATION_ARTICLE { get; set; }
+        public virtual DbSet<TRANSLATION_CATEGORY> TRANSLATION_CATEGORY { get; set; }
+        public virtual DbSet<TRANSLATION_CUSTOMER> TRANSLATION_CUSTOMER { get; set; }
+        public virtual DbSet<TRANSLATION_HOTEL> TRANSLATION_HOTEL { get; set; }
+        public virtual DbSet<TRANSLATION_ROOM> TRANSLATION_ROOM { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

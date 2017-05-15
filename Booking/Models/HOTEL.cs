@@ -36,7 +36,16 @@ namespace Booking.Models
         public string MEDIA_ARRAY { get; set; }
         public string HOTEL_CHECKIN { get; set; }
         public string HOTEL_MAP { get; set; }
+        public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
+        public Nullable<decimal> ADDRESS_TRANSLATION_ID { get; set; }
+        public Nullable<decimal> DESCRIPTION_TRANSLATION_ID { get; set; }
+        public Nullable<decimal> BRIEF_TRANSLATION_ID { get; set; }
+        public string HOTEL_ALIAS { get; set; }
     
         public virtual ICollection<ROOM> ROOMs { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL1 { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL2 { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL3 { get; set; }
     }
 }

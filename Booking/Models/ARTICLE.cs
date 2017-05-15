@@ -36,7 +36,13 @@ namespace Booking.Models
         public Nullable<decimal> CATEGORY_ID { get; set; }
         public string CATEGORY_NAME { get; set; }
         public string CATEGORY_ALIAS { get; set; }
+        public Nullable<decimal> TITLE_TRANSLATION_ID { get; set; }
+        public Nullable<decimal> BRIEF_TRANSLATION_ID { get; set; }
+        public Nullable<decimal> CONTENT_TRANSLATION_ID { get; set; }
+        public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
     
         public virtual CATEGORY CATEGORY { get; set; }
+        public virtual TRANSLATION_ARTICLE TRANSLATION_ARTICLE { get; set; }
+        public virtual TRANSLATION_ARTICLE TRANSLATION_ARTICLE1 { get; set; }
     }
 }

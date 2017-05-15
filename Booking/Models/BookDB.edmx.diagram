@@ -28,6 +28,26 @@
         <AssociationConnector Association="DB_BOOKINGModel.FK_ROOM_HOTEL" ManuallyRouted="false" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_ROOM_ROOM_TYPE" ManuallyRouted="false" />
         <AssociationConnector Association="DB_BOOKINGModel.ROLE_CATEGORY" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION" Width="1.5" PointX="3" PointY="29.375" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_ARTICLE" Width="1.5" PointX="3" PointY="26.375" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_CATEGORY" Width="1.5" PointX="3" PointY="23.75" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_CUSTOMER" Width="1.5" PointX="3" PointY="21.125" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_HOTEL" Width="1.5" PointX="3" PointY="17.875" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_ROOM" Width="1.5" PointX="3" PointY="15.125" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_ARTICLE_TRANSLATION_ARTICLE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_ARTICLE_TRANSLATION_ARTICLE1" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_CATEGORY_TRANSLATION_CATEGORY" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_HOTEL_TRANSLATION_HOTEL" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_HOTEL_TRANSLATION_HOTEL1" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_HOTEL_TRANSLATION_HOTEL2" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_HOTEL_TRANSLATION_HOTEL3" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_ARTICLE_LANGUAGE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_CATEGORY_LANGUAGE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_CUSTOMER_LANGUAGE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_HOTEL_LANGUAGE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_LANGUAGE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_ROOM_LANGUAGE" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_ROOM_TRANSLATION_ROOM" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

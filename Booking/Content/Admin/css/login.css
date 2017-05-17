@@ -2,6 +2,7 @@
 body {
     /*padding-top: 50px;
     padding-bottom: 20px;*/
+    background:#000;
 }
 
 .admin_top{
@@ -45,11 +46,17 @@ body {
 }
 .bor_top{
     width: 100%;
-    height: 8px;
-    position: absolute;
-    background: #C6242E;
+    position: relative;
+    background: #181a47;
 }
-
+    .bor_top h2 {
+        text-align:center;
+        font-size:24px;
+        text-transform:uppercase;
+        color:#fff;
+        margin: 0;
+        padding: 20px;
+    }
 .icon_login{
     float: right;
     padding: 5px;
@@ -77,7 +84,7 @@ body {
     display: block;
     outline: none;
     padding: 10px 15px;
-    border: 1px solid #C6242E;
+    border: 1px solid #181a47;
     border-radius: 3px;
 
 }
@@ -88,9 +95,9 @@ body {
     display: block;
     outline: none;
     text-align: center;
-    border: 1px solid #C6242E;
+    border: 1px solid #2691ec;
     border-radius: 3px;
-    background: #C6242E;
+    background: #181a47;
     color: #fff;
 }
 .bor_bottom{
@@ -131,3 +138,4 @@ body {
 .sidebar-left .nav{
 	text-transform:uppercase
 }
+footer p{color:#fff;}

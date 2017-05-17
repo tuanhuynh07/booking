@@ -1,12 +1,11 @@
-﻿
-@model Booking.Models.ACCOUNT
+﻿@model Booking.Models.ROLE
 
 @{
-    ViewBag.Title = "Xóa Người dùng";
+    ViewBag.Title = "Xóa Kiểu tài khoản";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <section class="content-header">
-    <h1>Xóa tài khoản</h1>
+    <h1>Xóa Kiểu tài khoản</h1>
 </section>
 <section class="content">
     <div class="box box-info">
@@ -15,29 +14,24 @@
         </div>
         <dl class="dl-horizontal">
             <dt>
-                Tên Đăng nhập:
+                Tên Kiểu:
             </dt>
+
             <dd>
-                @Html.DisplayFor(model => model.USER_NAME)
+                @Html.DisplayFor(model => model.ROLE_NAME)
             </dd>
-            <dt>
-                Họ tên:
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.USER_FULL_NAME)
-            </dd>
+
+
         </dl>
 
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
+
             <div class="box-footer">
-                @*<button type="submit" class="btn btn-default">Cancel</button>*@
                 @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
                 <input type="submit" value="Xóa" class="btn btn-primary pull-right" />
             </div>
         }
     </div>
 </section>
-
-

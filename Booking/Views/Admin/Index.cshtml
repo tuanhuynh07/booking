@@ -1,12 +1,115 @@
-﻿
+﻿@using Classes
+@using Booking.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<HOTEL> listhotels = (List<HOTEL>)ViewBag.listhotels;
 }
-
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link href="~/Content/Admin/morris/morris.css" rel="stylesheet" type="text/css" />
+<!-- Morris.js charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="~/Content/Admin/morris/morris.min.js" type="text/javascript"></script>
 <section class="content-header">
-    <h1>
-        Dashboard
-        <small>Control panel</small>
-    </h1>
+    <h1>Dashboard</h1>
 </section>
+<section class="content">   
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">ONLINE</span>
+                    <span class="info-box-number">@UserManager.totalOnlineUser</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+        </div><!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">PAGE VIEWS</span>
+                    <span class="info-box-number">@Decimal.Parse(UserManager.GetTotalHitCount() + "").ToString("0,000")</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+        </div><!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-document"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">HOTELS</span>
+                    <span class="info-box-number">@(ViewBag.NumberOfHotels + "" == "" ? 0 : Decimal.Parse(ViewBag.NumberOfHotels + "").ToString("#,00"))</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+        </div><!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-earth"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">LANGUAGE</span>
+                    <span class="info-box-number">Tiếng Việt</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+        </div><!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-md-12">           
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách khách sạn mới cập nhật</h3>
+                </div>
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width: 50px">STT</th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Địa chỉ
+                            </th>
+                            <th style="text-align: center">
+                                Ngày tạo
+                            </th>
+                            <th>
+                                Tạo bởi
+                            </th>
+                            <th></th>
+                        </tr>
+                        @{
+                            int stt = 0;
+                            DB_BOOKINGEntities db = new DB_BOOKINGEntities();
+                        }
+                        @foreach (var item in listhotels.ToList())
+                        {
+                            stt++;
+                            <tr>
+                                <td align="center">@stt</td>
+                                <td>
+                                    @item.HOTEL_NAME
+                                </td>
+                                <td>@item.HOTEL_ADDRESS</td>
+                                <td align="center">
+                                    @DateTime.Parse(item.HOTEL_CREATEDATE + "").ToString("dd/MM/yyyy hh:mm:ss")
+                                </td>
+                                <td>
+                                    @item.TOTAL_ROOM
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

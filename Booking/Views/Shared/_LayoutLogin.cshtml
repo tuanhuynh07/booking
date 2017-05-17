@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - System</title> 
+    <link href="/content/admin/css/bootstrap.css" rel="stylesheet" type="text/css" />  
+    <link href="/content/admin/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>    
+    <section style="padding-top: 100px">
+        @RenderBody()
+    </section>
+    <footer>
+        <p align="center">&copy;Copyright @DateTime.Now.Year - Adminstrator</p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

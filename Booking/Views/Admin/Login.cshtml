@@ -1,0 +1,26 @@
+﻿@model Booking.Models.ACCOUNT
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form_login">
+        <div class="bor_top"><h2>Đăng Nhập</h2></div>       
+            @Html.ValidationSummary(true)        
+        <div class="login">
+            @Html.ValidationMessage("error", "", new { @class = "text-danger", style = "text-align:center; display: block;padding: 10px;color: #C6242E;" })
+            <h5>Tên đăng nhập (*)</h5>
+            @Html.TextBoxFor(model => model.USER_NAME, new { @class = "" })
+            @Html.ValidationMessageFor(model => model.USER_NAME, String.Empty, new { @class = "text-danger" })
+            <h5>Mật khẩu (*)</h5>
+            @Html.PasswordFor(model => model.USER_PASSWORD, new { @class = "" })
+            @Html.ValidationMessageFor(model => model.USER_PASSWORD, String.Empty, new { @class = "text-danger" })            
+            <input class="bt_lg btn btn-default" type="submit" value="Đăng nhập" />
+        </div>
+        <div class="bor_bottom">
+            @*<a href="#">Quên mật khẩu?</a>*@
+        </div>
+    </div>
+}

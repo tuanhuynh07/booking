@@ -1,0 +1,79 @@
+﻿@model Booking.Models.ROLE
+
+@{
+    ViewBag.Title = "Cập nhật Kiểu tài khoản";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1>Cập nhật Kiểu tài khoản</h1>
+</section>
+<section class="content">
+    @{
+        int countError = ViewBag.CountError != null ? (int)ViewBag.CountError : 0;
+        if (countError > 0)
+        {
+            @Html.ValidationSummary(true)
+            @Html.ValidationMessage("error", "", new { @class = "alert alert-danger alert-dismissable", style = "text-align:left; display: block" })
+        }
+    }
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Cập nhật Kiểu tài khoản</h3>
+        </div>
+        @using (Html.BeginForm("Edit", "adminrole", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="box-body">
+                @Html.HiddenFor(model => model.ROLE_ID)
+                <div class="form-group">
+                    @Html.Label("Tên kiểu", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.ROLE_NAME, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ROLE_NAME)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Quyền thêm", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("ROLE_ALLOW_ADD", (Html.ValueFor(model => model.ROLE_ALLOW_ADD) + "" != "" && bool.Parse(Html.ValueFor(model => model.ROLE_ALLOW_ADD) + "")))
+                        @Html.ValidationMessageFor(model => model.ROLE_ALLOW_ADD)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Quyền sửa", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("ROLE_ALLOW_UPDATE", (Html.ValueFor(model => model.ROLE_ALLOW_UPDATE) + "" != "" && bool.Parse(Html.ValueFor(model => model.ROLE_ALLOW_UPDATE) + "")))
+                        @Html.ValidationMessageFor(model => model.ROLE_ALLOW_UPDATE)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Quyền xóa", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("ROLE_ALLOW_DELETE", (Html.ValueFor(model => model.ROLE_ALLOW_DELETE) + "" != "" && bool.Parse(Html.ValueFor(model => model.ROLE_ALLOW_DELETE) + "")))
+                        @Html.ValidationMessageFor(model => model.ROLE_ALLOW_DELETE)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Quyền xem", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("ROLE_ALLOW_VIEW", (Html.ValueFor(model => model.ROLE_ALLOW_VIEW) + "" != "" && bool.Parse(Html.ValueFor(model => model.ROLE_ALLOW_VIEW) + "")))
+                        @Html.ValidationMessageFor(model => model.ROLE_ALLOW_VIEW)
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                @*<button type="submit" class="btn btn-default">Cancel</button>*@
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="Lưu" class="btn btn-primary pull-right" />
+            </div>
+        }
+
+    </div>
+
+</section>

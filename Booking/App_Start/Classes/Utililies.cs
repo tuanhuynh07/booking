@@ -31,9 +31,10 @@ namespace Classes
         {
             if (GetStatus(input))
             {
-                return "<img src='../../../Content/Admin/images/checked.gif' />";
+                return "<img src='../../../Content/Admin/images/bullet_tick.png' />";
             }
-            return "";
+            else return "<img src='../../../Content/Admin/images/bullet_stop.png' />";
+            
         }
 
         public static string GetCurrentUrl()

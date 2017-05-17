@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using Booking.Models;
+using System.Web.Routing;
 
 //using System.Xml.Linq;
 
@@ -29,6 +30,47 @@ namespace Classes
                 Identification iden = Identification.GetInstance();
                 return iden.IsAuthenticated;
             }
+        }
+        public static bool RoleController(string controller)
+        {
+            var getUser = db.ACCOUNTs.Find(GetUserId);
+            if(getUser!=null)
+            {
+                if (controller == "AdminAccount")
+                {
+                    return getUser.USER_ALLOW_USER.Value;
+                }
+                else if (controller == "AdminArticle")
+                {
+                    return getUser.USER_ALLOW_ARTICLE.Value;
+                }
+                else if (controller == "AdminCategory")
+                {
+                    return getUser.USER_ALLOW_CATEGORY.Value;
+                }
+                else if (controller == "AdminRole")
+                {
+                    return getUser.USER_ALLOW_USER.Value;
+                }
+                else if (controller == "AdminCustomer")
+                {
+                    return getUser.USER_ALLOW_MEMBER.Value;
+                }
+                else if (controller == "AdminHotel")
+                {
+                    return getUser.USER_ALLOW_HOTEL.Value;
+                }
+                else if (controller == "AdminRoom")
+                {
+                    return getUser.USER_ALLOW_ROOM.Value;
+                }
+                else if (controller == "AdminMedia")
+                {
+                    return getUser.USER_ALLOW_MEDIA.Value;
+                }
+                else return false;
+            }
+            else return false;
         }
 
         public static string GetUserName

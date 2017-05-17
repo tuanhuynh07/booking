@@ -1,0 +1,100 @@
+﻿@using System.Linq
+@using Classes
+@using Booking.Models
+@model IEnumerable<Booking.Models.ROLE>
+
+@{
+    ViewBag.Title = "Danh sách Kiểu Tài khoản";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1>Danh sách Kiểu Tài khoản</h1>
+</section>
+<section class="content">
+    <div class="row" style="padding-bottom: 10px;">
+        <div class="col-md-12">
+            @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary pull-left" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width: 50px">STT</th>
+                            <th>
+                                Tên kiểu
+                            </th>
+                            <th>
+                                Thêm
+                            </th>
+                            <th>
+                                Sửa
+                            </th>
+                            <th>
+                                Xóa
+                            </th>
+                            <th>
+                                Xem
+                            </th>
+                            <th style="width: 100px; text-align: center">Chức năng</th>
+                        </tr>
+                        @{
+                            int stt = 0;
+                        }
+                        @foreach (var item in Model.Where(m => m.ROLE_ID != 1 && m.ROLE_NAME != "Administrator"))
+                        {
+                            stt++;
+                            <tr>
+                                <td>@stt</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ROLE_NAME)
+                                </td>
+                                <td align="center">
+                                    @Html.Raw(Utililies.GetStatusIcon(item.ROLE_ALLOW_ADD))
+                                </td>
+                                <td align="center">
+                                    @Html.Raw(Utililies.GetStatusIcon(item.ROLE_ALLOW_UPDATE))
+                                </td>
+                                <td align="center">
+                                    @Html.Raw(Utililies.GetStatusIcon(item.ROLE_ALLOW_DELETE))
+                                </td>
+                                <td align="center">
+                                    @Html.Raw(Utililies.GetStatusIcon(item.ROLE_ALLOW_VIEW))
+                                </td>
+                                <td align="center">
+                                    @*@Html.ActionLink("Sửa", "Edit", new { id = item.ROLE_ID }) |
+                                        @Html.ActionLink("Xóa", "Delete", new { id = item.ROLE_ID })*@
+                                    
+                                        <ul class="contro_function" >
+                                            <li>
+                                                <a title="Cập nhật" href="@Url.Action("Edit", new { id = item.ROLE_ID })">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </li>
+                                            <li>|</li>
+                                            <li>
+                                                <a title="Quyền Danh mục" href="@Url.Action("Permissions", new { id = item.ROLE_ID })">
+                                                    <i class="fa fa-sitemap"></i>
+                                                </a>
+                                            </li>
+                                            <li>|</li>
+                                            <li>
+                                                <a title="Xóa" href="@Url.Action("Delete", new { id = item.ROLE_ID })">
+                                                    <i class="fa fa-remove" style="color:red;"></i>
+                                                </a>
+                                            </li>
+                                        </ul>                                    
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

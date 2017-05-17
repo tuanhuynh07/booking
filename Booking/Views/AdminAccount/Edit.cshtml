@@ -43,8 +43,6 @@
                         @Html.ValidationMessageFor(model => model.USER_NAME)
                     </div>
                 </div>
-
-
                 <div class="form-group">
                     @Html.Label(" ", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -52,22 +50,19 @@
                         Bạn muốn reset mật khẩu?
                     </div>
                 </div>
-                <div class="form-group" id="field-reset-pass" style="display: none">
+                <div class="form-group field-reset-pass" style="display: none">
                     @Html.Label("Mật khẩu", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(model => model.USER_PASSWORD, new { @class = "form-control", type = "password" })
                         @Html.ValidationMessageFor(model => model.USER_PASSWORD)
                     </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.Label("Là Admin?", new { @class = "control-label col-md-2" })
+                <div class="form-group field-reset-pass" style="display: none">
+                    @Html.Label("Mật khẩu Xác nhận", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.CheckBox("USER_IS_ADMIN", (Html.ValueFor(model => model.USER_IS_ADMIN) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_IS_ADMIN) + "")))
-                        @Html.ValidationMessageFor(model => model.USER_IS_ADMIN)
+                        @Html.TextBox("CONFIRM_PASS", "", new { @class = "form-control", type = "password" })
                     </div>
                 </div>
-
                 <div class="form-group">
                     @Html.Label("Ngày tạo", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -75,7 +70,6 @@
                         @Html.ValidationMessageFor(model => model.USER_CREATEDATE)
                     </div>
                 </div>
-
                 <div class="form-group">
                     @Html.Label("Tạo bởi", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -85,55 +79,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.Label("Quyền mặc định:", new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.Label(" ", new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.CheckBox("USER_ALLOW_CATEGORY", (Html.ValueFor(model => model.USER_ALLOW_CATEGORY) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_CATEGORY) + "")))
-                        Quyền sử dụng Danh mục
-                        @Html.ValidationMessageFor(model => model.USER_ALLOW_CATEGORY)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.Label(" ", new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.CheckBox("USER_ALLOW_ARTICLE", (Html.ValueFor(model => model.USER_ALLOW_ARTICLE) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_ARTICLE) + "")))
-                        Quyền sử dụng Bài viết
-                        @Html.ValidationMessageFor(model => model.USER_ALLOW_ARTICLE)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.Label(" ", new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.CheckBox("USER_ALLOW_MEDIA", (Html.ValueFor(model => model.USER_ALLOW_MEDIA) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_MEDIA) + "")))
-                        Quyền sử dụng Media
-                        @Html.ValidationMessageFor(model => model.USER_ALLOW_MEDIA)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.Label(" ", new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.CheckBox("USER_ALLOW_USER", (Html.ValueFor(model => model.USER_ALLOW_USER) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_USER) + "")))
-                        Quyền sử dụng Người dùng
-                        @Html.ValidationMessageFor(model => model.USER_ALLOW_USER)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.Label("Vai trò", new { @class = "control-label col-md-2" })
+                    @Html.Label("Kiểu tài khoản", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.DropDownList("ROLE_ID", null, String.Empty, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ROLE_ID)
                     </div>
                 </div>
-
                 <div class="form-group">
                     @Html.Label("Kích hoạt", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -141,28 +92,83 @@
                         @Html.ValidationMessageFor(model => model.USER_ACTIVED)
                     </div>
                 </div>
+                <div class="form-group">
+                    @Html.Label("Lĩnh vực:", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_CATEGORY", (Html.ValueFor(model => model.USER_ALLOW_CATEGORY) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_CATEGORY) + "")))
+                        Quản lý Danh mục
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_CATEGORY)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_ARTICLE", (Html.ValueFor(model => model.USER_ALLOW_ARTICLE) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_ARTICLE) + "")))
+                        Quản lý Bài viết
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_ARTICLE)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_MEDIA", (Html.ValueFor(model => model.USER_ALLOW_MEDIA) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_MEDIA) + "")))
+                        Quản lý Media
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_MEDIA)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_USER", (Html.ValueFor(model => model.USER_ALLOW_USER) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_USER) + "")))
+                        Quản lý Người dùng
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_USER)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_HOTEL", (Html.ValueFor(model => model.USER_ALLOW_HOTEL) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_HOTEL) + "")))
+                        Quản lý Khách sạn
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_HOTEL)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_ROOM", (Html.ValueFor(model => model.USER_ALLOW_ROOM) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_ROOM) + "")))
+                        Quản lý Phòng
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_ROOM)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("USER_ALLOW_MEMBER", (Html.ValueFor(model => model.USER_ALLOW_MEMBER) + "" != "" && bool.Parse(Html.ValueFor(model => model.USER_ALLOW_MEMBER) + "")))
+                        Quản lý Thành viên
+                        @Html.ValidationMessageFor(model => model.USER_ALLOW_MEMBER)
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 @*<button type="submit" class="btn btn-default">Cancel</button>*@
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-                <input type="submit" value="Save" class="btn btn-primary pull-right" />
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="Lưu" class="btn btn-primary pull-right" />
             </div>
         }
     </div>
 
 </section>
 
-<script>
+<script>   
     function CheckChangePass(controlId) {
         if (document.getElementById(controlId).checked) {
-            document.getElementById('field-reset-pass').style.display = "block";
+            $('.field-reset-pass').show();
             document.getElementById('USER_PASSWORD').value = '';
             document.getElementById('USER_PASSWORD').focus();
         } else {
-            document.getElementById('field-reset-pass').style.display = "none";
+            $('.field-reset-pass').hide();
         }
     }
-
     $(document).ready(function () {
         CheckChangePass('AllowChangePass');
     });

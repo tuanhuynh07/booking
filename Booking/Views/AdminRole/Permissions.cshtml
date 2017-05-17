@@ -1,0 +1,60 @@
+﻿
+@using Booking.Models
+@model Booking.Models.ROLE
+@{
+    ViewBag.Title = "Phân quyền Danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<CATEGORY> categoriesAll = (List<CATEGORY>)ViewBag.CategoriesAll;
+    int totalCate = categoriesAll.Count;
+}
+
+<section class="content-header">
+    <h1>Phân quyền Danh mục</h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Kiểu tài khoản đã chọn: @Html.DisplayFor(model => model.ROLE_NAME)</h3>
+                </div>
+                @using (Html.BeginForm("Permissions", "adminrole", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.ROLE_ID)
+                    <table class="table table-hover table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 100px; text-align: center">Chọn</th>
+                                <th>
+                                    Tên Danh mục
+                                </th>
+                            </tr>
+                            @{                          
+                                foreach (CATEGORY c in categoriesAll)
+                                {
+                                    bool check = false;
+                                    if(Model.CATEGORies.Contains(c))
+                                    {
+                                        check = true;
+                                    }
+                                    <tr>
+                                        <td style="text-align: center">@Html.CheckBox(c.CATEGORY_ID+"",check)</td>
+                                        <td>@c.CATEGORY_NAME</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>                   
+                    <div class="box-footer">
+                        @Html.ActionLink("Quay về", "Index", null, new { @class = "btn btn-default" })
+                        <input type="submit" value="Lưu" class="btn btn-primary pull-right" />
+                    </div>
+                }
+            </div>
+        </div>        
+    </div>
+</section>
+
+
+

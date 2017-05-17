@@ -15,73 +15,72 @@ namespace Booking.Controllers
         private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
         public ActionResult Index()
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminRole"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             return View(db.ROLEs.ToList());
         }
 
         // GET: /Role/Details/5
-        public ActionResult Details(decimal id)
+        public ActionResult Permissions(decimal id)
         {
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminRole"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ROLE role = db.ROLEs.Find(id);
-
-            //var allCategoriesList = db.CATEGORies.ToList();
-            //ViewBag.CategoriesSelected = db.ROLEs.Include(i => i.CATEGORies).Where(i => i.ROLE_ID == id).ToList();
-            //ViewBag.CategoriesAll = allCategoriesList;
+            var allCategoriesList = db.CATEGORies.ToList();
+            ViewBag.CategoriesAll = allCategoriesList;
             if (role == null)
             {
                 return HttpNotFound();
             }
             return View(role);
         }
-        //private ICollection<ROLE_CATEGORY_RELATIONSHIP> PopulateCoursesData(decimal rID)
-        //{
-        //    var rc = db.ROLEs.Include(i => i.CATEGORies).Where(i => i.ROLE_ID == rID).ToList().Select(cc => cc.CATEGORies);
-        //    var viewModel = new List<ROLE_CATEGORY_RELATIONSHIP>();
-        //    foreach (CATEGORY item in rc.Single())
-        //    {
-        //        viewModel.Add(new ROLE_CATEGORY_RELATIONSHIP
-        //        {
-        //            ROLE_ID = rID,
-        //            CATEGORY_ID = item.CATEGORY_ID,
-        //            //CATEGORY_NAME = item.CATEGORY_NAME
-        //        });
-        //    }
-        //    return viewModel;
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(string ROLE_ID, string hidCateSelected)
+        public ActionResult Permissions(string ROLE_ID)
         {
+            decimal roleId = decimal.Parse(ROLE_ID);
+            var getRole = db.ROLEs.Where(i => i.ROLE_ID == roleId).FirstOrDefault();
             if (ModelState.IsValid)
-            {
-                decimal roleId = decimal.Parse(ROLE_ID);
-                //ROLE_CATEGORY_RELATIONSHIP rc = new ROLE_CATEGORY_RELATIONSHIP();
-                //rc.CATEGORY_ID = roleId;
-                //rc.CATEGORY_ID = 9;
-                //db.ROLE_CATEGORY_RELATIONSHIPs.Add(rc);
-                //db.SaveChanges();
-                //ViewBag.CategoriesSelected = db.ROLEs.Include(i => i.CATEGORies).Where(i => i.ROLE_ID == roleId).ToList();
-                //return RedirectToAction("Index");
-                //db.SaveChanges();
+            {               
+                var allCategoriesList = db.CATEGORies.ToList();
+                foreach(var item in allCategoriesList)
+                {
+                    string idCat = Request.Form[item.CATEGORY_ID+""] + "";
+                    if(idCat!="false")
+                    {
+                        if (!getRole.CATEGORies.Where(m => m.CATEGORY_ID == item.CATEGORY_ID).Any())
+                        {
+                            getRole.CATEGORies.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        if (getRole.CATEGORies.Where(m => m.CATEGORY_ID == item.CATEGORY_ID).Any())
+                        {
+                            getRole.CATEGORies.Remove(item);
+                        }
+                    }
+                    db.SaveChanges();
+                }                
+                return RedirectToAction("Index");                                
             }
-
-            return RedirectToAction("Details");
+            return View(getRole);
         }
 
         // GET: /Role/Create
         public ActionResult Create()
         {
-            if (!UserManager.Authenticated)
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminRole"))
             {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Index", "Admin");
             }
             return View();
         }
@@ -98,13 +97,21 @@ namespace Booking.Controllers
                 bool valid = true;
                 if (role.ROLE_NAME + "" == "")
                 {
-                    AddError("error", "Chưa Nhập Tên vai trò.");
+                    AddError("error", "Chưa Nhập Tên kiểu.");
                     valid = false;
                 }
                 if (valid)
                 {
                     db.ROLEs.Add(role);
                     db.SaveChanges();
+                    //update Danh mục
+                    var allCategoriesList = db.CATEGORies.ToList();
+                    foreach (var item in allCategoriesList)
+                    {
+                        role.CATEGORies.Add(item);
+                    }
+                    db.SaveChanges();
+                    //end
                     return RedirectToAction("Index");
                 }
             }
@@ -115,9 +122,9 @@ namespace Booking.Controllers
         // GET: /Role/Edit/5
         public ActionResult Edit(decimal id)
         {
-            if (!UserManager.Authenticated)
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminRole"))
             {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Index", "Admin");
             }
             if (id == null)
             {
@@ -143,7 +150,7 @@ namespace Booking.Controllers
                 bool valid = true;
                 if (role.ROLE_NAME + "" == "")
                 {
-                    AddError("error", "Chưa Nhập Tên vai trò.");
+                    AddError("error", "Chưa Nhập Tên kiểu.");
                     valid = false;
                 }
                 if (valid)
@@ -159,13 +166,10 @@ namespace Booking.Controllers
         // GET: /Role/Delete/5
         public ActionResult Delete(decimal id)
         {
-            if (!UserManager.Authenticated)
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminRole"))
             {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Index", "Admin");
             }
-
-
-            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

@@ -17,10 +17,10 @@ namespace Booking.Controllers
         private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
         public ActionResult Index()
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminAccount"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             var users = db.ACCOUNTs;
             return View(users.ToList());
 
@@ -49,10 +49,10 @@ namespace Booking.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] // This is for output cache false
         public ActionResult Create()
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminAccount"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             ViewBag.ROLE_ID = new SelectList(db.ROLEs, "ROLE_ID", "ROLE_NAME");
             return View();
         }
@@ -130,10 +130,10 @@ namespace Booking.Controllers
         // GET: /User/Edit/5
         public ActionResult Edit(decimal? id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminAccount"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if ((id + "").Trim() == "")
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -143,7 +143,7 @@ namespace Booking.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ACCOUNT user = db.ACCOUNTs.Find(id);
-            if (user == null)
+            if (user == null || (user.USER_ID==1 & user.USER_IS_ADMIN.Value))
             {
                 return HttpNotFound();
             }
@@ -163,24 +163,48 @@ namespace Booking.Controllers
             if (ModelState.IsValid)
             {
                 bool valid = true;
-                if (user.USER_NAME + "" == "")
-                {
-                    AddError("error", "Chưa Nhập Tên đăng nhập.");
-                    valid = false;
-                }
-                if (user.USER_PASSWORD + "" == "")
-                {
-                    AddError("error", "Chưa chọn Mật khẩu.");
-                    valid = false;
-                }
                 if (user.USER_FULL_NAME + "" == "")
                 {
                     AddError("error", "Chưa Nhập Họ tên.");
                     valid = false;
                 }
+                if (user.USER_NAME + "" == "")
+                {
+                    AddError("error", "Chưa Nhập Tên đăng nhập.");
+                    valid = false;                    
+                }
+                else
+                {
+                    var checkExist = db.ACCOUNTs.Where(u => u.USER_NAME == user.USER_NAME && u.USER_ID!=user.USER_ID).ToList();
+                    if (checkExist.Any())
+                    {
+                        if (checkExist.Count() > 0)
+                        {
+                            AddError("error", "Tên Đăng nhập này đã tồn tại. Vui lòng chọn Tên Đăng nhập khác.");
+                            valid = false;
+                        }
+                    }
+                }
+                if (Request.Form["AllowChangePass"] == "on" ? true : false)
+                {
+                    if (user.USER_PASSWORD + "" == "")
+                    {
+                        AddError("error", "Chưa chọn Mật khẩu.");
+                        valid = false;
+                    }
+                    else
+                    {
+                        string confirm_pass = Request.Form["CONFIRM_PASS"] + "";
+                        if (confirm_pass != user.USER_PASSWORD)
+                        {
+                            AddError("error", "Mật khẩu xác nhận không chính xác.");
+                            valid = false;
+                        }
+                    }
+                }                
                 if (user.ROLE_ID + "" == "")
                 {
-                    AddError("error", "Chưa chọn Vai trò.");
+                    AddError("error", "Chưa chọn Kiểu tài khoản.");
                     valid = false;
                 }
                 if (valid)
@@ -196,12 +220,15 @@ namespace Booking.Controllers
                     {
                         db.Entry(user).Property("USER_PASSWORD").IsModified = false;
                     }
-                    user.USER_VALID_ADMIN = Security.EncryptMd5(user.USER_IS_ADMIN + "&" + user.USER_ID).ToLower();
+                    if (user.ROLE_ID == 1)
+                    {
+                        user.USER_VALID_ADMIN = Security.EncryptMd5(user.USER_IS_ADMIN + "&" + user.USER_ID).ToLower();
+                        user.USER_IS_ADMIN = true;
+                    }
+                    else user.USER_IS_ADMIN = false;
                     user.USER_CREATEBY = UserManager.GetUserId;
                     db.SaveChanges();
-
                     ViewBag.UserCreatedBy = db.ACCOUNTs.Where(u => u.USER_ID == UserManager.GetUserId).ToList();
-
                     return RedirectToAction("Index");
                 }
             }
@@ -211,34 +238,34 @@ namespace Booking.Controllers
         }
 
         // GET: /User/Delete/5
-        public ActionResult Delete(decimal id)
-        {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ACCOUNT user = db.ACCOUNTs.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
+        //public ActionResult Delete(decimal id)
+        //{
+        //    if (!UserManager.Authenticated)
+        //    {
+        //        return RedirectToAction("Index", "Admin");
+        //    }
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    ACCOUNT user = db.ACCOUNTs.Find(id);
+        //    if (user == null || (user.USER_ID == 1 & user.USER_IS_ADMIN.Value))
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(user);
+        //}
 
-        // POST: /User/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
-        {
-            ACCOUNT user = db.ACCOUNTs.Find(id);
-            db.ACCOUNTs.Remove(user);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: /User/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(decimal id)
+        //{
+        //    ACCOUNT user = db.ACCOUNTs.Find(id);
+        //    db.ACCOUNTs.Remove(user);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

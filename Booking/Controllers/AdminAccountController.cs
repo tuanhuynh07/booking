@@ -115,6 +115,10 @@ namespace Booking.Controllers
                         user.USER_VALID_ADMIN = Security.EncryptMd5(user.USER_IS_ADMIN + "&" + user.USER_ID).ToLower();
                         user.USER_IS_ADMIN = true;
                     }
+                    else
+                    {
+                        user.USER_IS_ADMIN = false;
+                    }
                     user.USER_CREATEBY = UserManager.GetUserId;
                     user.USER_CREATEDATE = DateTime.Now;
 

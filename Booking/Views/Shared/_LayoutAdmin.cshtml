@@ -81,6 +81,8 @@
                         </ul>
                     </li>
                     }
+                    @if (Classes.UserManager.RoleController("AdminHotel") || Classes.UserManager.RoleController("AdminRoom"))
+                    {
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-tags"></i>
@@ -98,6 +100,7 @@
                             }
                         </ul>
                     </li>
+                    }
                     @if (Classes.UserManager.RoleController("AdminCustomer"))
                     { 
                     <li class="treeview">

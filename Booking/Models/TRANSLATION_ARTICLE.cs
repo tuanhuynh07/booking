@@ -14,18 +14,10 @@ namespace Booking.Models
     
     public partial class TRANSLATION_ARTICLE
     {
-        public TRANSLATION_ARTICLE()
-        {
-            this.ARTICLEs = new HashSet<ARTICLE>();
-            this.ARTICLEs1 = new HashSet<ARTICLE>();
-        }
-    
         public decimal ID { get; set; }
         public decimal LANGUAGE_ID { get; set; }
         public string TEXT { get; set; }
     
-        public virtual ICollection<ARTICLE> ARTICLEs { get; set; }
-        public virtual ICollection<ARTICLE> ARTICLEs1 { get; set; }
         public virtual LANGUAGE LANGUAGE { get; set; }
     }
 }

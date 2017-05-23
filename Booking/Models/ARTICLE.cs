@@ -42,7 +42,5 @@ namespace Booking.Models
         public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
     
         public virtual CATEGORY CATEGORY { get; set; }
-        public virtual TRANSLATION_ARTICLE TRANSLATION_ARTICLE { get; set; }
-        public virtual TRANSLATION_ARTICLE TRANSLATION_ARTICLE1 { get; set; }
     }
 }

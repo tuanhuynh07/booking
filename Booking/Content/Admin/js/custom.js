@@ -63,7 +63,7 @@ $('.display_footer').click(function () {
     data.append('id', id);
     if (id + "" != "") {
         $.ajax({
-            url: "/admin/category/DisplayOnMenuFooter",
+            url: "/admincategory/DisplayOnMenuFooter",
             type: "POST",
             data: data,
             processData: false,
@@ -88,7 +88,7 @@ $('.active_new').click(function () {
     data.append('id', id);
     if (id + "" != "") {
         $.ajax({
-            url: "/admin/article/Active",
+            url: "/adminarticle/Active",
             type: "POST",
             data: data,
             processData: false,
@@ -113,7 +113,7 @@ $('.active_media').click(function () {
     data.append('id', id);
     if (id + "" != "") {
         $.ajax({
-            url: "/admin/media/Active",
+            url: "/adminmedia/Active",
             type: "POST",
             data: data,
             processData: false,
@@ -186,7 +186,7 @@ function deleteImageArticle(id,isThumb) {
     data.append('isThumb', isThumb);
     if (confirm('Bạn có muốn xóa ảnh này không?')) {
         $.ajax({
-            url: "/admin/article/deleteImage",
+            url: "/adminarticle/deleteImage",
             type: "POST",
             data: data,
             processData: false,

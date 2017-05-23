@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Xagan.Models.ARTICLE>
+﻿@model PagedList.IPagedList<Booking.Models.ARTICLE>
 @using PagedList.Mvc;
 
 @{
@@ -8,29 +8,25 @@
     //var LisArticles = ViewBag.ListOfCategory;
     int stt = 0;
 
-    string strUrl = Request.Url.AbsoluteUri;
-    string strPath = Request.ApplicationPath;
-    string host = Request.Url.Host;
-    string urlHome = "/";
-    if (strPath != "/")
-    {
-        urlHome = strPath + urlHome;
-    }
-
 }
-<link href="@(urlHome + "Content/PagedList.css")" rel="stylesheet" />
+<link href="/Content/PagedList.css" rel="stylesheet" />
 @*<a href="/admin/article/toolResizeImage">ảnh</a>
     <a href="/admin/article/toolResizeImageThumb">thumb</a>*@
 <section class="content-header">
     <h1>
         Quản lý Bài viết
     </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li><a href="/AdminArticle">Danh mục Bài viết</a></li>
+        <li class="active">Danh sách Bài viết</li>
+    </ol>
 </section>
 <section class="content">
     <div class="row" style="padding-bottom:10px;">
         <div class="col-md-12">
             @Html.ActionLink("Tạo mới Bài viết", "create", new { controller = "adminarticle", id = id }, new { @class = "btn btn-primary pull-left" })
-            <a style="margin-left:10px;" href="@(urlHome + "adminarticle")" class="btn btn-default">Quay lại</a>
+            <a style="margin-left:10px;" href="/adminarticle" class="btn btn-default">Quay lại</a>
         </div>
     </div>
     @if (TempData["message_success"] != null)
@@ -66,9 +62,10 @@
                             <tr>
                                 <th style="width: 10px">STT</th>
                                 <th>Tiêu đề bài viết</th>
-                                <th>Mô tả</th>
-                                <th>Alias</th>
-                                <th style="width: 10px; text-align:center">Chức năng</thstyle>
+                                <th>Người đăng</th>
+                                <th>ngày đăng</th>
+                                <th>Trạng thái</th>
+                                <th style="width: 50px; text-align:center">Chức năng</th>
                             </tr>
                             @if (Model != null && Model.Count > 0)
                             {
@@ -79,32 +76,32 @@
                                     <tr>
                                         <td style="text-align:center;">@stt</td>
                                         <td>@item.ARTICLE_TITLE</td>
-                                        <td>@item.ARTICLE_BRIEF</td>
-                                        <td>@item.ARTICLE_ALIAS</td>
+                                        <td>@item.ARTICLE_CREATEBY</td>
+                                        <td>@String.Format("{0:dd/MM/yyyy}",item.ARTICLE_CREATEDATE)</td>
+                                        <td style="text-align:center;">
+                                            @if ((bool)item.ARTICLE_DISABLE)
+                                            {
+                                                <a class="active_new" data="@item.ARTICLE_ID">
+                                                    <i title="Kích hoạt" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="active_new" data="@item.ARTICLE_ID">
+                                                    <i title="Chưa kích hoạt" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color: red;"></i>
+                                                </a>
+                                            }
+                                        </td>
                                         <td style="text-align:center;">
                                             <ul class="contro_function">
                                                 <li>
-                                                    <a title="Cập nhật" href="@(urlHome + "adminarticle/edit/"+item.ARTICLE_ID)">
+                                                    <a title="Cập nhật" href="/adminarticle/edit/@item.ARTICLE_ID">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                 </li>
-                                                <li>|</li>
+                                                <li>|</li>                                               
                                                 <li>
-                                                    @if ((bool)item.ARTICLE_DISABLE)
-                                                    {
-                                                        <a class="active_new" data="@item.ARTICLE_ID">
-                                                            <i title="Kích hoạt" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a class="active_new" data="@item.ARTICLE_ID">
-                                                            <i title="Chưa kích hoạt" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color: red;"></i>
-                                                        </a>
-                                                    }
-                                                <li>|</li>
-                                                <li>
-                                                    <a title="Xóa" href="@(urlHome + "adminarticle/delete/" + item.ARTICLE_ID)" onclick="return confirm('Bạn có muốn xóa không?');">
+                                                    <a title="Xóa" href="/adminarticle/delete/@item.ARTICLE_ID" onclick="return confirm('Bạn có muốn xóa không?');">
                                                         <i class="fa fa-remove" style="color:red;"></i>
                                                     </a>
                                                 </li>
@@ -127,7 +124,7 @@
                     </table>
                     <br />
                     Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-                    @Html.PagedListPager(Model, page => Url.Action("articelincategory/" + id,
+                    @Html.PagedListPager(Model, page => Url.Action("/articelincategory/" + id,
                                       new { page, currentFilter = ViewBag.CurrentFilter }))
                 </div>
             </div>

@@ -1,8 +1,9 @@
-﻿
+﻿@using Booking.Models
 @{
     ViewBag.Title = "Danh sách Danh mục";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    var ListOfCategory = ViewBag.ListOfCategory;
+    DB_BOOKINGEntities db = new DB_BOOKINGEntities();
+    List<CATEGORY> listCat = ViewBag.ListOfCategory;    
     var id = ViewBag.Id;
 }
 <section class="content-header">
@@ -16,12 +17,30 @@
             <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-aqua-active">
-                    <h3 class="widget-user-username">WEBSITE</h3>
-                    <h5 class="widget-user-desc">Danh mục Bài viết</h5>
+                    <h3 class="widget-user-username">Danh mục Bài viết</h3>
                 </div>
                 <div class="box-footer no-padding">
-                    @Html.Raw(ListOfCategory)
-                </div>
+                    <ul class="nav nav-stacked">
+                    @foreach(var item in listCat)
+                    {
+                        var childCategory = db.CATEGORies.Where(x => x.CATEGORY_PARENT_ID == item.CATEGORY_ID).ToList();
+                        int aCount = db.ARTICLEs.Where(x => x.CATEGORY_ID == item.CATEGORY_ID).Count();
+                        if(childCategory!=null && childCategory.Count()>0)
+                        { 
+                            <li style="clear:both;font-weight:bold"><a href="/adminarticle/articelincategory/@item.CATEGORY_ID" class="col-md-11"><i class="fa fa-plus" aria-hidden="true"></i> @item.CATEGORY_NAME <span title="Có @aCount bài viết" class="pull-right badge bg-blue">@aCount</span></a><a class="col-md-1" title="Thêm bài viết" href="/adminarticle/create/@item.CATEGORY_ID"><i class="fa fa-plus" style="color:green;"></i></a></li>
+                            foreach(var item1 in childCategory)
+                            {
+                                int aCount1 = db.ARTICLEs.Where(x => x.CATEGORY_ID == item1.CATEGORY_ID).Count();
+                                <li style="clear:both;padding-left:20px;"><a href="/adminarticle/articelincategory/@item1.CATEGORY_ID" class="col-md-11"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> @item1.CATEGORY_NAME <span title="Có @aCount1 bài viết" class="pull-right badge bg-blue">@aCount1</span></a><a class="col-md-1" title="Thêm bài viết" href="/adminarticle/create/@item1.CATEGORY_ID"><i class="fa fa-plus" style="color:green;"></i></a></li>
+                            }
+                        }
+                        else
+                        {
+                            <li style="clear: both; font-weight: bold"><a href="/adminarticle/articelincategory/@item.CATEGORY_ID" class="col-md-11"><i class="fa fa-minus" aria-hidden="true"></i> @item.CATEGORY_NAME <span title="Có @aCount bài viết" class="pull-right badge bg-blue">@aCount</span></a><a class="col-md-1" title="Thêm bài viết" href="/adminarticle/create/@item.CATEGORY_ID"><i class="fa fa-plus" style="color:green;"></i></a></li>
+                        }
+                    }
+                    </ul>                   
+</div>
             </div>
         </div>
     </div>

@@ -25,12 +25,12 @@ namespace Booking.Models
         public Nullable<bool> USER_ALLOW_CATEGORY { get; set; }
         public Nullable<bool> USER_ALLOW_ARTICLE { get; set; }
         public Nullable<bool> USER_ALLOW_MEDIA { get; set; }
-        public Nullable<bool> USER_ALLOW_USER { get; set; }
-        public Nullable<decimal> ROLE_ID { get; set; }
-        public Nullable<bool> USER_ACTIVED { get; set; }
         public Nullable<bool> USER_ALLOW_HOTEL { get; set; }
         public Nullable<bool> USER_ALLOW_ROOM { get; set; }
         public Nullable<bool> USER_ALLOW_MEMBER { get; set; }
+        public Nullable<bool> USER_ALLOW_USER { get; set; }
+        public Nullable<decimal> ROLE_ID { get; set; }
+        public Nullable<bool> USER_ACTIVED { get; set; }
     
         public virtual ROLE ROLE { get; set; }
     }

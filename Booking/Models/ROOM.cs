@@ -34,6 +34,5 @@ namespace Booking.Models
         public virtual ICollection<BOOKING_ROOM> BOOKING_ROOM { get; set; }
         public virtual HOTEL HOTEL { get; set; }
         public virtual ROOM_TYPE ROOM_TYPE { get; set; }
-        public virtual TRANSLATION_ROOM TRANSLATION_ROOM { get; set; }
     }
 }

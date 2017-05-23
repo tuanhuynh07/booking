@@ -1,6 +1,6 @@
 ﻿@model Booking.Models.CATEGORY
 @{
-    ViewBag.Title = "Xa Gần - Cập nhật Danh mục";
+    ViewBag.Title = "Cập nhật Danh mục";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     string strUrl = Request.Url.AbsoluteUri;
     string strPath = Request.ApplicationPath;
@@ -13,8 +13,13 @@
 }
 <section class="content-header">
     <h1>
-        Quản lý Danh mục
+        Cập nhật Danh mục
     </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li><a href="/AdminCategory">Danh mục</a></li>
+        <li class="active">Cập nhật danh mục</li>
+    </ol>
 </section>
 <section class="content">
     @if (TempData["categogyNameError"] != null)
@@ -32,71 +37,121 @@
         </div>
     }
     <div class="row">
-        <div class="col-md-12">
-            <div class="box">
+@using (Html.BeginForm("edit", "admincategory", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.NAME_TRANSLATION_ID);
+        <div class="col-md-6">
+            <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">Cập nhật Danh mục</h3>
                 </div>
                 <div class="box-body">
-                    @using (Html.BeginForm("edit", "admincategory", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
-                        @Html.AntiForgeryToken()
+
+                    @Html.AntiForgeryToken()
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Tên Danh mục <span style="color:red;">(*)</span></label>
+                            @Html.TextBoxFor(model => model.CATEGORY_NAME, new { @class = "form-control", @placeholder = "Nhập tên Danh mục..." })
+                        </div>
+                        <div class="form-group">
+                            <label for="slCategoryParent">Thuộc Danh mục</label>
+                            @{
+    List<SelectListItem> listItems = ViewBag.BindDropDownCategory;
+                            }
+                            @Html.DropDownList("CATEGORY_PARENT_ID", new SelectList(listItems, "Value", "Text"), new { id = "CATEGORY_PARENT_ID" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ARTICLE_IMAGE_LARGE">Ảnh đại diện</label>
+                            @Html.TextBoxFor(model => model.CATEGORY_IMAGE, new { @type = "file", @class = "form-control", @onchange = "displayImage(this);" })
+                            @if (Model.CATEGORY_IMAGE + "" != "")
+                            {
+                                <img style="max-width:100%;height:auto;padding:20px;" id="image_large" src="@Model.CATEGORY_IMAGE">
+                                @Html.CheckBox("deleteImg")
+                                <span>Xóa ảnh</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @{
+                List<SelectListItem> listlanguage = ViewBag.BindListLanguage;
+                foreach (var item in listlanguage)
+                {                    
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Language: @item.Text </h3>
+                        </div>
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="CATEGORY_NAME">Tên Danh mục <span style="color:red;">(*)</span></label>
-                                @Html.TextBoxFor(model => model.CATEGORY_NAME, new { @class = "form-control", @placeholder = "Nhập tên Danh mục..." })
-                            </div>
-                            <div class="form-group">
-                                <label for="slCategoryParent">Thuộc Danh mục</label>
-                                @{
-                        List<SelectListItem> listItems = ViewBag.BindDropDownCategory;
+                                <label for="CATEGORY_NAME_">Tên Danh mục</label>
+                                @if(Model.NAME_TRANSLATION_ID!=null)
+                                {                                    
+                                    Booking.Models.DB_BOOKINGEntities db = new Booking.Models.DB_BOOKINGEntities();
+                                    decimal idl=Convert.ToDecimal(item.Value);
+                                    var gettran = db.TRANSLATION_CATEGORY.Where(m => m.ID == Model.NAME_TRANSLATION_ID.Value && m.LANGUAGE_ID == idl);
+                                    if(gettran!=null && gettran.Count()>0)
+                                    {
+                                        @Html.TextBox("CATEGORY_NAME_" + item.Value,gettran.First().TEXT, new { @class = "form-control", @placeholder = "Nhập tên Danh mục..." })                                        
+                                    }
+                                    else 
+                                    {
+                                         @Html.TextBox("CATEGORY_NAME_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập tên Danh mục..." })
+                                    }
                                 }
-                                @Html.DropDownList("CATEGORY_PARENT_ID", new SelectList(listItems, "Value", "Text"), new { id = "CATEGORY_PARENT_ID" })
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("CATEGORY_IS_SHOW_MENU") Hiển thị trên menu chính
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("CATEGORY_IS_SHOW_FOOTER")Hiển thị trên menu footer
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("CATEGORY_ISMEDIA")Là Danh mục media
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtOrder">Thứ tự hiển thị</label>@Html.ValidationMessageFor(model => model.CATEGORY_ORDER, "", new { @class = "text-danger" })
-                                @Html.TextBoxFor(model => model.CATEGORY_ORDER, new { @class = "form-control", @placeholder = "Thứ tự hiển thị..." })
-                            </div>
-                            <div class="form-group">
-                                <label for="txtOrder">Liên kết ngoài</label>
-                                @Html.TextBoxFor(model => model.CATEGORY_LINK, new { @class = "form-control", @placeholder = "Liên kết ngoài..." })
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_IMAGE_LARGE">Ảnh đại diện (Kích thước 146x180)<span style="color:red;">(*)</span></label>
-                                @Html.TextBoxFor(model => model.CATEGORY_IMAGE, new { @type = "file", @class = "form-control", @onchange = "displayImage(this);" })
-                                @if (Model.CATEGORY_IMAGE + "" != "")
-                                {
-                                    <img style="max-width:600px;height:auto" id="image_large" src="@Model.CATEGORY_IMAGE">
-                                    <a id="delete_large" style="cursor:pointer;" onclick="deleteImageCategory(@Model.CATEGORY_ID)">Xóa ảnh</a>
+                                else
+                                { 
+                                    @Html.TextBox("CATEGORY_NAME_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập tên Danh mục..." })
                                 }
                             </div>
-                            <div class="form-group">
-                                <label style="color:red;"><i>Không bỏ trống trường có ký hiệu (*).</i></label>
-                            </div>
                         </div>
-                        <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                            <a href="@(urlHome + "admin/category")" class="btn btn-default">Quay lại</a>
-                        </div>
-                    }
+                    </div>
+                }
+            }     
+        </div>
+		<div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Thuộc tính</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="txtOrder">Thứ tự hiển thị</label>@Html.ValidationMessageFor(model => model.CATEGORY_ORDER, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.CATEGORY_ORDER, new { @class = "form-control", @placeholder = "Thứ tự hiển thị..." })
+                    </div>
+                    <div class="form-group">
+                        <label for="txtOrder">Liên kết ngoài</label>
+                        @Html.TextBoxFor(model => model.CATEGORY_LINK, new { @class = "form-control", @placeholder = "Liên kết ngoài..." })
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("CATEGORY_IS_SHOW_MENU") Hiển thị trên menu chính
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("CATEGORY_IS_SHOW_FOOTER")Hiển thị trên menu footer
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("CATEGORY_ISMEDIA")Là Danh mục media
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="box-footer">
+                <div class="form-group">
+                    <label style="color:red;"><i>(*) là trường bắt buột nhập.</i></label>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a href="@(urlHome + "admincategory")" class="btn btn-default">Quay lại</a>
+            </div>
+        </div>
+}
     </div>
 </section>
 

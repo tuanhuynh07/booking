@@ -190,7 +190,6 @@
     <Compile Include="Controllers\AdminRoomController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\AdminLanguageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -250,10 +249,12 @@
     <Compile Include="Models\MEMBER.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PACKAGE_ROOM.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ROLE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Role_Cat.cs" />
     <Compile Include="Models\ROOM.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
@@ -293,16 +294,11 @@
   <ItemGroup>
     <Content Include="bin\PagedList.dll" />
     <Content Include="bin\PagedList.Mvc.dll" />
-    <Content Include="bin\PagedList.Mvc.xml" />
-    <Content Include="bin\PagedList.xml" />
-    <Content Include="bin\System.Drawing.dll" />
     <Content Include="Content\Admin\css\AdminLTE.min.css" />
-    <Content Include="Content\Admin\css\bootstrap.css" />
     <Content Include="Content\Admin\css\jquery.Jcrop.min.css" />
     <Content Include="Content\Admin\css\login.css" />
     <Content Include="Content\Admin\css\_all-skins.min.css" />
-    <Content Include="Content\Admin\images\bullet_stop.png" />
-    <Content Include="Content\Admin\images\bullet_tick.png" />
+    <Content Include="Content\Admin\images\logoDT.gif" />
     <Content Include="Content\Admin\js\app.min.js" />
     <Content Include="Content\Admin\js\custom.js" />
     <Content Include="Content\Admin\js\jquery.Jcrop.js" />
@@ -1480,24 +1476,14 @@
     <Content Include="Views\AdminArticle\ArticelInCategory.cshtml" />
     <Content Include="Views\AdminArticle\Create.cshtml" />
     <Content Include="Views\AdminArticle\Edit.cshtml" />
-    <Content Include="Views\AdminRole\Index.cshtml" />
-    <Content Include="Views\AdminRole\Create.cshtml" />
-    <Content Include="Views\AdminRole\Edit.cshtml" />
-    <Content Include="Views\AdminRole\Delete.cshtml" />
-    <Content Include="Views\AdminRole\Permissions.cshtml" />
-    <Content Include="Views\Admin\Login.cshtml" />
-    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
-    <Content Include="Views\AdminLanguage\Index.cshtml" />
-    <Content Include="Views\AdminLanguage\Create.cshtml" />
-    <Content Include="Views\AdminLanguage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminCustomer\" />
     <Folder Include="Views\AdminHotel\" />
     <Folder Include="Views\AdminMedia\" />
+    <Folder Include="Views\AdminRole\" />
     <Folder Include="Views\AdminRoom\" />
-    <Folder Include="Views\Language\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

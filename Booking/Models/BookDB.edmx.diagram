@@ -13,14 +13,12 @@
         <EntityTypeShape EntityType="DB_BOOKINGModel.CUSTOMER" Width="1.5" PointX="8" PointY="6.375" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.HITCOUTER" Width="1.5" PointX="12.75" PointY="0.75" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.HOTEL" Width="1.5" PointX="5.75" PointY="9" />
-        <EntityTypeShape EntityType="DB_BOOKINGModel.LANGUAGE" Width="1.5" PointX="0.75" PointY="7.375" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.Medium" Width="1.5" PointX="7.75" PointY="13.75" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.MEMBER" Width="1.5" PointX="10.25" PointY="6.625" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.ROLE" Width="1.5" PointX="13" PointY="7.375" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.ROOM" Width="1.5" PointX="8" PointY="1" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.ROOM_TYPE" Width="1.5" PointX="5.75" PointY="2.125" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.sysdiagram" Width="1.5" PointX="14.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION" Width="1.5" PointX="3" PointY="1.5" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_ARTICLE" Width="1.5" PointX="3" PointY="14.25" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_CATEGORY" Width="1.5" PointX="3" PointY="6.625" />
         <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION_CUSTOMER" Width="1.5" PointX="3" PointY="4.125" />
@@ -32,14 +30,16 @@
         <AssociationConnector Association="DB_BOOKINGModel.FK_BOOKING_ROOM_ROOM" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_MEMBER_CUSTOMER" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_ROOM_HOTEL" />
+        <AssociationConnector Association="DB_BOOKINGModel.FK_ROOM_ROOM_TYPE" />
+        <AssociationConnector Association="DB_BOOKINGModel.ROLE_CATEGORY" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.LANGUAGE" Width="1.5" PointX="0.75" PointY="8.5" />
+        <EntityTypeShape EntityType="DB_BOOKINGModel.TRANSLATION" Width="1.5" PointX="3" PointY="17.25" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_ARTICLE_LANGUAGE" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_CATEGORY_LANGUAGE" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_CUSTOMER_LANGUAGE" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_HOTEL_LANGUAGE" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_LANGUAGE" />
         <AssociationConnector Association="DB_BOOKINGModel.FK_TRANSLATION_ROOM_LANGUAGE" />
-        <AssociationConnector Association="DB_BOOKINGModel.FK_ROOM_ROOM_TYPE" />
-        <AssociationConnector Association="DB_BOOKINGModel.ROLE_CATEGORY" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

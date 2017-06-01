@@ -162,6 +162,7 @@
           <Property Name="LANGUAGE_NAME" Type="nvarchar" MaxLength="200" />
           <Property Name="LANGUAGE_CODE" Type="nvarchar" MaxLength="50" />
           <Property Name="LANGUAGE_IS_PRIMARY" Type="bit" />
+          <Property Name="LANGUAGE_ACTIVE" Type="bit" />
         </EntityType>
         <EntityType Name="MEDIA">
           <Key>
@@ -248,6 +249,7 @@
         <EntityType Name="TRANSLATION">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="LANGUAGE_ID" />
           </Key>
           <Property Name="ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="LANGUAGE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
@@ -636,14 +638,12 @@
           <EntitySet Name="CUSTOMERs" EntityType="DB_BOOKINGModel.CUSTOMER" />
           <EntitySet Name="HITCOUTERs" EntityType="DB_BOOKINGModel.HITCOUTER" />
           <EntitySet Name="HOTELs" EntityType="DB_BOOKINGModel.HOTEL" />
-          <EntitySet Name="LANGUAGEs" EntityType="DB_BOOKINGModel.LANGUAGE" />
           <EntitySet Name="MEDIA" EntityType="DB_BOOKINGModel.Medium" />
           <EntitySet Name="MEMBERs" EntityType="DB_BOOKINGModel.MEMBER" />
           <EntitySet Name="ROLEs" EntityType="DB_BOOKINGModel.ROLE" />
           <EntitySet Name="ROOMs" EntityType="DB_BOOKINGModel.ROOM" />
           <EntitySet Name="ROOM_TYPE" EntityType="DB_BOOKINGModel.ROOM_TYPE" />
           <EntitySet Name="sysdiagrams" EntityType="DB_BOOKINGModel.sysdiagram" />
-          <EntitySet Name="TRANSLATIONs" EntityType="DB_BOOKINGModel.TRANSLATION" />
           <EntitySet Name="TRANSLATION_ARTICLE" EntityType="DB_BOOKINGModel.TRANSLATION_ARTICLE" />
           <EntitySet Name="TRANSLATION_CATEGORY" EntityType="DB_BOOKINGModel.TRANSLATION_CATEGORY" />
           <EntitySet Name="TRANSLATION_CUSTOMER" EntityType="DB_BOOKINGModel.TRANSLATION_CUSTOMER" />
@@ -673,6 +673,16 @@
             <End Role="HOTEL" EntitySet="HOTELs" />
             <End Role="ROOM" EntitySet="ROOMs" />
           </AssociationSet>
+          <AssociationSet Name="FK_ROOM_ROOM_TYPE" Association="DB_BOOKINGModel.FK_ROOM_ROOM_TYPE">
+            <End Role="ROOM_TYPE" EntitySet="ROOM_TYPE" />
+            <End Role="ROOM" EntitySet="ROOMs" />
+          </AssociationSet>
+          <AssociationSet Name="ROLE_CATEGORY" Association="DB_BOOKINGModel.ROLE_CATEGORY">
+            <End Role="CATEGORY" EntitySet="CATEGORies" />
+            <End Role="ROLE" EntitySet="ROLEs" />
+          </AssociationSet>
+          <EntitySet Name="LANGUAGEs" EntityType="DB_BOOKINGModel.LANGUAGE" />
+          <EntitySet Name="TRANSLATIONs" EntityType="DB_BOOKINGModel.TRANSLATION" />
           <AssociationSet Name="FK_TRANSLATION_ARTICLE_LANGUAGE" Association="DB_BOOKINGModel.FK_TRANSLATION_ARTICLE_LANGUAGE">
             <End Role="LANGUAGE" EntitySet="LANGUAGEs" />
             <End Role="TRANSLATION_ARTICLE" EntitySet="TRANSLATION_ARTICLE" />
@@ -696,14 +706,6 @@
           <AssociationSet Name="FK_TRANSLATION_ROOM_LANGUAGE" Association="DB_BOOKINGModel.FK_TRANSLATION_ROOM_LANGUAGE">
             <End Role="LANGUAGE" EntitySet="LANGUAGEs" />
             <End Role="TRANSLATION_ROOM" EntitySet="TRANSLATION_ROOM" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ROOM_ROOM_TYPE" Association="DB_BOOKINGModel.FK_ROOM_ROOM_TYPE">
-            <End Role="ROOM_TYPE" EntitySet="ROOM_TYPE" />
-            <End Role="ROOM" EntitySet="ROOMs" />
-          </AssociationSet>
-          <AssociationSet Name="ROLE_CATEGORY" Association="DB_BOOKINGModel.ROLE_CATEGORY">
-            <End Role="CATEGORY" EntitySet="CATEGORies" />
-            <End Role="ROLE" EntitySet="ROLEs" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -875,21 +877,6 @@
           <Property Name="HOTEL_ALIAS" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ROOMs" Relationship="DB_BOOKINGModel.FK_ROOM_HOTEL" FromRole="HOTEL" ToRole="ROOM" />
         </EntityType>
-        <EntityType Name="LANGUAGE">
-          <Key>
-            <PropertyRef Name="LANGUAGE_ID" />
-          </Key>
-          <Property Name="LANGUAGE_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="LANGUAGE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LANGUAGE_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LANGUAGE_IS_PRIMARY" Type="Boolean" />
-          <NavigationProperty Name="TRANSLATION_ARTICLE" Relationship="DB_BOOKINGModel.FK_TRANSLATION_ARTICLE_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_ARTICLE" />
-          <NavigationProperty Name="TRANSLATION_CATEGORY" Relationship="DB_BOOKINGModel.FK_TRANSLATION_CATEGORY_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_CATEGORY" />
-          <NavigationProperty Name="TRANSLATION_CUSTOMER" Relationship="DB_BOOKINGModel.FK_TRANSLATION_CUSTOMER_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_CUSTOMER" />
-          <NavigationProperty Name="TRANSLATION_HOTEL" Relationship="DB_BOOKINGModel.FK_TRANSLATION_HOTEL_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_HOTEL" />
-          <NavigationProperty Name="TRANSLATIONs" Relationship="DB_BOOKINGModel.FK_TRANSLATION_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION" />
-          <NavigationProperty Name="TRANSLATION_ROOM" Relationship="DB_BOOKINGModel.FK_TRANSLATION_ROOM_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_ROOM" />
-        </EntityType>
         <EntityType Name="Medium">
           <Key>
             <PropertyRef Name="MEDIA_ID" />
@@ -970,15 +957,6 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TRANSLATION">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="LANGUAGE_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="TEXT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LANGUAGE" Relationship="DB_BOOKINGModel.FK_TRANSLATION_LANGUAGE" FromRole="TRANSLATION" ToRole="LANGUAGE" />
         </EntityType>
         <EntityType Name="TRANSLATION_ARTICLE">
           <Key>
@@ -1102,6 +1080,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ROOM_ROOM_TYPE">
+          <End Type="DB_BOOKINGModel.ROOM_TYPE" Role="ROOM_TYPE" Multiplicity="0..1" />
+          <End Type="DB_BOOKINGModel.ROOM" Role="ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOM_TYPE">
+              <PropertyRef Name="ROOM_TYPE_ID" />
+            </Principal>
+            <Dependent Role="ROOM">
+              <PropertyRef Name="ROOM_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ROLE_CATEGORY">
+          <End Type="DB_BOOKINGModel.CATEGORY" Role="CATEGORY" Multiplicity="*" />
+          <End Type="DB_BOOKINGModel.ROLE" Role="ROLE" Multiplicity="*" />
+        </Association>
+        <EntityType Name="LANGUAGE">
+          <Key>
+            <PropertyRef Name="LANGUAGE_ID" />
+          </Key>
+          <Property Name="LANGUAGE_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LANGUAGE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LANGUAGE_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LANGUAGE_IS_PRIMARY" Type="Boolean" />
+          <Property Name="LANGUAGE_ACTIVE" Type="Boolean" />
+          <NavigationProperty Name="TRANSLATION_ARTICLE" Relationship="DB_BOOKINGModel.FK_TRANSLATION_ARTICLE_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_ARTICLE" />
+          <NavigationProperty Name="TRANSLATION_CATEGORY" Relationship="DB_BOOKINGModel.FK_TRANSLATION_CATEGORY_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_CATEGORY" />
+          <NavigationProperty Name="TRANSLATION_CUSTOMER" Relationship="DB_BOOKINGModel.FK_TRANSLATION_CUSTOMER_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_CUSTOMER" />
+          <NavigationProperty Name="TRANSLATION_HOTEL" Relationship="DB_BOOKINGModel.FK_TRANSLATION_HOTEL_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_HOTEL" />
+          <NavigationProperty Name="TRANSLATIONs" Relationship="DB_BOOKINGModel.FK_TRANSLATION_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION" />
+          <NavigationProperty Name="TRANSLATION_ROOM" Relationship="DB_BOOKINGModel.FK_TRANSLATION_ROOM_LANGUAGE" FromRole="LANGUAGE" ToRole="TRANSLATION_ROOM" />
+        </EntityType>
+        <EntityType Name="TRANSLATION">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LANGUAGE_ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LANGUAGE_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TEXT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LANGUAGE" Relationship="DB_BOOKINGModel.FK_TRANSLATION_LANGUAGE" FromRole="TRANSLATION" ToRole="LANGUAGE" />
+        </EntityType>
         <Association Name="FK_TRANSLATION_ARTICLE_LANGUAGE">
           <End Type="DB_BOOKINGModel.LANGUAGE" Role="LANGUAGE" Multiplicity="1" />
           <End Type="DB_BOOKINGModel.TRANSLATION_ARTICLE" Role="TRANSLATION_ARTICLE" Multiplicity="*" />
@@ -1173,22 +1193,6 @@
               <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ROOM_ROOM_TYPE">
-          <End Type="DB_BOOKINGModel.ROOM_TYPE" Role="ROOM_TYPE" Multiplicity="0..1" />
-          <End Type="DB_BOOKINGModel.ROOM" Role="ROOM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ROOM_TYPE">
-              <PropertyRef Name="ROOM_TYPE_ID" />
-            </Principal>
-            <Dependent Role="ROOM">
-              <PropertyRef Name="ROOM_TYPE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ROLE_CATEGORY">
-          <End Type="DB_BOOKINGModel.CATEGORY" Role="CATEGORY" Multiplicity="*" />
-          <End Type="DB_BOOKINGModel.ROLE" Role="ROLE" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1375,16 +1379,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LANGUAGEs">
-            <EntityTypeMapping TypeName="DB_BOOKINGModel.LANGUAGE">
-              <MappingFragment StoreEntitySet="LANGUAGE">
-                <ScalarProperty Name="LANGUAGE_IS_PRIMARY" ColumnName="LANGUAGE_IS_PRIMARY" />
-                <ScalarProperty Name="LANGUAGE_CODE" ColumnName="LANGUAGE_CODE" />
-                <ScalarProperty Name="LANGUAGE_NAME" ColumnName="LANGUAGE_NAME" />
-                <ScalarProperty Name="LANGUAGE_ID" ColumnName="LANGUAGE_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MEDIA">
             <EntityTypeMapping TypeName="DB_BOOKINGModel.Medium">
               <MappingFragment StoreEntitySet="MEDIA">
@@ -1465,15 +1459,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TRANSLATIONs">
-            <EntityTypeMapping TypeName="DB_BOOKINGModel.TRANSLATION">
-              <MappingFragment StoreEntitySet="TRANSLATION">
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-                <ScalarProperty Name="LANGUAGE_ID" ColumnName="LANGUAGE_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TRANSLATION_ARTICLE">
             <EntityTypeMapping TypeName="DB_BOOKINGModel.TRANSLATION_ARTICLE">
               <MappingFragment StoreEntitySet="TRANSLATION_ARTICLE">
@@ -1527,6 +1512,26 @@
               <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="LANGUAGEs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.LANGUAGE">
+              <MappingFragment StoreEntitySet="LANGUAGE">
+                <ScalarProperty Name="LANGUAGE_ACTIVE" ColumnName="LANGUAGE_ACTIVE" />
+                <ScalarProperty Name="LANGUAGE_IS_PRIMARY" ColumnName="LANGUAGE_IS_PRIMARY" />
+                <ScalarProperty Name="LANGUAGE_CODE" ColumnName="LANGUAGE_CODE" />
+                <ScalarProperty Name="LANGUAGE_NAME" ColumnName="LANGUAGE_NAME" />
+                <ScalarProperty Name="LANGUAGE_ID" ColumnName="LANGUAGE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRANSLATIONs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.TRANSLATION">
+              <MappingFragment StoreEntitySet="TRANSLATION">
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+                <ScalarProperty Name="LANGUAGE_ID" ColumnName="LANGUAGE_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

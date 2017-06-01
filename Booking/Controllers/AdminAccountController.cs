@@ -112,12 +112,13 @@ namespace Booking.Controllers
                     user.USER_PASSWORD = ps;
                     if (user.ROLE_ID == 1)
                     {
-                        user.USER_VALID_ADMIN = Security.EncryptMd5(user.USER_IS_ADMIN + "&" + user.USER_ID).ToLower();
                         user.USER_IS_ADMIN = true;
+                        user.USER_VALID_ADMIN = Security.EncryptMd5(user.USER_IS_ADMIN + "&" + user.USER_ID).ToLower();                        
                     }
                     else
                     {
                         user.USER_IS_ADMIN = false;
+                        user.USER_VALID_ADMIN = Security.EncryptMd5(user.USER_IS_ADMIN + "&" + user.USER_ID).ToLower();
                     }
                     user.USER_CREATEBY = UserManager.GetUserId;
                     user.USER_CREATEDATE = DateTime.Now;

@@ -28,6 +28,7 @@ namespace Booking.Models
         public string LANGUAGE_NAME { get; set; }
         public string LANGUAGE_CODE { get; set; }
         public Nullable<bool> LANGUAGE_IS_PRIMARY { get; set; }
+        public Nullable<bool> LANGUAGE_ACTIVE { get; set; }
     
         public virtual ICollection<TRANSLATION_ARTICLE> TRANSLATION_ARTICLE { get; set; }
         public virtual ICollection<TRANSLATION_CATEGORY> TRANSLATION_CATEGORY { get; set; }

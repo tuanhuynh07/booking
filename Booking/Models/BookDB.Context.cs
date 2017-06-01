@@ -38,6 +38,7 @@ namespace Booking.Models
         public virtual DbSet<LANGUAGE> LANGUAGEs { get; set; }
         public virtual DbSet<Medium> MEDIA { get; set; }
         public virtual DbSet<MEMBER> MEMBERs { get; set; }
+        public virtual DbSet<PACKAGE_ROOM> PACKAGE_ROOM { get; set; }
         public virtual DbSet<ROLE> ROLEs { get; set; }
         public virtual DbSet<ROOM> ROOMs { get; set; }
         public virtual DbSet<ROOM_TYPE> ROOM_TYPE { get; set; }

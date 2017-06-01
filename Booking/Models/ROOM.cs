@@ -30,10 +30,10 @@ namespace Booking.Models
         public string ROOM_IMAGE { get; set; }
         public Nullable<bool> ROOM_STATUS { get; set; }
         public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
+        public string ROOM_PRICE_SELL { get; set; }
     
         public virtual ICollection<BOOKING_ROOM> BOOKING_ROOM { get; set; }
         public virtual HOTEL HOTEL { get; set; }
         public virtual ROOM_TYPE ROOM_TYPE { get; set; }
-        public virtual TRANSLATION_ROOM TRANSLATION_ROOM { get; set; }
     }
 }

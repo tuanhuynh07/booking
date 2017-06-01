@@ -14,16 +14,10 @@ namespace Booking.Models
     
     public partial class TRANSLATION_CATEGORY
     {
-        public TRANSLATION_CATEGORY()
-        {
-            this.CATEGORies = new HashSet<CATEGORY>();
-        }
-    
         public decimal ID { get; set; }
         public decimal LANGUAGE_ID { get; set; }
         public string TEXT { get; set; }
     
-        public virtual ICollection<CATEGORY> CATEGORies { get; set; }
         public virtual LANGUAGE LANGUAGE { get; set; }
     }
 }

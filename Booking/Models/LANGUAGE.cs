@@ -21,17 +21,20 @@ namespace Booking.Models
             this.TRANSLATION_CUSTOMER = new HashSet<TRANSLATION_CUSTOMER>();
             this.TRANSLATION_HOTEL = new HashSet<TRANSLATION_HOTEL>();
             this.TRANSLATIONs = new HashSet<TRANSLATION>();
+            this.TRANSLATION_ROOM = new HashSet<TRANSLATION_ROOM>();
         }
     
         public decimal LANGUAGE_ID { get; set; }
         public string LANGUAGE_NAME { get; set; }
         public string LANGUAGE_CODE { get; set; }
+        public Nullable<bool> LANGUAGE_IS_PRIMARY { get; set; }
+        public Nullable<bool> LANGUAGE_ACTIVE { get; set; }
     
         public virtual ICollection<TRANSLATION_ARTICLE> TRANSLATION_ARTICLE { get; set; }
         public virtual ICollection<TRANSLATION_CATEGORY> TRANSLATION_CATEGORY { get; set; }
         public virtual ICollection<TRANSLATION_CUSTOMER> TRANSLATION_CUSTOMER { get; set; }
         public virtual ICollection<TRANSLATION_HOTEL> TRANSLATION_HOTEL { get; set; }
         public virtual ICollection<TRANSLATION> TRANSLATIONs { get; set; }
-        public virtual TRANSLATION_ROOM TRANSLATION_ROOM { get; set; }
+        public virtual ICollection<TRANSLATION_ROOM> TRANSLATION_ROOM { get; set; }
     }
 }

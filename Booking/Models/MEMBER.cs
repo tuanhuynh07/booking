@@ -18,6 +18,9 @@ namespace Booking.Models
         public string MEMBER_PASSWORD { get; set; }
         public Nullable<System.DateTime> MEMBER_CREATEDATE { get; set; }
         public Nullable<decimal> CUSTOMER_ID { get; set; }
+        public string LAST_NAME { get; set; }
+        public string FIRST_NAME { get; set; }
+        public string EMAIL { get; set; }
         public Nullable<int> NUMBER_BOOK { get; set; }
         public decimal MEMBER_ID { get; set; }
         public Nullable<System.DateTime> LAST_DATE_VISIT { get; set; }

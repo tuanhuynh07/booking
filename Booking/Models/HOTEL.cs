@@ -43,9 +43,5 @@ namespace Booking.Models
         public string HOTEL_ALIAS { get; set; }
     
         public virtual ICollection<ROOM> ROOMs { get; set; }
-        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL { get; set; }
-        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL1 { get; set; }
-        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL2 { get; set; }
-        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL3 { get; set; }
     }
 }

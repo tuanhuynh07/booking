@@ -37,6 +37,5 @@ namespace Booking.Models
     
         public virtual ICollection<ARTICLE> ARTICLEs { get; set; }
         public virtual ICollection<ROLE> ROLEs { get; set; }
-        public virtual TRANSLATION_CATEGORY TRANSLATION_CATEGORY { get; set; }
     }
 }

@@ -14,22 +14,10 @@ namespace Booking.Models
     
     public partial class TRANSLATION_HOTEL
     {
-        public TRANSLATION_HOTEL()
-        {
-            this.HOTELs = new HashSet<HOTEL>();
-            this.HOTELs1 = new HashSet<HOTEL>();
-            this.HOTELs2 = new HashSet<HOTEL>();
-            this.HOTELs3 = new HashSet<HOTEL>();
-        }
-    
         public decimal ID { get; set; }
         public decimal LANGUAGE_ID { get; set; }
         public string TEXT { get; set; }
     
-        public virtual ICollection<HOTEL> HOTELs { get; set; }
-        public virtual ICollection<HOTEL> HOTELs1 { get; set; }
-        public virtual ICollection<HOTEL> HOTELs2 { get; set; }
-        public virtual ICollection<HOTEL> HOTELs3 { get; set; }
         public virtual LANGUAGE LANGUAGE { get; set; }
     }
 }

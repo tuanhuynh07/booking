@@ -60,15 +60,44 @@
         </EntityType>
         <EntityType Name="BOOKING_ROOM">
           <Key>
-            <PropertyRef Name="CUSTOMER_ID" />
-            <PropertyRef Name="ROOM_ID" />
-            <PropertyRef Name="DATE_BEGIN" />
+            <PropertyRef Name="BOOKING_CODE" />
           </Key>
+          <Property Name="BOOKING_CODE" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CUSTOMER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="ROOM_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CUSTOMER_FULLNAME" Type="nvarchar" MaxLength="200" />
           <Property Name="DATE_BEGIN" Type="datetime" Nullable="false" />
           <Property Name="DATE_FINISH" Type="datetime" />
+          <Property Name="NUMBER_ROOM" Type="smallint" />
           <Property Name="NUMBER_NIGHT" Type="smallint" />
+          <Property Name="DATE_BOOKING" Type="datetime" />
+          <Property Name="PAY_STATUS" Type="bit" />
+          <Property Name="PAY_STATUS_SCRIPT" Type="nvarchar" MaxLength="50" />
+          <Property Name="PAY_TYPE" Type="nvarchar" MaxLength="100" />
+          <Property Name="PAY_INFORMATION" Type="nvarchar" MaxLength="500" />
+          <Property Name="PAY_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="PAY_DATE" Type="datetime" />
+          <Property Name="PAY_LIMIT" Type="datetime" />
+          <Property Name="CANCEL_BOOKING" Type="bit" />
+          <Property Name="CANCEL_BOOKING_SCRIPT" Type="nvarchar" MaxLength="50" />
+          <Property Name="CANCEL_BOOKING_DATE" Type="datetime" />
+          <Property Name="CANCEL_BOOKING_PERSON" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="BOOKING_ROOM_DETAIL">
+          <Key>
+            <PropertyRef Name="BOOKING_CODE" />
+            <PropertyRef Name="ROOM_ID" />
+          </Key>
+          <Property Name="BOOKING_CODE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ROOM_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ROOM_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ROOM_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="DATE_BEGIN" Type="datetime" />
+          <Property Name="DATE_FINISH" Type="datetime" />
+          <Property Name="NUMBER_NIGHT" Type="smallint" />
+          <Property Name="HOTEL_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="HOTEL_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="CUSTOMER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CUSTOMER_FULLNAME" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="CATEGORY">
           <Key>
@@ -94,11 +123,13 @@
             <PropertyRef Name="COMMENT_ID" />
           </Key>
           <Property Name="COMMENT_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="FROM_ID" Type="numeric" Precision="18" Scale="0" />
-          <Property Name="TO_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CUSTOMER_FULLNAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="FROM_ID_CUSTOMER" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TO_ID_HOTEL" Type="numeric" Precision="18" Scale="0" />
           <Property Name="MESSEGER" Type="nvarchar" MaxLength="2000" />
           <Property Name="CREATE_DATE" Type="datetime" />
           <Property Name="COMMENT_DISABLE" Type="bit" />
+          <Property Name="NUMBER_RATING" Type="int" />
         </EntityType>
         <EntityType Name="CUSTOMER">
           <Key>
@@ -109,6 +140,13 @@
           <Property Name="FIRST_NAME" Type="nvarchar" MaxLength="200" />
           <Property Name="EMAIL" Type="nvarchar" MaxLength="200" />
           <Property Name="PHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="PEOPLE_ID_NUMBER" Type="nvarchar" MaxLength="50" />
+          <Property Name="PEOPLE_ID_ISSUE_DATE" Type="datetime" />
+          <Property Name="PEOPLE_ID_ISSUE_PLACE" Type="nvarchar" MaxLength="50" />
+          <Property Name="PASSPORT_NUMBER" Type="nvarchar" MaxLength="40" />
+          <Property Name="PASSPORT_ISSUE_PLACE" Type="nvarchar" MaxLength="60" />
+          <Property Name="PASSPORT_ISSUE_DATE" Type="datetime" />
+          <Property Name="PASSPORT_EXPIRATION_DATE" Type="datetime" />
           <Property Name="ADDRESS" Type="nvarchar" MaxLength="1000" />
           <Property Name="CREATE_DATE" Type="datetime" />
           <Property Name="IS_MEMBER" Type="bit" />
@@ -190,9 +228,29 @@
           <Property Name="MEMBER_PASSWORD" Type="nvarchar" MaxLength="50" />
           <Property Name="MEMBER_CREATEDATE" Type="datetime" />
           <Property Name="CUSTOMER_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LAST_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="FIRST_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="200" />
           <Property Name="NUMBER_BOOK" Type="int" />
           <Property Name="MEMBER_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="LAST_DATE_VISIT" Type="datetime" />
+          <Property Name="MEMBER_ACTIVE" Type="bit" />
+        </EntityType>
+        <EntityType Name="PACKAGE_ROOM">
+          <Key>
+            <PropertyRef Name="PACKAGE_ID" />
+          </Key>
+          <Property Name="PACKAGE_ID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PACKAGE_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="PACKAGE_BRIEF" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PACKAGE_CONTENT" Type="nvarchar(max)" />
+          <Property Name="PACKAGE_START_DATE" Type="datetime" />
+          <Property Name="PACKAGE_END_DATE" Type="datetime" />
+          <Property Name="HOTEL_NAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="STORAGE_DATE" Type="nvarchar" MaxLength="200" />
+          <Property Name="STORAGE_PRICE" Type="nvarchar" MaxLength="50" />
+          <Property Name="STORAGE_PRICE_SELL" Type="nvarchar" MaxLength="50" />
+          <Property Name="NUMBER_ROOM" Type="int" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -228,6 +286,7 @@
           <Property Name="ROOM_IMAGE" Type="nvarchar" MaxLength="1000" />
           <Property Name="ROOM_STATUS" Type="bit" />
           <Property Name="NAME_TRANSLATION_ID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ROOM_PRICE_SELL" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ROOM_TYPE">
           <Key>
@@ -336,14 +395,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BOOKING_ROOM_ROOM">
+        <Association Name="FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM">
+          <End Role="BOOKING_ROOM" Type="Self.BOOKING_ROOM" Multiplicity="1" />
+          <End Role="BOOKING_ROOM_DETAIL" Type="Self.BOOKING_ROOM_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKING_ROOM">
+              <PropertyRef Name="BOOKING_CODE" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM_DETAIL">
+              <PropertyRef Name="BOOKING_CODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_ROOM_DETAIL_ROOM">
           <End Role="ROOM" Type="Self.ROOM" Multiplicity="1" />
-          <End Role="BOOKING_ROOM" Type="Self.BOOKING_ROOM" Multiplicity="*" />
+          <End Role="BOOKING_ROOM_DETAIL" Type="Self.BOOKING_ROOM_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ROOM">
               <PropertyRef Name="ROOM_ID" />
             </Principal>
-            <Dependent Role="BOOKING_ROOM">
+            <Dependent Role="BOOKING_ROOM_DETAIL">
               <PropertyRef Name="ROOM_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -515,6 +586,7 @@
           <EntitySet Name="ACCOUNT" EntityType="Self.ACCOUNT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ARTICLE" EntityType="Self.ARTICLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BOOKING_ROOM" EntityType="Self.BOOKING_ROOM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKING_ROOM_DETAIL" EntityType="Self.BOOKING_ROOM_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMMENT" EntityType="Self.COMMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CUSTOMER" EntityType="Self.CUSTOMER" Schema="dbo" store:Type="Tables" />
@@ -523,6 +595,7 @@
           <EntitySet Name="LANGUAGE" EntityType="Self.LANGUAGE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEDIA" EntityType="Self.MEDIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACKAGE_ROOM" EntityType="Self.PACKAGE_ROOM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROLE-CATEGORY" EntityType="Self.ROLE-CATEGORY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROOM" EntityType="Self.ROOM" Schema="dbo" store:Type="Tables" />
@@ -546,9 +619,13 @@
             <End Role="CUSTOMER" EntitySet="CUSTOMER" />
             <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
           </AssociationSet>
-          <AssociationSet Name="FK_BOOKING_ROOM_ROOM" Association="Self.FK_BOOKING_ROOM_ROOM">
-            <End Role="ROOM" EntitySet="ROOM" />
+          <AssociationSet Name="FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM" Association="Self.FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM">
             <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+            <End Role="BOOKING_ROOM_DETAIL" EntitySet="BOOKING_ROOM_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_ROOM_DETAIL_ROOM" Association="Self.FK_BOOKING_ROOM_DETAIL_ROOM">
+            <End Role="ROOM" EntitySet="ROOM" />
+            <End Role="BOOKING_ROOM_DETAIL" EntitySet="BOOKING_ROOM_DETAIL" />
           </AssociationSet>
           <AssociationSet Name="FK_MEMBER_CUSTOMER" Association="Self.FK_MEMBER_CUSTOMER">
             <End Role="CUSTOMER" EntitySet="CUSTOMER" />
@@ -632,14 +709,10 @@
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="ACCOUNTs" EntityType="DB_BOOKINGModel.ACCOUNT" />
           <EntitySet Name="ARTICLEs" EntityType="DB_BOOKINGModel.ARTICLE" />
-          <EntitySet Name="BOOKING_ROOM" EntityType="DB_BOOKINGModel.BOOKING_ROOM" />
           <EntitySet Name="CATEGORies" EntityType="DB_BOOKINGModel.CATEGORY" />
-          <EntitySet Name="COMMENTs" EntityType="DB_BOOKINGModel.COMMENT" />
-          <EntitySet Name="CUSTOMERs" EntityType="DB_BOOKINGModel.CUSTOMER" />
           <EntitySet Name="HITCOUTERs" EntityType="DB_BOOKINGModel.HITCOUTER" />
           <EntitySet Name="HOTELs" EntityType="DB_BOOKINGModel.HOTEL" />
           <EntitySet Name="MEDIA" EntityType="DB_BOOKINGModel.Medium" />
-          <EntitySet Name="MEMBERs" EntityType="DB_BOOKINGModel.MEMBER" />
           <EntitySet Name="ROLEs" EntityType="DB_BOOKINGModel.ROLE" />
           <EntitySet Name="ROOMs" EntityType="DB_BOOKINGModel.ROOM" />
           <EntitySet Name="ROOM_TYPE" EntityType="DB_BOOKINGModel.ROOM_TYPE" />
@@ -656,18 +729,6 @@
           <AssociationSet Name="FK_ARTICLE_CATEGORY" Association="DB_BOOKINGModel.FK_ARTICLE_CATEGORY">
             <End Role="CATEGORY" EntitySet="CATEGORies" />
             <End Role="ARTICLE" EntitySet="ARTICLEs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BOOKING_ROOM_CUSTOMER" Association="DB_BOOKINGModel.FK_BOOKING_ROOM_CUSTOMER">
-            <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
-            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BOOKING_ROOM_ROOM" Association="DB_BOOKINGModel.FK_BOOKING_ROOM_ROOM">
-            <End Role="ROOM" EntitySet="ROOMs" />
-            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MEMBER_CUSTOMER" Association="DB_BOOKINGModel.FK_MEMBER_CUSTOMER">
-            <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
-            <End Role="MEMBER" EntitySet="MEMBERs" />
           </AssociationSet>
           <AssociationSet Name="FK_ROOM_HOTEL" Association="DB_BOOKINGModel.FK_ROOM_HOTEL">
             <End Role="HOTEL" EntitySet="HOTELs" />
@@ -706,6 +767,28 @@
           <AssociationSet Name="FK_TRANSLATION_ROOM_LANGUAGE" Association="DB_BOOKINGModel.FK_TRANSLATION_ROOM_LANGUAGE">
             <End Role="LANGUAGE" EntitySet="LANGUAGEs" />
             <End Role="TRANSLATION_ROOM" EntitySet="TRANSLATION_ROOM" />
+          </AssociationSet>
+          <EntitySet Name="PACKAGE_ROOM" EntityType="DB_BOOKINGModel.PACKAGE_ROOM" />
+          <EntitySet Name="CUSTOMERs" EntityType="DB_BOOKINGModel.CUSTOMER" />
+          <EntitySet Name="BOOKING_ROOM_DETAIL" EntityType="DB_BOOKINGModel.BOOKING_ROOM_DETAIL" />
+          <AssociationSet Name="FK_BOOKING_ROOM_DETAIL_ROOM" Association="DB_BOOKINGModel.FK_BOOKING_ROOM_DETAIL_ROOM">
+            <End Role="ROOM" EntitySet="ROOMs" />
+            <End Role="BOOKING_ROOM_DETAIL" EntitySet="BOOKING_ROOM_DETAIL" />
+          </AssociationSet>
+          <EntitySet Name="BOOKING_ROOM" EntityType="DB_BOOKINGModel.BOOKING_ROOM" />
+          <EntitySet Name="COMMENTs" EntityType="DB_BOOKINGModel.COMMENT" />
+          <EntitySet Name="MEMBERs" EntityType="DB_BOOKINGModel.MEMBER" />
+          <AssociationSet Name="FK_BOOKING_ROOM_CUSTOMER" Association="DB_BOOKINGModel.FK_BOOKING_ROOM_CUSTOMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM" Association="DB_BOOKINGModel.FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM">
+            <End Role="BOOKING_ROOM" EntitySet="BOOKING_ROOM" />
+            <End Role="BOOKING_ROOM_DETAIL" EntitySet="BOOKING_ROOM_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEMBER_CUSTOMER" Association="DB_BOOKINGModel.FK_MEMBER_CUSTOMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+            <End Role="MEMBER" EntitySet="MEMBERs" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -774,20 +857,6 @@
           <Property Name="NAME_TRANSLATION_ID" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="CATEGORY" Relationship="DB_BOOKINGModel.FK_ARTICLE_CATEGORY" FromRole="ARTICLE" ToRole="CATEGORY" />
         </EntityType>
-        <EntityType Name="BOOKING_ROOM">
-          <Key>
-            <PropertyRef Name="CUSTOMER_ID" />
-            <PropertyRef Name="ROOM_ID" />
-            <PropertyRef Name="DATE_BEGIN" />
-          </Key>
-          <Property Name="CUSTOMER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="ROOM_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="DATE_BEGIN" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATE_FINISH" Type="DateTime" Precision="3" />
-          <Property Name="NUMBER_NIGHT" Type="Int16" />
-          <NavigationProperty Name="CUSTOMER" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_CUSTOMER" FromRole="BOOKING_ROOM" ToRole="CUSTOMER" />
-          <NavigationProperty Name="ROOM" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_ROOM" FromRole="BOOKING_ROOM" ToRole="ROOM" />
-        </EntityType>
         <EntityType Name="CATEGORY">
           <Key>
             <PropertyRef Name="CATEGORY_ID" />
@@ -808,32 +877,6 @@
           <Property Name="NAME_TRANSLATION_ID" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="ARTICLEs" Relationship="DB_BOOKINGModel.FK_ARTICLE_CATEGORY" FromRole="CATEGORY" ToRole="ARTICLE" />
           <NavigationProperty Name="ROLEs" Relationship="DB_BOOKINGModel.ROLE_CATEGORY" FromRole="CATEGORY" ToRole="ROLE" />
-        </EntityType>
-        <EntityType Name="COMMENT">
-          <Key>
-            <PropertyRef Name="COMMENT_ID" />
-          </Key>
-          <Property Name="COMMENT_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="FROM_ID" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TO_ID" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="MESSEGER" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
-          <Property Name="COMMENT_DISABLE" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="CUSTOMER">
-          <Key>
-            <PropertyRef Name="CUSTOMER_ID" />
-          </Key>
-          <Property Name="CUSTOMER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="LAST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FIRST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EMAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
-          <Property Name="IS_MEMBER" Type="Boolean" />
-          <NavigationProperty Name="BOOKING_ROOM" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_CUSTOMER" FromRole="CUSTOMER" ToRole="BOOKING_ROOM" />
-          <NavigationProperty Name="MEMBERs" Relationship="DB_BOOKINGModel.FK_MEMBER_CUSTOMER" FromRole="CUSTOMER" ToRole="MEMBER" />
         </EntityType>
         <EntityType Name="HITCOUTER">
           <Key>
@@ -895,19 +938,6 @@
           <Property Name="CATEGORY_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CATEGORY_ALIAS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="MEMBER">
-          <Key>
-            <PropertyRef Name="MEMBER_ID" />
-          </Key>
-          <Property Name="MEMBER_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="MEMBER_PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MEMBER_CREATEDATE" Type="DateTime" Precision="3" />
-          <Property Name="CUSTOMER_ID" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="NUMBER_BOOK" Type="Int32" />
-          <Property Name="MEMBER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="LAST_DATE_VISIT" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CUSTOMER" Relationship="DB_BOOKINGModel.FK_MEMBER_CUSTOMER" FromRole="MEMBER" ToRole="CUSTOMER" />
-        </EntityType>
         <EntityType Name="ROLE">
           <Key>
             <PropertyRef Name="ROLE_ID" />
@@ -936,9 +966,10 @@
           <Property Name="ROOM_IMAGE" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ROOM_STATUS" Type="Boolean" />
           <Property Name="NAME_TRANSLATION_ID" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="BOOKING_ROOM" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_ROOM" FromRole="ROOM" ToRole="BOOKING_ROOM" />
           <NavigationProperty Name="HOTEL" Relationship="DB_BOOKINGModel.FK_ROOM_HOTEL" FromRole="ROOM" ToRole="HOTEL" />
           <NavigationProperty Name="ROOM_TYPE" Relationship="DB_BOOKINGModel.FK_ROOM_ROOM_TYPE" FromRole="ROOM" ToRole="ROOM_TYPE" />
+          <Property Name="ROOM_PRICE_SELL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BOOKING_ROOM_DETAIL" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_DETAIL_ROOM" FromRole="ROOM" ToRole="BOOKING_ROOM_DETAIL" />
         </EntityType>
         <EntityType Name="ROOM_TYPE">
           <Key>
@@ -1029,42 +1060,6 @@
             </Principal>
             <Dependent Role="ARTICLE">
               <PropertyRef Name="CATEGORY_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BOOKING_ROOM_CUSTOMER">
-          <End Type="DB_BOOKINGModel.CUSTOMER" Role="CUSTOMER" Multiplicity="1" />
-          <End Type="DB_BOOKINGModel.BOOKING_ROOM" Role="BOOKING_ROOM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CUSTOMER">
-              <PropertyRef Name="CUSTOMER_ID" />
-            </Principal>
-            <Dependent Role="BOOKING_ROOM">
-              <PropertyRef Name="CUSTOMER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BOOKING_ROOM_ROOM">
-          <End Type="DB_BOOKINGModel.ROOM" Role="ROOM" Multiplicity="1" />
-          <End Type="DB_BOOKINGModel.BOOKING_ROOM" Role="BOOKING_ROOM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ROOM">
-              <PropertyRef Name="ROOM_ID" />
-            </Principal>
-            <Dependent Role="BOOKING_ROOM">
-              <PropertyRef Name="ROOM_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MEMBER_CUSTOMER">
-          <End Type="DB_BOOKINGModel.CUSTOMER" Role="CUSTOMER" Multiplicity="0..1" />
-          <End Type="DB_BOOKINGModel.MEMBER" Role="MEMBER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CUSTOMER">
-              <PropertyRef Name="CUSTOMER_ID" />
-            </Principal>
-            <Dependent Role="MEMBER">
-              <PropertyRef Name="CUSTOMER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1194,6 +1189,167 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PACKAGE_ROOM">
+          <Key>
+            <PropertyRef Name="PACKAGE_ID" />
+          </Key>
+          <Property Name="PACKAGE_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PACKAGE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PACKAGE_BRIEF" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PACKAGE_CONTENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PACKAGE_START_DATE" Type="DateTime" Precision="3" />
+          <Property Name="PACKAGE_END_DATE" Type="DateTime" Precision="3" />
+          <Property Name="HOTEL_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="STORAGE_DATE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="STORAGE_PRICE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="STORAGE_PRICE_SELL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NUMBER_ROOM" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUSTOMER_ID" />
+          </Key>
+          <Property Name="CUSTOMER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PEOPLE_ID_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PEOPLE_ID_ISSUE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="PEOPLE_ID_ISSUE_PLACE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PASSPORT_NUMBER" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="PASSPORT_ISSUE_PLACE" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="PASSPORT_ISSUE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="PASSPORT_EXPIRATION_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="IS_MEMBER" Type="Boolean" />
+          <NavigationProperty Name="BOOKING_ROOM" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_CUSTOMER" FromRole="CUSTOMER" ToRole="BOOKING_ROOM" />
+          <NavigationProperty Name="MEMBERs" Relationship="DB_BOOKINGModel.FK_MEMBER_CUSTOMER" FromRole="CUSTOMER" ToRole="MEMBER" />
+        </EntityType>
+        <EntityType Name="BOOKING_ROOM_DETAIL">
+          <Key>
+            <PropertyRef Name="BOOKING_CODE" />
+            <PropertyRef Name="ROOM_ID" />
+          </Key>
+          <Property Name="BOOKING_CODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ROOM_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ROOM_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ROOM_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DATE_BEGIN" Type="DateTime" Precision="3" />
+          <Property Name="DATE_FINISH" Type="DateTime" Precision="3" />
+          <Property Name="NUMBER_NIGHT" Type="Int16" />
+          <Property Name="HOTEL_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="HOTEL_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CUSTOMER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CUSTOMER_FULLNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ROOM" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_DETAIL_ROOM" FromRole="BOOKING_ROOM_DETAIL" ToRole="ROOM" />
+          <NavigationProperty Name="BOOKING_ROOM" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM" FromRole="BOOKING_ROOM_DETAIL" ToRole="BOOKING_ROOM" />
+        </EntityType>
+        <Association Name="FK_BOOKING_ROOM_DETAIL_ROOM">
+          <End Type="DB_BOOKINGModel.ROOM" Role="ROOM" Multiplicity="1" />
+          <End Type="DB_BOOKINGModel.BOOKING_ROOM_DETAIL" Role="BOOKING_ROOM_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOM">
+              <PropertyRef Name="ROOM_ID" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM_DETAIL">
+              <PropertyRef Name="ROOM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BOOKING_ROOM">
+          <Key>
+            <PropertyRef Name="BOOKING_CODE" />
+          </Key>
+          <Property Name="BOOKING_CODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CUSTOMER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CUSTOMER_FULLNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DATE_BEGIN" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATE_FINISH" Type="DateTime" Precision="3" />
+          <Property Name="NUMBER_ROOM" Type="Int16" />
+          <Property Name="NUMBER_NIGHT" Type="Int16" />
+          <Property Name="DATE_BOOKING" Type="DateTime" Precision="3" />
+          <Property Name="PAY_STATUS" Type="Boolean" />
+          <Property Name="PAY_STATUS_SCRIPT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PAY_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PAY_INFORMATION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PAY_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PAY_DATE" Type="DateTime" Precision="3" />
+          <Property Name="PAY_LIMIT" Type="DateTime" Precision="3" />
+          <Property Name="CANCEL_BOOKING" Type="Boolean" />
+          <Property Name="CANCEL_BOOKING_SCRIPT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CANCEL_BOOKING_DATE" Type="DateTime" Precision="3" />
+          <Property Name="CANCEL_BOOKING_PERSON" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CUSTOMER" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_CUSTOMER" FromRole="BOOKING_ROOM" ToRole="CUSTOMER" />
+          <NavigationProperty Name="BOOKING_ROOM_DETAIL" Relationship="DB_BOOKINGModel.FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM" FromRole="BOOKING_ROOM" ToRole="BOOKING_ROOM_DETAIL" />
+        </EntityType>
+        <EntityType Name="COMMENT">
+          <Key>
+            <PropertyRef Name="COMMENT_ID" />
+          </Key>
+          <Property Name="COMMENT_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CUSTOMER_FULLNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FROM_ID_CUSTOMER" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TO_ID_HOTEL" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MESSEGER" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="COMMENT_DISABLE" Type="Boolean" />
+          <Property Name="NUMBER_RATING" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MEMBER_ID" />
+          </Key>
+          <Property Name="MEMBER_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MEMBER_PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MEMBER_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="CUSTOMER_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NUMBER_BOOK" Type="Int32" />
+          <Property Name="MEMBER_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LAST_DATE_VISIT" Type="DateTime" Precision="3" />
+          <Property Name="MEMBER_ACTIVE" Type="Boolean" />
+          <NavigationProperty Name="CUSTOMER" Relationship="DB_BOOKINGModel.FK_MEMBER_CUSTOMER" FromRole="MEMBER" ToRole="CUSTOMER" />
+        </EntityType>
+        <Association Name="FK_BOOKING_ROOM_CUSTOMER">
+          <End Type="DB_BOOKINGModel.CUSTOMER" Role="CUSTOMER" Multiplicity="1" />
+          <End Type="DB_BOOKINGModel.BOOKING_ROOM" Role="BOOKING_ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_ROOM_DETAIL_BOOKING_ROOM">
+          <End Type="DB_BOOKINGModel.BOOKING_ROOM" Role="BOOKING_ROOM" Multiplicity="1" />
+          <End Type="DB_BOOKINGModel.BOOKING_ROOM_DETAIL" Role="BOOKING_ROOM_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKING_ROOM">
+              <PropertyRef Name="BOOKING_CODE" />
+            </Principal>
+            <Dependent Role="BOOKING_ROOM_DETAIL">
+              <PropertyRef Name="BOOKING_CODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEMBER_CUSTOMER">
+          <End Type="DB_BOOKINGModel.CUSTOMER" Role="CUSTOMER" Multiplicity="0..1" />
+          <End Type="DB_BOOKINGModel.MEMBER" Role="MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Principal>
+            <Dependent Role="MEMBER">
+              <PropertyRef Name="CUSTOMER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1279,17 +1435,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BOOKING_ROOM">
-            <EntityTypeMapping TypeName="DB_BOOKINGModel.BOOKING_ROOM">
-              <MappingFragment StoreEntitySet="BOOKING_ROOM">
-                <ScalarProperty Name="NUMBER_NIGHT" ColumnName="NUMBER_NIGHT" />
-                <ScalarProperty Name="DATE_FINISH" ColumnName="DATE_FINISH" />
-                <ScalarProperty Name="DATE_BEGIN" ColumnName="DATE_BEGIN" />
-                <ScalarProperty Name="ROOM_ID" ColumnName="ROOM_ID" />
-                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CATEGORies">
             <EntityTypeMapping TypeName="DB_BOOKINGModel.CATEGORY">
               <MappingFragment StoreEntitySet="CATEGORY">
@@ -1307,32 +1452,6 @@
                 <ScalarProperty Name="CATEGORY_ORDER" ColumnName="CATEGORY_ORDER" />
                 <ScalarProperty Name="CATEGORY_NAME" ColumnName="CATEGORY_NAME" />
                 <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="COMMENTs">
-            <EntityTypeMapping TypeName="DB_BOOKINGModel.COMMENT">
-              <MappingFragment StoreEntitySet="COMMENT">
-                <ScalarProperty Name="COMMENT_DISABLE" ColumnName="COMMENT_DISABLE" />
-                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
-                <ScalarProperty Name="MESSEGER" ColumnName="MESSEGER" />
-                <ScalarProperty Name="TO_ID" ColumnName="TO_ID" />
-                <ScalarProperty Name="FROM_ID" ColumnName="FROM_ID" />
-                <ScalarProperty Name="COMMENT_ID" ColumnName="COMMENT_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CUSTOMERs">
-            <EntityTypeMapping TypeName="DB_BOOKINGModel.CUSTOMER">
-              <MappingFragment StoreEntitySet="CUSTOMER">
-                <ScalarProperty Name="IS_MEMBER" ColumnName="IS_MEMBER" />
-                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
-                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
-                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
-                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
-                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1398,19 +1517,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MEMBERs">
-            <EntityTypeMapping TypeName="DB_BOOKINGModel.MEMBER">
-              <MappingFragment StoreEntitySet="MEMBER">
-                <ScalarProperty Name="LAST_DATE_VISIT" ColumnName="LAST_DATE_VISIT" />
-                <ScalarProperty Name="MEMBER_ID" ColumnName="MEMBER_ID" />
-                <ScalarProperty Name="NUMBER_BOOK" ColumnName="NUMBER_BOOK" />
-                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
-                <ScalarProperty Name="MEMBER_CREATEDATE" ColumnName="MEMBER_CREATEDATE" />
-                <ScalarProperty Name="MEMBER_PASSWORD" ColumnName="MEMBER_PASSWORD" />
-                <ScalarProperty Name="MEMBER_USERNAME" ColumnName="MEMBER_USERNAME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ROLEs">
             <EntityTypeMapping TypeName="DB_BOOKINGModel.ROLE">
               <MappingFragment StoreEntitySet="ROLE">
@@ -1426,6 +1532,7 @@
           <EntitySetMapping Name="ROOMs">
             <EntityTypeMapping TypeName="DB_BOOKINGModel.ROOM">
               <MappingFragment StoreEntitySet="ROOM">
+                <ScalarProperty Name="ROOM_PRICE_SELL" ColumnName="ROOM_PRICE_SELL" />
                 <ScalarProperty Name="NAME_TRANSLATION_ID" ColumnName="NAME_TRANSLATION_ID" />
                 <ScalarProperty Name="ROOM_STATUS" ColumnName="ROOM_STATUS" />
                 <ScalarProperty Name="ROOM_IMAGE" ColumnName="ROOM_IMAGE" />
@@ -1529,6 +1636,117 @@
                 <ScalarProperty Name="TEXT" ColumnName="TEXT" />
                 <ScalarProperty Name="LANGUAGE_ID" ColumnName="LANGUAGE_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACKAGE_ROOM">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.PACKAGE_ROOM">
+              <MappingFragment StoreEntitySet="PACKAGE_ROOM">
+                <ScalarProperty Name="NUMBER_ROOM" ColumnName="NUMBER_ROOM" />
+                <ScalarProperty Name="STORAGE_PRICE_SELL" ColumnName="STORAGE_PRICE_SELL" />
+                <ScalarProperty Name="STORAGE_PRICE" ColumnName="STORAGE_PRICE" />
+                <ScalarProperty Name="STORAGE_DATE" ColumnName="STORAGE_DATE" />
+                <ScalarProperty Name="HOTEL_NAME" ColumnName="HOTEL_NAME" />
+                <ScalarProperty Name="PACKAGE_END_DATE" ColumnName="PACKAGE_END_DATE" />
+                <ScalarProperty Name="PACKAGE_START_DATE" ColumnName="PACKAGE_START_DATE" />
+                <ScalarProperty Name="PACKAGE_CONTENT" ColumnName="PACKAGE_CONTENT" />
+                <ScalarProperty Name="PACKAGE_BRIEF" ColumnName="PACKAGE_BRIEF" />
+                <ScalarProperty Name="PACKAGE_NAME" ColumnName="PACKAGE_NAME" />
+                <ScalarProperty Name="PACKAGE_ID" ColumnName="PACKAGE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CUSTOMERs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.CUSTOMER">
+              <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="IS_MEMBER" ColumnName="IS_MEMBER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="PASSPORT_EXPIRATION_DATE" ColumnName="PASSPORT_EXPIRATION_DATE" />
+                <ScalarProperty Name="PASSPORT_ISSUE_DATE" ColumnName="PASSPORT_ISSUE_DATE" />
+                <ScalarProperty Name="PASSPORT_ISSUE_PLACE" ColumnName="PASSPORT_ISSUE_PLACE" />
+                <ScalarProperty Name="PASSPORT_NUMBER" ColumnName="PASSPORT_NUMBER" />
+                <ScalarProperty Name="PEOPLE_ID_ISSUE_PLACE" ColumnName="PEOPLE_ID_ISSUE_PLACE" />
+                <ScalarProperty Name="PEOPLE_ID_ISSUE_DATE" ColumnName="PEOPLE_ID_ISSUE_DATE" />
+                <ScalarProperty Name="PEOPLE_ID_NUMBER" ColumnName="PEOPLE_ID_NUMBER" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKING_ROOM_DETAIL">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.BOOKING_ROOM_DETAIL">
+              <MappingFragment StoreEntitySet="BOOKING_ROOM_DETAIL">
+                <ScalarProperty Name="CUSTOMER_FULLNAME" ColumnName="CUSTOMER_FULLNAME" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="HOTEL_NAME" ColumnName="HOTEL_NAME" />
+                <ScalarProperty Name="HOTEL_ID" ColumnName="HOTEL_ID" />
+                <ScalarProperty Name="NUMBER_NIGHT" ColumnName="NUMBER_NIGHT" />
+                <ScalarProperty Name="DATE_FINISH" ColumnName="DATE_FINISH" />
+                <ScalarProperty Name="DATE_BEGIN" ColumnName="DATE_BEGIN" />
+                <ScalarProperty Name="ROOM_NAME" ColumnName="ROOM_NAME" />
+                <ScalarProperty Name="ROOM_CODE" ColumnName="ROOM_CODE" />
+                <ScalarProperty Name="ROOM_ID" ColumnName="ROOM_ID" />
+                <ScalarProperty Name="BOOKING_CODE" ColumnName="BOOKING_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKING_ROOM">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.BOOKING_ROOM">
+              <MappingFragment StoreEntitySet="BOOKING_ROOM">
+                <ScalarProperty Name="CANCEL_BOOKING_PERSON" ColumnName="CANCEL_BOOKING_PERSON" />
+                <ScalarProperty Name="CANCEL_BOOKING_DATE" ColumnName="CANCEL_BOOKING_DATE" />
+                <ScalarProperty Name="CANCEL_BOOKING_SCRIPT" ColumnName="CANCEL_BOOKING_SCRIPT" />
+                <ScalarProperty Name="CANCEL_BOOKING" ColumnName="CANCEL_BOOKING" />
+                <ScalarProperty Name="PAY_LIMIT" ColumnName="PAY_LIMIT" />
+                <ScalarProperty Name="PAY_DATE" ColumnName="PAY_DATE" />
+                <ScalarProperty Name="PAY_CODE" ColumnName="PAY_CODE" />
+                <ScalarProperty Name="PAY_INFORMATION" ColumnName="PAY_INFORMATION" />
+                <ScalarProperty Name="PAY_TYPE" ColumnName="PAY_TYPE" />
+                <ScalarProperty Name="PAY_STATUS_SCRIPT" ColumnName="PAY_STATUS_SCRIPT" />
+                <ScalarProperty Name="PAY_STATUS" ColumnName="PAY_STATUS" />
+                <ScalarProperty Name="DATE_BOOKING" ColumnName="DATE_BOOKING" />
+                <ScalarProperty Name="NUMBER_NIGHT" ColumnName="NUMBER_NIGHT" />
+                <ScalarProperty Name="NUMBER_ROOM" ColumnName="NUMBER_ROOM" />
+                <ScalarProperty Name="DATE_FINISH" ColumnName="DATE_FINISH" />
+                <ScalarProperty Name="DATE_BEGIN" ColumnName="DATE_BEGIN" />
+                <ScalarProperty Name="CUSTOMER_FULLNAME" ColumnName="CUSTOMER_FULLNAME" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="BOOKING_CODE" ColumnName="BOOKING_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMMENTs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.COMMENT">
+              <MappingFragment StoreEntitySet="COMMENT">
+                <ScalarProperty Name="NUMBER_RATING" ColumnName="NUMBER_RATING" />
+                <ScalarProperty Name="COMMENT_DISABLE" ColumnName="COMMENT_DISABLE" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="MESSEGER" ColumnName="MESSEGER" />
+                <ScalarProperty Name="TO_ID_HOTEL" ColumnName="TO_ID_HOTEL" />
+                <ScalarProperty Name="FROM_ID_CUSTOMER" ColumnName="FROM_ID_CUSTOMER" />
+                <ScalarProperty Name="CUSTOMER_FULLNAME" ColumnName="CUSTOMER_FULLNAME" />
+                <ScalarProperty Name="COMMENT_ID" ColumnName="COMMENT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBERs">
+            <EntityTypeMapping TypeName="DB_BOOKINGModel.MEMBER">
+              <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="MEMBER_ACTIVE" ColumnName="MEMBER_ACTIVE" />
+                <ScalarProperty Name="LAST_DATE_VISIT" ColumnName="LAST_DATE_VISIT" />
+                <ScalarProperty Name="MEMBER_ID" ColumnName="MEMBER_ID" />
+                <ScalarProperty Name="NUMBER_BOOK" ColumnName="NUMBER_BOOK" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="MEMBER_CREATEDATE" ColumnName="MEMBER_CREATEDATE" />
+                <ScalarProperty Name="MEMBER_PASSWORD" ColumnName="MEMBER_PASSWORD" />
+                <ScalarProperty Name="MEMBER_USERNAME" ColumnName="MEMBER_USERNAME" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

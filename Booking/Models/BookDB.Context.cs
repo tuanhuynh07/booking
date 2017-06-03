@@ -29,14 +29,10 @@ namespace Booking.Models
     
         public virtual DbSet<ACCOUNT> ACCOUNTs { get; set; }
         public virtual DbSet<ARTICLE> ARTICLEs { get; set; }
-        public virtual DbSet<BOOKING_ROOM> BOOKING_ROOM { get; set; }
         public virtual DbSet<CATEGORY> CATEGORies { get; set; }
-        public virtual DbSet<COMMENT> COMMENTs { get; set; }
-        public virtual DbSet<CUSTOMER> CUSTOMERs { get; set; }
         public virtual DbSet<HITCOUTER> HITCOUTERs { get; set; }
         public virtual DbSet<HOTEL> HOTELs { get; set; }
         public virtual DbSet<Medium> MEDIA { get; set; }
-        public virtual DbSet<MEMBER> MEMBERs { get; set; }
         public virtual DbSet<ROLE> ROLEs { get; set; }
         public virtual DbSet<ROOM> ROOMs { get; set; }
         public virtual DbSet<ROOM_TYPE> ROOM_TYPE { get; set; }
@@ -48,6 +44,12 @@ namespace Booking.Models
         public virtual DbSet<TRANSLATION_ROOM> TRANSLATION_ROOM { get; set; }
         public virtual DbSet<LANGUAGE> LANGUAGEs { get; set; }
         public virtual DbSet<TRANSLATION> TRANSLATIONs { get; set; }
+        public virtual DbSet<PACKAGE_ROOM> PACKAGE_ROOM { get; set; }
+        public virtual DbSet<CUSTOMER> CUSTOMERs { get; set; }
+        public virtual DbSet<BOOKING_ROOM_DETAIL> BOOKING_ROOM_DETAIL { get; set; }
+        public virtual DbSet<BOOKING_ROOM> BOOKING_ROOM { get; set; }
+        public virtual DbSet<COMMENT> COMMENTs { get; set; }
+        public virtual DbSet<MEMBER> MEMBERs { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

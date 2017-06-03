@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminCustomerController.cs" />
     <Compile Include="Controllers\AdminHotelController.cs" />
+    <Compile Include="Controllers\AdminLanguageController.cs" />
     <Compile Include="Controllers\AdminMediaController.cs" />
     <Compile Include="Controllers\AdminRoleController.cs" />
     <Compile Include="Controllers\AdminRoomController.cs" />
@@ -218,6 +219,9 @@
       <DependentUpon>BookDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOKING_ROOM.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BOOKING_ROOM_DETAIL.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CATEGORY.cs">
@@ -1437,6 +1441,25 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Upload\files\635918410645320143_vn-636310420481897140.jpg" />
+    <Content Include="Upload\images\Bang-do-du-lich-quang-nam-da-nang-636310420480140877.jpg" />
+    <Content Include="Upload\images\bat-dong-san-thai-binh-duong-636310433624006029.jpg" />
+    <Content Include="Upload\images\du-lich-da-nang-ba-na-hills-636308700674724596.jpg" />
+    <Content Include="Upload\images\du-lich-da-nang-bien-my-khe-636307878124342157.jpg" />
+    <Content Include="Upload\images\du-lich-da-nang-son-tra-636307869563585917.jpg" />
+    <Content Include="Upload\images\khong-gian-trong-xanh-khu-can-ho-cao-cap-2-636308676082013867.jpg" />
+    <Content Include="Upload\images\Medium\Bang-do-du-lich-quang-nam-da-nang-636310420480140877.jpg" />
+    <Content Include="Upload\images\Medium\bat-dong-san-thai-binh-duong-636310433624006029.jpg" />
+    <Content Include="Upload\images\Medium\du-lich-da-nang-ba-na-hills-636308700674724596.jpg" />
+    <Content Include="Upload\images\Medium\du-lich-da-nang-bien-my-khe-636307878124342157.jpg" />
+    <Content Include="Upload\images\Medium\du-lich-da-nang-son-tra-636307869563585917.jpg" />
+    <Content Include="Upload\images\Medium\khong-gian-trong-xanh-khu-can-ho-cao-cap-2-636308676082013867.jpg" />
+    <Content Include="Upload\images\Thumb\Bang-do-du-lich-quang-nam-da-nang-636310420480140877.jpg" />
+    <Content Include="Upload\images\Thumb\bat-dong-san-thai-binh-duong-636310433624006029.jpg" />
+    <Content Include="Upload\images\Thumb\du-lich-da-nang-ba-na-hills-636308700674724596.jpg" />
+    <Content Include="Upload\images\Thumb\du-lich-da-nang-bien-my-khe-636307878124342157.jpg" />
+    <Content Include="Upload\images\Thumb\du-lich-da-nang-son-tra-636307869563585917.jpg" />
+    <Content Include="Upload\images\Thumb\khong-gian-trong-xanh-khu-can-ho-cao-cap-2-636308676082013867.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1476,10 +1499,22 @@
     <Content Include="Views\AdminArticle\ArticelInCategory.cshtml" />
     <Content Include="Views\AdminArticle\Create.cshtml" />
     <Content Include="Views\AdminArticle\Edit.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\AdminLanguage\Create.cshtml" />
+    <Content Include="Views\AdminLanguage\Edit.cshtml" />
+    <Content Include="Views\AdminLanguage\Index.cshtml" />
+    <Content Include="Upload\files\636306369314672275-636310420481747044.xls" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\AdminCustomer\Index.cshtml" />
+    <Content Include="Views\AdminCustomer\Information.cshtml" />
+    <Content Include="Views\AdminCustomer\Member.cshtml" />
+    <Content Include="Views\AdminCustomer\Comment.cshtml" />
+    <Content Include="Views\AdminCustomer\InformationDetail.cshtml" />
+    <Content Include="Views\AdminCustomer\RoomBooking.cshtml" />
+    <Content Include="Views\AdminCustomer\ActivePay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AdminCustomer\" />
     <Folder Include="Views\AdminHotel\" />
     <Folder Include="Views\AdminMedia\" />
     <Folder Include="Views\AdminRole\" />

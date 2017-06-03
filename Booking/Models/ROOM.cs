@@ -16,7 +16,7 @@ namespace Booking.Models
     {
         public ROOM()
         {
-            this.BOOKING_ROOM = new HashSet<BOOKING_ROOM>();
+            this.BOOKING_ROOM_DETAIL = new HashSet<BOOKING_ROOM_DETAIL>();
         }
     
         public decimal ROOM_ID { get; set; }
@@ -30,9 +30,10 @@ namespace Booking.Models
         public string ROOM_IMAGE { get; set; }
         public Nullable<bool> ROOM_STATUS { get; set; }
         public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
+        public string ROOM_PRICE_SELL { get; set; }
     
-        public virtual ICollection<BOOKING_ROOM> BOOKING_ROOM { get; set; }
         public virtual HOTEL HOTEL { get; set; }
         public virtual ROOM_TYPE ROOM_TYPE { get; set; }
+        public virtual ICollection<BOOKING_ROOM_DETAIL> BOOKING_ROOM_DETAIL { get; set; }
     }
 }

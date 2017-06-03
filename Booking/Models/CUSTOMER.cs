@@ -25,6 +25,13 @@ namespace Booking.Models
         public string FIRST_NAME { get; set; }
         public string EMAIL { get; set; }
         public string PHONE { get; set; }
+        public string PEOPLE_ID_NUMBER { get; set; }
+        public Nullable<System.DateTime> PEOPLE_ID_ISSUE_DATE { get; set; }
+        public string PEOPLE_ID_ISSUE_PLACE { get; set; }
+        public string PASSPORT_NUMBER { get; set; }
+        public string PASSPORT_ISSUE_PLACE { get; set; }
+        public Nullable<System.DateTime> PASSPORT_ISSUE_DATE { get; set; }
+        public Nullable<System.DateTime> PASSPORT_EXPIRATION_DATE { get; set; }
         public string ADDRESS { get; set; }
         public Nullable<System.DateTime> CREATE_DATE { get; set; }
         public Nullable<bool> IS_MEMBER { get; set; }

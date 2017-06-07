@@ -81,12 +81,14 @@
                                         <td>@item.NUMBER_ROOM</td>
                                         <td style="text-align:center;">
                                             @if ((bool)item.PAY_STATUS)
-                                            {                                                
-                                                <i title="Đã thanh toán" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>                                               
+                                            { 
+                                                <a class="" href="/admincustomer/ActivePay/@item.BOOKING_CODE">                                               
+                                                <i title="Đã thanh toán" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>   
+                                                    </a>                                            
                                             }
                                             else
                                             {
-                                                <a class="active_pay_booking" data="@item.BOOKING_CODE">
+                                                <a class="" href="/admincustomer/ActivePay/@item.BOOKING_CODE">
                                                     <i title="Chưa thanh toán" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color: red;"></i>
                                                 </a>
                                             }

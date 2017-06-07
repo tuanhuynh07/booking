@@ -263,6 +263,16 @@ namespace Booking.Controllers
                     TempData["articleNameError"] = "Phải nhập mã thanh toán";
                     return View(booking);
                 }
+                if (booking.PAY_DATE==null)
+                {
+                    TempData["articleNameError"] = "Phải nhập ngày thanh toán";
+                    return View(booking);
+                }
+                if (booking.PAY_TYPE + "" == "")
+                {
+                    TempData["articleNameError"] = "Phải nhập hình thức thanh toán";
+                    return View(booking);
+                }
                 if (booking.PAY_INFORMATION + "" == "")
                 {
                     TempData["articleNameError"] = "Phải nhập thông tin thanh toán";
@@ -270,6 +280,14 @@ namespace Booking.Controllers
                 }
                 #endregion               
                 BOOKING_ROOM article = db.BOOKING_ROOM.Find(id);
+                if (article.PAY_STATUS == true)
+                {
+                    if(booking.PAY_STATUS==false)
+                    {
+                        TempData["articleNameError"] = "Trạng thái đã thanh toán không được chuyển đổi lại.";
+                        return View(booking);
+                    }
+                }
                 if(article==null)
                 {
                     return RedirectToAction("Index");
@@ -278,11 +296,16 @@ namespace Booking.Controllers
                 {
                     article.PAY_CODE = booking.PAY_CODE;
                     article.PAY_DATE = booking.PAY_DATE;
-                    article.PAY_INFORMATION = booking.PAY_INFORMATION+" (Được xác nhận bởi tài khoản hệ thống: "+ UserManager.GetUserName+")";
-                    article.PAY_STATUS = true;
-                    article.PAY_STATUS_SCRIPT = Security.EncryptMd5(true + "PAY" + article.BOOKING_CODE).ToLower();
+                    article.PAY_TYPE = booking.PAY_TYPE;
+                    if(article.PAY_INFORMATION+""!="") article.PAY_INFORMATION = booking.PAY_INFORMATION;
+                    else article.PAY_INFORMATION = booking.PAY_INFORMATION + " (Được xác nhận bởi tài khoản hệ thống: " + UserManager.GetUserName + ")";
+                    if (booking.PAY_STATUS == true)
+                    {
+                        article.PAY_STATUS = true;
+                        article.PAY_STATUS_SCRIPT = Security.EncryptMd5(true + "PAY" + article.BOOKING_CODE).ToLower();
+                    }
                     db.SaveChanges();
-                    return View("Index");
+                    return RedirectToAction("Index");
                 }
             }           
         }

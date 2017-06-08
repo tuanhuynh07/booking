@@ -1,0 +1,199 @@
+﻿@model Booking.Models.HOTEL
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>HOTEL</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.HOTEL_ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_NAME, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_NAME)
+                @Html.ValidationMessageFor(model => model.HOTEL_NAME)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_ADDRESS, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_ADDRESS)
+                @Html.ValidationMessageFor(model => model.HOTEL_ADDRESS)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_CREATEDATE, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_CREATEDATE)
+                @Html.ValidationMessageFor(model => model.HOTEL_CREATEDATE)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_DESCRIPTION, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_DESCRIPTION)
+                @Html.ValidationMessageFor(model => model.HOTEL_DESCRIPTION)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_BRIEF, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_BRIEF)
+                @Html.ValidationMessageFor(model => model.HOTEL_BRIEF)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NUMBER_RATING, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NUMBER_RATING)
+                @Html.ValidationMessageFor(model => model.NUMBER_RATING)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TOTAL_RATING, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TOTAL_RATING)
+                @Html.ValidationMessageFor(model => model.TOTAL_RATING)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TOTAL_ROOM, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TOTAL_ROOM)
+                @Html.ValidationMessageFor(model => model.TOTAL_ROOM)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PRICE_GENERAL, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PRICE_GENERAL)
+                @Html.ValidationMessageFor(model => model.PRICE_GENERAL)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_STAR, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_STAR)
+                @Html.ValidationMessageFor(model => model.HOTEL_STAR)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_LEVEL, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_LEVEL)
+                @Html.ValidationMessageFor(model => model.HOTEL_LEVEL)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_STATUS, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_STATUS)
+                @Html.ValidationMessageFor(model => model.HOTEL_STATUS)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_IMAGE, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_IMAGE)
+                @Html.ValidationMessageFor(model => model.HOTEL_IMAGE)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MEDIA_ARRAY, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MEDIA_ARRAY)
+                @Html.ValidationMessageFor(model => model.MEDIA_ARRAY)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_CHECKIN, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_CHECKIN)
+                @Html.ValidationMessageFor(model => model.HOTEL_CHECKIN)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_MAP, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_MAP)
+                @Html.ValidationMessageFor(model => model.HOTEL_MAP)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NAME_TRANSLATION_ID, "NAME_TRANSLATION_ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("NAME_TRANSLATION_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.NAME_TRANSLATION_ID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ADDRESS_TRANSLATION_ID, "ADDRESS_TRANSLATION_ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ADDRESS_TRANSLATION_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.ADDRESS_TRANSLATION_ID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DESCRIPTION_TRANSLATION_ID, "DESCRIPTION_TRANSLATION_ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DESCRIPTION_TRANSLATION_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.DESCRIPTION_TRANSLATION_ID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BRIEF_TRANSLATION_ID, "BRIEF_TRANSLATION_ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("BRIEF_TRANSLATION_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.BRIEF_TRANSLATION_ID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HOTEL_ALIAS, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEL_ALIAS)
+                @Html.ValidationMessageFor(model => model.HOTEL_ALIAS)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

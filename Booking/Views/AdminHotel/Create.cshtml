@@ -1,0 +1,219 @@
+﻿@model Booking.Models.HOTEL
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string strUrl = Request.Url.AbsoluteUri;
+    string strPath = Request.ApplicationPath;
+    string host = Request.Url.Host;
+    string urlHome = "/";
+    if (strPath != "/")
+    {
+        urlHome = strPath + urlHome;
+    }
+}
+<section class="content-header">
+    <h1>
+        Quản lý Khách Sạn
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tạo mới Khách sạn:</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm("Create", "AdminHotel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        <div class="box-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Custom Tabs -->
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            @{  decimal count = 0;}
+                                            @foreach (var item in ViewBag.Language)
+                                            {
+                                                <li class="@(count == 0 ? "active" :"")"><a href="@("#tab_" + item.LANGUAGE_ID)" data-toggle="tab">@item.LANGUAGE_NAME</a></li>
+                                                count = item.LANGUAGE_ID;
+                                            }
+                                        </ul>
+                                        <div class="tab-content">
+                                            @{ count = 0;}
+                                            @foreach (var item in ViewBag.Language)
+                                            {
+                                                if (count == 0)
+                                                {
+                                                    <div class="tab-pane @(count == 0 ? "active" :"")" id="@("tab_" + item.LANGUAGE_ID)">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.HOTEL_NAME, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_NAME)
+                                                            @Html.TextBoxFor(model => model.HOTEL_NAME, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_NAME) })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.HOTEL_ADDRESS, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_ADDRESS)
+                                                            @Html.TextBoxFor(model => model.HOTEL_ADDRESS, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_ADDRESS) })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.HOTEL_BRIEF, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_BRIEF)
+                                                            @Html.TextAreaFor(model => model.HOTEL_BRIEF, new { @class = "form-control col-md-10", placeholder = @Html.DisplayNameFor(m => m.HOTEL_BRIEF), @rows = "4" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.HOTEL_DESCRIPTION, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_DESCRIPTION)
+                                                            @Html.TextAreaFor(model => model.HOTEL_DESCRIPTION, new { @class = "form-control col-md-10", placeholder = @Html.DisplayNameFor(m => m.HOTEL_DESCRIPTION) })
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                            <!-- /.tab-pane -->
+                                                    <div class="tab-pane" id="@("tab_" + item.LANGUAGE_ID)">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.TRANSLATION_HOTEL.TEXT, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.TRANSLATION_HOTEL.TEXT)
+                                                            @Html.TextBoxFor(model => model.TRANSLATION_HOTEL.TEXT, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.TRANSLATION_HOTEL.TEXT) })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.TRANSLATION_HOTEL1.TEXT, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.TRANSLATION_HOTEL1.TEXT)
+                                                            @Html.TextBoxFor(model => model.TRANSLATION_HOTEL1.TEXT, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.TRANSLATION_HOTEL1.TEXT) })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.TRANSLATION_HOTEL2.TEXT, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.TRANSLATION_HOTEL2.TEXT)
+                                                            @Html.TextAreaFor(model => model.TRANSLATION_HOTEL2.TEXT, new { @class = "form-control col-md-10", placeholder = @Html.DisplayNameFor(m => m.TRANSLATION_HOTEL2.TEXT), @rows = "4" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.TRANSLATION_HOTEL3.TEXT, new { id = "HOTEL_DESCRIPTION", @class = "control-label" })@Html.ValidationMessageFor(model => model.TRANSLATION_HOTEL3.TEXT)
+                                                            @Html.TextAreaFor(model => model.TRANSLATION_HOTEL3.TEXT, new { @class = "form-control col-md-10", placeholder = @Html.DisplayNameFor(m => m.TRANSLATION_HOTEL3.TEXT) })
+                                                        </div>
+                                                    </div>
+                                                }
+                                                count = item.LANGUAGE_ID;
+                                            }
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.NUMBER_RATING, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.NUMBER_RATING)
+                                @Html.TextBoxFor(model => model.NUMBER_RATING, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.NUMBER_RATING) })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TOTAL_RATING, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.TOTAL_RATING)
+                                @Html.TextBoxFor(model => model.TOTAL_RATING, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.TOTAL_RATING) })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TOTAL_ROOM, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.TOTAL_ROOM)
+                                @Html.TextBoxFor(model => model.TOTAL_ROOM, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.TOTAL_ROOM) })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PRICE_GENERAL, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.PRICE_GENERAL)
+                                @Html.TextBoxFor(model => model.PRICE_GENERAL, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.PRICE_GENERAL) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_STAR, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_STAR)
+                                @Html.TextBoxFor(model => model.HOTEL_STAR, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_STAR) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_LEVEL, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.HOTEL_LEVEL)
+                                @Html.TextBoxFor(model => model.HOTEL_LEVEL, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_LEVEL) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_STATUS, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_STATUS)
+                                @Html.TextBoxFor(model => model.HOTEL_STATUS, new { @type = "number", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_STATUS) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_IMAGE, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.HOTEL_IMAGE)
+                                @Html.TextBoxFor(model => model.HOTEL_IMAGE, new { @type = "file", @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_IMAGE) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEDIA_ARRAY, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.MEDIA_ARRAY)
+                                @Html.TextBoxFor(model => model.MEDIA_ARRAY, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.MEDIA_ARRAY) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_CHECKIN, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.HOTEL_CHECKIN)
+                                @Html.TextBoxFor(model => model.HOTEL_CHECKIN, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_CHECKIN) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_MAP, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.HOTEL_MAP)
+                                @Html.TextBoxFor(model => model.HOTEL_MAP, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_MAP) })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.NAME_TRANSLATION_ID, "NAME_TRANSLATION_ID", new { @class = "control-label" })@Html.ValidationMessageFor(model => model.NAME_TRANSLATION_ID)
+                                @Html.DropDownList("NAME_TRANSLATION_ID", (SelectList)ViewBag.NAME_TRANSLATION_ID, new { @class = "form-control" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_ALIAS, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.HOTEL_ALIAS)
+                                @Html.TextBoxFor(model => model.HOTEL_ALIAS, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.HOTEL_ALIAS) })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class=" col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script src="@(urlHome + "content/ckeditor/ckeditor.js")"></script>
+<script src="@(urlHome + "content/ckfinder/ckfinder.js")"></script>
+<script>
+    CKEDITOR.replace('HOTEL_DESCRIPTION', {
+        filebrowserImageUploadUrl: '/Upload.ashx',
+        height: 350
+    });
+    CKEDITOR.config.autoParagraph = false;
+    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+    CKEDITOR.replace('TRANSLATION_HOTEL3_TEXT', {
+        filebrowserImageUploadUrl: '/Upload.ashx',
+        height: 350
+    });
+    CKEDITOR.config.autoParagraph = false;
+    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+    
+</script>

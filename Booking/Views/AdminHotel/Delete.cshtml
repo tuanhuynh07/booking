@@ -1,0 +1,193 @@
+﻿@model Booking.Models.HOTEL
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>HOTEL</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_ADDRESS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_CREATEDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_CREATEDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_DESCRIPTION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_DESCRIPTION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_BRIEF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_BRIEF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NUMBER_RATING)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NUMBER_RATING)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TOTAL_RATING)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TOTAL_RATING)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TOTAL_ROOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TOTAL_ROOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRICE_GENERAL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRICE_GENERAL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_STAR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_STAR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_LEVEL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_LEVEL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_STATUS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_IMAGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_IMAGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDIA_ARRAY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDIA_ARRAY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_CHECKIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_CHECKIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_MAP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_MAP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL_ALIAS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL_ALIAS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL.TEXT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRANSLATION_HOTEL.TEXT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL1.TEXT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRANSLATION_HOTEL1.TEXT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL2.TEXT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRANSLATION_HOTEL2.TEXT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL3.TEXT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRANSLATION_HOTEL3.TEXT)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -11,6 +11,8 @@ namespace Booking.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
     
     public partial class HOTEL
     {
@@ -19,10 +21,18 @@ namespace Booking.Models
             this.ROOMs = new HashSet<ROOM>();
         }
     
-        public decimal HOTEL_ID { get; set; }
+        public decimal? HOTEL_ID { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        [DisplayFormat( ConvertEmptyStringToNull = true)]
+        [Display(Name = "Name Hotel")]
         public string HOTEL_NAME { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
         public string HOTEL_ADDRESS { get; set; }
+        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> HOTEL_CREATEDATE { get; set; }
+        [AllowHtml]
         public string HOTEL_DESCRIPTION { get; set; }
         public string HOTEL_BRIEF { get; set; }
         public Nullable<int> NUMBER_RATING { get; set; }
@@ -36,7 +46,16 @@ namespace Booking.Models
         public string MEDIA_ARRAY { get; set; }
         public string HOTEL_CHECKIN { get; set; }
         public string HOTEL_MAP { get; set; }
+        public decimal? NAME_TRANSLATION_ID { get; set; }
+        public decimal? ADDRESS_TRANSLATION_ID { get; set; }
+        public decimal? DESCRIPTION_TRANSLATION_ID { get; set; }
+        public decimal? BRIEF_TRANSLATION_ID { get; set; }
+        public string HOTEL_ALIAS { get; set; }
     
         public virtual ICollection<ROOM> ROOMs { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL1 { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL2 { get; set; }
+        public virtual TRANSLATION_HOTEL TRANSLATION_HOTEL3 { get; set; }
     }
 }

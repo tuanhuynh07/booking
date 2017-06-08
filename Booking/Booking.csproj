@@ -237,7 +237,6 @@
     <Compile Include="Models\HOTEL.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HotelModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LANGUAGE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
@@ -265,6 +264,24 @@
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_ARTICLE.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_CATEGORY.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_CUSTOMER.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_HOTEL.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_ROOM.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1457,11 +1474,17 @@
     <Content Include="Views\AdminArticle\ArticelInCategory.cshtml" />
     <Content Include="Views\AdminArticle\Create.cshtml" />
     <Content Include="Views\AdminArticle\Edit.cshtml" />
+    <Content Include="Views\AdminHotel\Create.cshtml" />
+    <Content Include="Views\AdminHotel\Delete.cshtml" />
+    <Content Include="Views\AdminHotel\Details.cshtml" />
+    <Content Include="Views\AdminHotel\Edit.cshtml" />
+    <Content Include="Views\AdminHotel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Upload\files\" />
+    <Folder Include="Upload\images\thumbs\" />
     <Folder Include="Views\AdminCustomer\" />
-    <Folder Include="Views\AdminHotel\" />
     <Folder Include="Views\AdminMedia\" />
     <Folder Include="Views\AdminRole\" />
     <Folder Include="Views\AdminRoom\" />

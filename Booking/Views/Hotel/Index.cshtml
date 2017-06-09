@@ -1,0 +1,181 @@
+﻿@model IEnumerable<Booking.Models.HOTEL>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Quản lý Khách sạn
+    </h1>
+</section>
+<section class="content">
+    <div class="row" style="padding-bottom:10px;">
+        <div class="col-md-12">
+            @Html.ActionLink("Tạo mới Khách sạn", "create", new { controller = "Hotel" }, new { @class = "btn btn-primary pull-left" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách Danh mục</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HOTEL_NAME)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HOTEL_ADDRESS)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HOTEL_CREATEDATE)
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_DESCRIPTION)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_BRIEF)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NUMBER_RATING)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TOTAL_RATING)
+                                    </th>*@
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TOTAL_ROOM)
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.PRICE_GENERAL)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_STAR)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_LEVEL)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_STATUS)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_IMAGE)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MEDIA_ARRAY)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_CHECKIN)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_MAP)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.HOTEL_ALIAS)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL.TEXT)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL1.TEXT)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL2.TEXT)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TRANSLATION_HOTEL3.TEXT)
+                                    </th>*@
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HOTEL_NAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HOTEL_ADDRESS)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HOTEL_CREATEDATE)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_DESCRIPTION)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_BRIEF)
+                                        </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.NUMBER_RATING)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TOTAL_RATING)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TOTAL_ROOM)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.PRICE_GENERAL)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_STAR)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_LEVEL)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_STATUS)
+                                        </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_IMAGE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MEDIA_ARRAY)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_CHECKIN)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_MAP)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HOTEL_ALIAS)
+                                        </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.TRANSLATION_HOTEL.TEXT)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TRANSLATION_HOTEL1.TEXT)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TRANSLATION_HOTEL2.TEXT)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TRANSLATION_HOTEL3.TEXT)
+                                        </td>*@
+                                    <td>
+                                        <ul class="contro_function">
+                                            <li>
+                                                <a href="@Url.Action("Edit", "Hotel", new { id = item.HOTEL_ID })"><i class="fa fa-edit"></i></a>
+
+                                            </li>
+                                            <li>|</li>
+                                            <li>
+                                                <a href="@Url.Action("Delete", "Hotel", new { id = item.HOTEL_ID })"><i class="fa fa-remove" style="color:red;"></i></a>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -184,12 +184,12 @@
     <Compile Include="Controllers\AdminCategoryController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminCustomerController.cs" />
-    <Compile Include="Controllers\AdminHotelController.cs" />
     <Compile Include="Controllers\AdminMediaController.cs" />
     <Compile Include="Controllers\AdminRoleController.cs" />
     <Compile Include="Controllers\AdminRoomController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -231,6 +231,7 @@
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerModels.cs" />
+    <Compile Include="Models\Default1Controller.cs" />
     <Compile Include="Models\HITCOUTER.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
@@ -255,12 +256,6 @@
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ROOM_TYPE.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
@@ -1474,11 +1469,11 @@
     <Content Include="Views\AdminArticle\ArticelInCategory.cshtml" />
     <Content Include="Views\AdminArticle\Create.cshtml" />
     <Content Include="Views\AdminArticle\Edit.cshtml" />
-    <Content Include="Views\AdminHotel\Create.cshtml" />
-    <Content Include="Views\AdminHotel\Delete.cshtml" />
-    <Content Include="Views\AdminHotel\Details.cshtml" />
-    <Content Include="Views\AdminHotel\Edit.cshtml" />
-    <Content Include="Views\AdminHotel\Index.cshtml" />
+    <Content Include="Views\Hotel\Create.cshtml" />
+    <Content Include="Views\Hotel\Delete.cshtml" />
+    <Content Include="Views\Hotel\Details.cshtml" />
+    <Content Include="Views\Hotel\Edit.cshtml" />
+    <Content Include="Views\Hotel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

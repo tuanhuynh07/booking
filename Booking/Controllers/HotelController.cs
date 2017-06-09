@@ -8,25 +8,24 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Booking.Models;
-using System.IO;
 using System.Drawing;
+using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
 namespace Booking.Controllers
 {
-    public class AdminHotelController : Controller
+    public class HotelController : Controller
     {
         private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
 
-        // GET: /AdminHotel/
+        // GET: /Hotel/
         public async Task<ActionResult> Index()
         {
-            var hotels = db.HOTELs.Include(h => h.TRANSLATION_HOTEL).Include(h => h.TRANSLATION_HOTEL1).Include(h => h.TRANSLATION_HOTEL2).Include(h => h.TRANSLATION_HOTEL3);
-            return View(await hotels.ToListAsync());
+            return View(await db.HOTELs.ToListAsync());
         }
 
-        // GET: /AdminHotel/Details/5
+        // GET: /Hotel/Details/5
         public async Task<ActionResult> Details(decimal id)
         {
             if (id == null)
@@ -41,23 +40,90 @@ namespace Booking.Controllers
             return View(hotel);
         }
 
-        // GET: /AdminHotel/Create
+        // GET: /Hotel/Create
         public ActionResult Create()
         {
-            ViewBag.NAME_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT");
-            ViewBag.ADDRESS_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT");
-            ViewBag.DESCRIPTION_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT");
-            ViewBag.BRIEF_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT");
-            ViewBag.Language = db.LANGUAGEs;//new SelectList(db.LANGUAGEs, "LANGUAGE_ID", "LANGUAGE_NAME"); ;
+            ViewBag.Language = db.LANGUAGEs;
             return View();
         }
 
-        // POST: /AdminHotel/Create
+        // POST: /Hotel/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Exclude = "HOTEL_ID,HOTEL_CREATEDATE")] HOTEL hotel)
+        public async Task<ActionResult> Create([Bind(Exclude = "")] HOTEL hotel)
+        {
+            ViewBag.Language = db.LANGUAGEs;
+            if (ModelState.IsValid)
+            {
+                hotel.HOTEL_ID = (db.HOTELs.Max(h => h.HOTEL_ID) ?? 0) + 1;
+                var maxTRID = (db.TRANSLATION_HOTEL.Max(k => k.ID) ?? 0);
+                #region //Lưu ảnh
+                String thumbImagePath = null;
+                var thumbImage = Request.Files["HOTEL_IMAGE"];
+                if (thumbImage != null && thumbImage.ContentLength > 0)
+                {
+                    String fileName = GetNewFileName(thumbImage.FileName);
+                    thumbImagePath = "/Upload/images/" + fileName;
+                    thumbImage.SaveAs(Path.Combine(Server.MapPath(thumbImagePath)));
+                    //resize kích thước (149x112)
+                    Image image = Image.FromStream(thumbImage.InputStream);
+                    String thumbImagePath1 = "/Upload/images/thumbs/" + fileName;
+                    Image thumb = ResizeImage(image, 149, 112, false);
+                    thumb.Save(Path.Combine(Server.MapPath(thumbImagePath1)));
+                }
+                hotel.HOTEL_IMAGE = thumbImagePath;
+                hotel.HOTEL_CREATEDATE = DateTime.Now;
+                #endregion
+                hotel.TRANSLATION_HOTEL = new List<TRANSLATION_HOTEL>();
+                var count = 1;
+                foreach (var item in ViewBag.Language)
+                {
+                    if (count != item.LANGUAGE_ID)
+                    {
+                        TRANSLATION_HOTEL a = new TRANSLATION_HOTEL();
+                        a.ID = ++maxTRID;
+                        a.HOTEL_ID = (decimal)hotel.HOTEL_ID;
+                        a.LANGUAGE_ID = item.LANGUAGE_ID;
+                        a.NAME = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].NAME"];
+                        a.ADDRESS = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].ADDRESS"];
+                        a.BRIEF = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].BRIEF"];
+                        a.DESCRIPTION = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].DESCRIPTION"];
+                        hotel.TRANSLATION_HOTEL.Add(a);
+                    }
+                }
+
+                db.HOTELs.Add(hotel);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Language = db.LANGUAGEs;
+            return View(hotel);
+        }
+
+        // GET: /Hotel/Edit/5
+        public async Task<ActionResult> Edit(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            HOTEL hotel = await db.HOTELs.Where(h => h.HOTEL_ID == id).Include(x => x.TRANSLATION_HOTEL).FirstOrDefaultAsync(); ;
+            if (hotel == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Language = db.LANGUAGEs;
+            return View(hotel);
+        }
+
+        // POST: /Hotel/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Exclude = "")] HOTEL hotel)
         {
             if (ModelState.IsValid)
             {
@@ -76,78 +142,27 @@ namespace Booking.Controllers
                     thumb.Save(Path.Combine(Server.MapPath(thumbImagePath1)));
                 }
                 hotel.HOTEL_IMAGE = thumbImagePath;
-                hotel.HOTEL_CREATEDATE = DateTime.Now;
                 #endregion
-                hotel.HOTEL_ID = (db.HOTELs.Max(h => h.HOTEL_ID) ?? 0) + 1;
-                db.HOTELs.Add(hotel);
-                var maxTRID = (db.HOTELs.Max(h => h.HOTEL_ID) ?? 0) + 1;
-                hotel.TRANSLATION_HOTEL.ID = maxTRID;
-                hotel.TRANSLATION_HOTEL.LANGUAGE_ID = 2;
-                hotel.TRANSLATION_HOTEL1.ID = maxTRID + 1;
-                hotel.TRANSLATION_HOTEL1.LANGUAGE_ID = 2;
-                hotel.TRANSLATION_HOTEL2.ID = maxTRID + 2;
-                hotel.TRANSLATION_HOTEL2.LANGUAGE_ID = 2;
-                hotel.TRANSLATION_HOTEL3.ID = maxTRID + 3;
-                hotel.TRANSLATION_HOTEL3.LANGUAGE_ID = 2;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+                foreach (var item in hotel.TRANSLATION_HOTEL)
+                {
+                    db.Entry(item).State = EntityState.Modified;
+                }
 
-            ViewBag.NAME_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.NAME_TRANSLATION_ID);
-            ViewBag.ADDRESS_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.ADDRESS_TRANSLATION_ID);
-            ViewBag.DESCRIPTION_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.DESCRIPTION_TRANSLATION_ID);
-            ViewBag.BRIEF_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.BRIEF_TRANSLATION_ID);
-            ViewBag.Language = db.LANGUAGEs;
-            return View(hotel);
-        }
-
-        // GET: /AdminHotel/Edit/5
-        public async Task<ActionResult> Edit(decimal id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HOTEL hotel = await db.HOTELs.FindAsync(id);
-            if (hotel == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.NAME_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.NAME_TRANSLATION_ID);
-            ViewBag.ADDRESS_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.ADDRESS_TRANSLATION_ID);
-            ViewBag.DESCRIPTION_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.DESCRIPTION_TRANSLATION_ID);
-            ViewBag.BRIEF_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.BRIEF_TRANSLATION_ID);
-            return View(hotel);
-        }
-
-        // POST: /AdminHotel/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "HOTEL_ID,HOTEL_NAME,HOTEL_ADDRESS,HOTEL_CREATEDATE,HOTEL_DESCRIPTION,HOTEL_BRIEF,NUMBER_RATING,TOTAL_RATING,TOTAL_ROOM,PRICE_GENERAL,HOTEL_STAR,HOTEL_LEVEL,HOTEL_STATUS,HOTEL_IMAGE,MEDIA_ARRAY,HOTEL_CHECKIN,HOTEL_MAP,NAME_TRANSLATION_ID,ADDRESS_TRANSLATION_ID,DESCRIPTION_TRANSLATION_ID,BRIEF_TRANSLATION_ID,HOTEL_ALIAS")] HOTEL hotel)
-        {
-            if (ModelState.IsValid)
-            {
                 db.Entry(hotel).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.NAME_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.NAME_TRANSLATION_ID);
-            ViewBag.ADDRESS_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.ADDRESS_TRANSLATION_ID);
-            ViewBag.DESCRIPTION_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.DESCRIPTION_TRANSLATION_ID);
-            ViewBag.BRIEF_TRANSLATION_ID = new SelectList(db.TRANSLATION_HOTEL, "ID", "TEXT", hotel.BRIEF_TRANSLATION_ID);
             return View(hotel);
         }
 
-        // GET: /AdminHotel/Delete/5
+        // GET: /Hotel/Delete/5
         public async Task<ActionResult> Delete(decimal id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HOTEL hotel = await db.HOTELs.FindAsync(id);
+            HOTEL hotel = await db.HOTELs.Where(x => x.HOTEL_ID == id).Include(h => h.TRANSLATION_HOTEL).FirstOrDefaultAsync();
             if (hotel == null)
             {
                 return HttpNotFound();
@@ -155,12 +170,16 @@ namespace Booking.Controllers
             return View(hotel);
         }
 
-        // POST: /AdminHotel/Delete/5
+        // POST: /Hotel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(decimal id)
         {
-            HOTEL hotel = await db.HOTELs.FindAsync(id);
+            HOTEL hotel = await db.HOTELs.Where(x => x.HOTEL_ID == id).Include(h => h.TRANSLATION_HOTEL).FirstOrDefaultAsync();
+            foreach (var item in hotel.TRANSLATION_HOTEL.ToList())
+            {
+                db.TRANSLATION_HOTEL.Remove(item);
+            }
             db.HOTELs.Remove(hotel);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

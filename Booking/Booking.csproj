@@ -187,9 +187,10 @@
     <Compile Include="Controllers\AdminMediaController.cs" />
     <Compile Include="Controllers\AdminRoleController.cs" />
     <Compile Include="Controllers\AdminRoomController.cs" />
+    <Compile Include="Controllers\Admin\RoomTypeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HotelController.cs" />
+    <Compile Include="Controllers\Admin\HotelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -277,6 +278,9 @@
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSLATION_ROOM.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_ROOM_TYPE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1474,6 +1478,11 @@
     <Content Include="Views\Hotel\Details.cshtml" />
     <Content Include="Views\Hotel\Edit.cshtml" />
     <Content Include="Views\Hotel\Index.cshtml" />
+    <Content Include="Views\RoomType\Create.cshtml" />
+    <Content Include="Views\RoomType\Delete.cshtml" />
+    <Content Include="Views\RoomType\Details.cshtml" />
+    <Content Include="Views\RoomType\Edit.cshtml" />
+    <Content Include="Views\RoomType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

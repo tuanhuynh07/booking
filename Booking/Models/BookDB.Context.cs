@@ -46,5 +46,6 @@ namespace Booking.Models
         public virtual DbSet<TRANSLATION_CUSTOMER> TRANSLATION_CUSTOMER { get; set; }
         public virtual DbSet<TRANSLATION_HOTEL> TRANSLATION_HOTEL { get; set; }
         public virtual DbSet<TRANSLATION_ROOM> TRANSLATION_ROOM { get; set; }
+        public virtual DbSet<TRANSLATION_ROOM_TYPE> TRANSLATION_ROOM_TYPE { get; set; }
     }
 }

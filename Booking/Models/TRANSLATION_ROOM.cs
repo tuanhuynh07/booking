@@ -14,16 +14,12 @@ namespace Booking.Models
     
     public partial class TRANSLATION_ROOM
     {
-        public TRANSLATION_ROOM()
-        {
-            this.ROOMs = new HashSet<ROOM>();
-        }
-    
-        public decimal ID { get; set; }
+        public decimal? ID { get; set; }
         public decimal LANGUAGE_ID { get; set; }
-        public string TEXT { get; set; }
+        public string ROOM_NAME { get; set; }
+        public decimal ROOM_ID { get; set; }
     
         public virtual LANGUAGE LANGUAGE { get; set; }
-        public virtual ICollection<ROOM> ROOMs { get; set; }
+        public virtual ROOM ROOM { get; set; }
     }
 }

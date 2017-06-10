@@ -21,6 +21,7 @@ namespace Booking.Models
             this.TRANSLATION_CUSTOMER = new HashSet<TRANSLATION_CUSTOMER>();
             this.TRANSLATION_HOTEL = new HashSet<TRANSLATION_HOTEL>();
             this.TRANSLATIONs = new HashSet<TRANSLATION>();
+            this.TRANSLATION_ROOM_TYPE = new HashSet<TRANSLATION_ROOM_TYPE>();
         }
     
         public decimal LANGUAGE_ID { get; set; }
@@ -33,5 +34,6 @@ namespace Booking.Models
         public virtual ICollection<TRANSLATION_HOTEL> TRANSLATION_HOTEL { get; set; }
         public virtual ICollection<TRANSLATION> TRANSLATIONs { get; set; }
         public virtual TRANSLATION_ROOM TRANSLATION_ROOM { get; set; }
+        public virtual ICollection<TRANSLATION_ROOM_TYPE> TRANSLATION_ROOM_TYPE { get; set; }
     }
 }

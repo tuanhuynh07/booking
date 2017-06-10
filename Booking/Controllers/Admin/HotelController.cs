@@ -13,7 +13,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
-namespace Booking.Controllers
+namespace Booking.Controllers.Admin
 {
     public class HotelController : Controller
     {
@@ -162,7 +162,7 @@ namespace Booking.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HOTEL hotel = await db.HOTELs.Where(x => x.HOTEL_ID == id).Include(h => h.TRANSLATION_HOTEL).FirstOrDefaultAsync();
+            HOTEL hotel = await db.HOTELs.FindAsync(id);
             if (hotel == null)
             {
                 return HttpNotFound();

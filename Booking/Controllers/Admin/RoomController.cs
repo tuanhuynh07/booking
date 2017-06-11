@@ -9,59 +9,62 @@ using System.Web;
 using System.Web.Mvc;
 using Booking.Models;
 using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace Booking.Controllers.Admin
 {
-    public class HotelController : Controller
+    public class RoomController : Controller
     {
         private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
 
-        // GET: /Hotel/
+        // GET: /Room/
         public async Task<ActionResult> Index()
         {
-            return View(await db.HOTELs.ToListAsync());
+            var rooms = db.ROOMs.Include(r => r.HOTEL).Include(r => r.ROOM_TYPE);
+            return View(await rooms.ToListAsync());
         }
 
-        // GET: /Hotel/Details/5
+        // GET: /Room/Details/5
         public async Task<ActionResult> Details(decimal id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HOTEL hotel = await db.HOTELs.FindAsync(id);
-            if (hotel == null)
+            ROOM room = await db.ROOMs.FindAsync(id);
+            if (room == null)
             {
                 return HttpNotFound();
             }
-            return View(hotel);
+            return View(room);
         }
 
-        // GET: /Hotel/Create
+        // GET: /Room/Create
         public ActionResult Create()
         {
             ViewBag.Language = db.LANGUAGEs;
+            ViewBag.HOTEL_ID = new SelectList(db.HOTELs, "HOTEL_ID", "HOTEL_NAME");
+            ViewBag.ROOM_TYPE_ID = new SelectList(db.ROOM_TYPE, "ROOM_TYPE_ID", "ROOM_TYPE_NAME");
             return View();
         }
 
-        // POST: /Hotel/Create
+        // POST: /Room/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Exclude = "")] HOTEL hotel)
+        public async Task<ActionResult> Create([Bind(Exclude = "")] ROOM room)
         {
             ViewBag.Language = db.LANGUAGEs;
             if (ModelState.IsValid)
             {
-                hotel.HOTEL_ID = (db.HOTELs.Max(h => h.HOTEL_ID) ?? 0) + 1;
-                var maxTRID = (db.TRANSLATION_HOTEL.Max(k => k.ID) ?? 0);
+                room.ROOM_ID = (db.ROOMs.Max(h => h.ROOM_ID) ?? 0) + 1;
+                var maxTRID = (db.TRANSLATION_ROOM.Max(k => k.ID) ?? 0);
                 #region //Lưu ảnh
                 String thumbImagePath = null;
-                var thumbImage = Request.Files["HOTEL_IMAGE"];
+                var thumbImage = Request.Files["ROOM_IMAGE"];
                 if (thumbImage != null && thumbImage.ContentLength > 0)
                 {
                     String fileName = GetNewFileName(thumbImage.FileName);
@@ -73,63 +76,58 @@ namespace Booking.Controllers.Admin
                     Image thumb = ResizeImage(image, 149, 112, false);
                     thumb.Save(Path.Combine(Server.MapPath(thumbImagePath1)));
                 }
-                hotel.HOTEL_IMAGE = thumbImagePath;
-                hotel.HOTEL_CREATEDATE = DateTime.Now;
+                room.ROOM_IMAGE = thumbImagePath;
                 #endregion
-                hotel.TRANSLATION_HOTEL = new List<TRANSLATION_HOTEL>();
+                room.TRANSLATION_ROOM = new List<TRANSLATION_ROOM>();
                 var count = 1;
                 foreach (var item in ViewBag.Language)
                 {
                     if (count != item.LANGUAGE_ID)
                     {
-                        TRANSLATION_HOTEL a = new TRANSLATION_HOTEL();
-                        a.ID = ++maxTRID;
-                        a.HOTEL_ID = (decimal)hotel.HOTEL_ID;
-                        a.LANGUAGE_ID = item.LANGUAGE_ID;
-                        a.NAME = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].NAME"];
-                        a.ADDRESS = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].ADDRESS"];
-                        a.BRIEF = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].BRIEF"];
-                        a.DESCRIPTION = Request.Form["TRANSLATION_HOTEL[" + item.LANGUAGE_ID + "].DESCRIPTION"];
-                        hotel.TRANSLATION_HOTEL.Add(a);
+                        room.TRANSLATION_ROOM.Add(new TRANSLATION_ROOM { ID = ++maxTRID, LANGUAGE_ID = item.LANGUAGE_ID, ROOM_ID = (decimal)room.ROOM_ID, ROOM_NAME = Request.Form["TRANSLATION_ROOM[" + item.LANGUAGE_ID + "].ROOM_NAME"] });
                     }
                 }
-
-                db.HOTELs.Add(hotel);
+                db.ROOMs.Add(room);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Language = db.LANGUAGEs;
-            return View(hotel);
+
+            ViewBag.HOTEL_ID = new SelectList(db.HOTELs, "HOTEL_ID", "HOTEL_NAME", room.HOTEL_ID);
+            ViewBag.ROOM_TYPE_ID = new SelectList(db.ROOM_TYPE, "ROOM_TYPE_ID", "ROOM_TYPE_NAME", room.ROOM_TYPE_ID);
+            return View(room);
         }
 
-        // GET: /Hotel/Edit/5
+
+        // GET: /Room/Edit/5
         public async Task<ActionResult> Edit(decimal id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HOTEL hotel = await db.HOTELs.Where(h => h.HOTEL_ID == id).Include(x => x.TRANSLATION_HOTEL).FirstOrDefaultAsync();
-            if (hotel == null)
+            ROOM room = await db.ROOMs.Where(h => h.ROOM_ID == id).Include(x => x.TRANSLATION_ROOM).FirstOrDefaultAsync();
+            if (room == null)
             {
                 return HttpNotFound();
             }
             ViewBag.Language = db.LANGUAGEs;
-            return View(hotel);
+            ViewBag.HOTEL_ID = new SelectList(db.HOTELs, "HOTEL_ID", "HOTEL_NAME", room.HOTEL_ID);
+            ViewBag.ROOM_TYPE_ID = new SelectList(db.ROOM_TYPE, "ROOM_TYPE_ID", "ROOM_TYPE_NAME", room.ROOM_TYPE_ID);
+            return View(room);
         }
 
-        // POST: /Hotel/Edit/5
+        // POST: /Room/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Exclude = "")] HOTEL hotel)
+        public async Task<ActionResult> Edit([Bind(Exclude = "")] ROOM room)
         {
             if (ModelState.IsValid)
             {
                 #region //Lưu ảnh
                 String thumbImagePath = null;
-                var thumbImage = Request.Files["HOTEL_IMAGE"];
+                var thumbImage = Request.Files["ROOM_IMAGE"];
                 if (thumbImage != null && thumbImage.ContentLength > 0)
                 {
                     String fileName = GetNewFileName(thumbImage.FileName);
@@ -141,46 +139,47 @@ namespace Booking.Controllers.Admin
                     Image thumb = ResizeImage(image, 149, 112, false);
                     thumb.Save(Path.Combine(Server.MapPath(thumbImagePath1)));
                 }
-                hotel.HOTEL_IMAGE = thumbImagePath;
+                room.ROOM_IMAGE = thumbImagePath;
                 #endregion
-                foreach (var item in hotel.TRANSLATION_HOTEL)
+                foreach (var item in room.TRANSLATION_ROOM)
                 {
                     db.Entry(item).State = EntityState.Modified;
                 }
-
-                db.Entry(hotel).State = EntityState.Modified;
+                db.Entry(room).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(hotel);
+            ViewBag.HOTEL_ID = new SelectList(db.HOTELs, "HOTEL_ID", "HOTEL_NAME", room.HOTEL_ID);
+            ViewBag.ROOM_TYPE_ID = new SelectList(db.ROOM_TYPE, "ROOM_TYPE_ID", "ROOM_TYPE_NAME", room.ROOM_TYPE_ID);
+            return View(room);
         }
 
-        // GET: /Hotel/Delete/5
+        // GET: /Room/Delete/5
         public async Task<ActionResult> Delete(decimal id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HOTEL hotel = await db.HOTELs.FindAsync(id);
-            if (hotel == null)
+            ROOM room = await db.ROOMs.FindAsync(id);
+            if (room == null)
             {
                 return HttpNotFound();
             }
-            return View(hotel);
+            return View(room);
         }
 
-        // POST: /Hotel/Delete/5
+        // POST: /Room/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(decimal id)
         {
-            HOTEL hotel = await db.HOTELs.Where(x => x.HOTEL_ID == id).Include(h => h.TRANSLATION_HOTEL).FirstOrDefaultAsync();
-            foreach (var item in hotel.TRANSLATION_HOTEL.ToList())
+            ROOM room = await db.ROOMs.Where(x => x.ROOM_ID == id).Include(h => h.TRANSLATION_ROOM).FirstOrDefaultAsync();
+            foreach (var item in room.TRANSLATION_ROOM.ToList())
             {
-                db.TRANSLATION_HOTEL.Remove(item);
+                db.TRANSLATION_ROOM.Remove(item);
             }
-            db.HOTELs.Remove(hotel);
+            db.ROOMs.Remove(room);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

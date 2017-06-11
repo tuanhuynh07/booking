@@ -187,6 +187,7 @@
     <Compile Include="Controllers\AdminMediaController.cs" />
     <Compile Include="Controllers\AdminRoleController.cs" />
     <Compile Include="Controllers\AdminRoomController.cs" />
+    <Compile Include="Controllers\Admin\RoomController.cs" />
     <Compile Include="Controllers\Admin\RoomTypeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -232,7 +233,6 @@
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerModels.cs" />
-    <Compile Include="Models\Default1Controller.cs" />
     <Compile Include="Models\HITCOUTER.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
@@ -1483,6 +1483,11 @@
     <Content Include="Views\RoomType\Details.cshtml" />
     <Content Include="Views\RoomType\Edit.cshtml" />
     <Content Include="Views\RoomType\Index.cshtml" />
+    <Content Include="Views\Room\Create.cshtml" />
+    <Content Include="Views\Room\Delete.cshtml" />
+    <Content Include="Views\Room\Details.cshtml" />
+    <Content Include="Views\Room\Edit.cshtml" />
+    <Content Include="Views\Room\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

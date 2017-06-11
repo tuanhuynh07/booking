@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Booking.Models.ROOM_TYPE>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Quản lý Khách sạn
+    </h1>
+</section>
+<section class="content">
+    <div class="row" style="padding-bottom:10px;">
+        <div class="col-md-12">
+            @Html.ActionLink("Tạo mới Loại Phòng", "create", new { controller = "RoomType" }, new { @class = "btn btn-primary pull-left" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách Loại Phòng</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_TYPE_NAME)
+                                </th>
+                                <th>Chức năng</th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_TYPE_NAME)
+                                    </td>
+                                    <td>
+                                        <ul class="contro_function">
+                                            <li>
+                                                <a href="@Url.Action("Edit", "RoomType", new { id = item.ROOM_TYPE_ID })"><i class="fa fa-edit"></i></a>
+
+                                            </li>
+                                            <li>|</li>
+                                            <li>
+                                                <a href="@Url.Action("Delete", "RoomType", new { id = item.ROOM_TYPE_ID })"><i class="fa fa-remove" style="color:red;"></i></a>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

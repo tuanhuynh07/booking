@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Booking.Models.ROOM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Quản lý Khách sạn
+    </h1>
+</section>
+<section class="content">
+    <div class="row" style="padding-bottom:10px;">
+        <div class="col-md-12">
+            @Html.ActionLink("Tạo mới Phòng", "Create", new { controller = "Room" }, new { @class = "btn btn-primary pull-left" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách Loại Phòng</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_NAME)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_ACREAGE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NUMBER_BED)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_PRICE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_IMAGE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_STATUS)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HOTEL.HOTEL_NAME)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ROOM_TYPE.ROOM_TYPE_NAME)
+                                </th>
+                                <th>Chức Năng</th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_NAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_CODE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_ACREAGE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NUMBER_BED)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_PRICE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_IMAGE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_STATUS)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HOTEL.HOTEL_NAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ROOM_TYPE.ROOM_TYPE_NAME)
+                                    </td>
+                                    <td>
+                                        <ul class="contro_function">
+                                            <li>
+                                                <a href="@Url.Action("Edit", "Room", new { id = item.ROOM_TYPE_ID })"><i class="fa fa-edit"></i></a>
+
+                                            </li>
+                                            <li>|</li>
+                                            <li>
+                                                <a href="@Url.Action("Delete", "Room", new { id = item.ROOM_TYPE_ID })"><i class="fa fa-remove" style="color:red;"></i></a>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

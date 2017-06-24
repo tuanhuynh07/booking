@@ -12,8 +12,6 @@ namespace Booking.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class DB_BOOKINGEntities : DbContext
     {
@@ -49,6 +47,7 @@ namespace Booking.Models
         public virtual DbSet<TRANSLATION_CUSTOMER> TRANSLATION_CUSTOMER { get; set; }
         public virtual DbSet<TRANSLATION_HOTEL> TRANSLATION_HOTEL { get; set; }
         public virtual DbSet<TRANSLATION_ROOM> TRANSLATION_ROOM { get; set; }
+<<<<<<< HEAD
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -152,5 +151,8 @@ namespace Booking.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
+=======
+        public virtual DbSet<TRANSLATION_ROOM_TYPE> TRANSLATION_ROOM_TYPE { get; set; }
+>>>>>>> refs/remotes/origin/master
     }
 }

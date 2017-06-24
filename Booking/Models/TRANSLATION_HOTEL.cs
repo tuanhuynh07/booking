@@ -14,10 +14,22 @@ namespace Booking.Models
     
     public partial class TRANSLATION_HOTEL
     {
+<<<<<<< HEAD
         public decimal ID { get; set; }
         public decimal LANGUAGE_ID { get; set; }
         public string TEXT { get; set; }
     
+=======
+        public decimal? ID { get; set; }
+        public decimal LANGUAGE_ID { get; set; }
+        public string NAME { get; set; }
+        public decimal HOTEL_ID { get; set; }
+        public string BRIEF { get; set; }
+        public string ADDRESS { get; set; }
+        public string DESCRIPTION { get; set; }
+    
+        public virtual HOTEL HOTEL { get; set; }
+>>>>>>> refs/remotes/origin/master
         public virtual LANGUAGE LANGUAGE { get; set; }
     }
 }

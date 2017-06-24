@@ -184,12 +184,14 @@
     <Compile Include="Controllers\AdminCategoryController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminCustomerController.cs" />
-    <Compile Include="Controllers\AdminHotelController.cs" />
     <Compile Include="Controllers\AdminMediaController.cs" />
     <Compile Include="Controllers\AdminRoleController.cs" />
     <Compile Include="Controllers\AdminRoomController.cs" />
+    <Compile Include="Controllers\Admin\RoomController.cs" />
+    <Compile Include="Controllers\Admin\RoomTypeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Admin\HotelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,7 +239,6 @@
     <Compile Include="Models\HOTEL.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HotelModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LANGUAGE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
@@ -261,13 +262,28 @@
     <Compile Include="Models\ROOM_TYPE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_ARTICLE.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_CATEGORY.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_CUSTOMER.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_HOTEL.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_ROOM.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSLATION_ROOM_TYPE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSLATION.cs">
@@ -1478,11 +1494,27 @@
     <Content Include="Views\AdminArticle\ArticelInCategory.cshtml" />
     <Content Include="Views\AdminArticle\Create.cshtml" />
     <Content Include="Views\AdminArticle\Edit.cshtml" />
+    <Content Include="Views\Hotel\Create.cshtml" />
+    <Content Include="Views\Hotel\Delete.cshtml" />
+    <Content Include="Views\Hotel\Details.cshtml" />
+    <Content Include="Views\Hotel\Edit.cshtml" />
+    <Content Include="Views\Hotel\Index.cshtml" />
+    <Content Include="Views\RoomType\Create.cshtml" />
+    <Content Include="Views\RoomType\Delete.cshtml" />
+    <Content Include="Views\RoomType\Details.cshtml" />
+    <Content Include="Views\RoomType\Edit.cshtml" />
+    <Content Include="Views\RoomType\Index.cshtml" />
+    <Content Include="Views\Room\Create.cshtml" />
+    <Content Include="Views\Room\Delete.cshtml" />
+    <Content Include="Views\Room\Details.cshtml" />
+    <Content Include="Views\Room\Edit.cshtml" />
+    <Content Include="Views\Room\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Upload\files\" />
+    <Folder Include="Upload\images\thumbs\" />
     <Folder Include="Views\AdminCustomer\" />
-    <Folder Include="Views\AdminHotel\" />
     <Folder Include="Views\AdminMedia\" />
     <Folder Include="Views\AdminRole\" />
     <Folder Include="Views\AdminRoom\" />

@@ -1,0 +1,27 @@
+﻿@model Booking.Models.ROOM_TYPE
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ROOM_TYPE</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_TYPE_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_TYPE_NAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ROOM_TYPE_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

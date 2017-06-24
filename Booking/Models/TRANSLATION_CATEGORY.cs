@@ -14,10 +14,22 @@ namespace Booking.Models
     
     public partial class TRANSLATION_CATEGORY
     {
+<<<<<<< HEAD
+=======
+        public TRANSLATION_CATEGORY()
+        {
+            this.CATEGORies = new HashSet<CATEGORY>();
+        }
+    
+>>>>>>> refs/remotes/origin/master
         public decimal ID { get; set; }
         public decimal LANGUAGE_ID { get; set; }
         public string TEXT { get; set; }
     
+<<<<<<< HEAD
+=======
+        public virtual ICollection<CATEGORY> CATEGORies { get; set; }
+>>>>>>> refs/remotes/origin/master
         public virtual LANGUAGE LANGUAGE { get; set; }
     }
 }

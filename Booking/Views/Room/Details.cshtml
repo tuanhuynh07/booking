@@ -1,0 +1,91 @@
+﻿@model Booking.Models.ROOM
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ROOM</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_CODE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_CODE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_ACREAGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_ACREAGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NUMBER_BED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NUMBER_BED)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_PRICE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_PRICE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_IMAGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_IMAGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_STATUS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL.HOTEL_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL.HOTEL_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_TYPE.ROOM_TYPE_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_TYPE.ROOM_TYPE_NAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ROOM_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

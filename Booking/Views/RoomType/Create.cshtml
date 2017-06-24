@@ -1,0 +1,89 @@
+﻿@model Booking.Models.ROOM_TYPE
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Quản lý Khách Sạn
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tạo mới Khách sạn:</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="box-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Custom Tabs -->
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            @{  int count = 0;}
+                                            @foreach (var item in ViewBag.Language)
+                                            {
+                                                <li class="@(count == 0 ? "active" :"")"><a href="@("#tab_" + item.LANGUAGE_ID)" data-toggle="tab">@item.LANGUAGE_NAME</a></li>
+                                                count = (int)item.LANGUAGE_ID;
+                                            }
+                                        </ul>
+                                        <div class="tab-content">
+                                            @{ count = 1;}
+                                            @foreach (var item in ViewBag.Language)
+                                            {
+                                                if (count == item.LANGUAGE_ID)
+                                                {
+                                                    <div class="tab-pane @(count == 1 ? "active" :"")" id="@("tab_" + item.LANGUAGE_ID)">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ROOM_TYPE_NAME, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_TYPE_NAME)
+                                                            @Html.TextBoxFor(model => model.ROOM_TYPE_NAME, new { @class = "form-control" })
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    count = (int)item.LANGUAGE_ID;
+                                            <!-- /.tab-pane -->
+                                                    <div class="tab-pane" id="@("tab_" + item.LANGUAGE_ID)">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.TRANSLATION_ROOM_TYPE[count].ROOM_TYPE_NAME, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.TRANSLATION_ROOM_TYPE[count].ROOM_TYPE_NAME)
+                                                            @Html.TextBoxFor(model => model.TRANSLATION_ROOM_TYPE[count].ROOM_TYPE_NAME, new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

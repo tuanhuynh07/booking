@@ -189,6 +189,9 @@
     <Compile Include="Controllers\AdminMediaController.cs" />
     <Compile Include="Controllers\AdminRoleController.cs" />
     <Compile Include="Controllers\AdminRoomController.cs" />
+    <Compile Include="Controllers\Admin\HotelController.cs" />
+    <Compile Include="Controllers\Admin\RoomController.cs" />
+    <Compile Include="Controllers\Admin\RoomTypeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -259,6 +262,7 @@
     <Compile Include="Models\ROLE.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Role_Cat.cs" />
     <Compile Include="Models\ROOM.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
@@ -292,6 +296,7 @@
     <Compile Include="Models\TRANSLATION_ROOM.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TRANSLATION_ROOM_TYPE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -1519,6 +1524,21 @@
     <Content Include="Views\AdminCustomer\InformationDetail.cshtml" />
     <Content Include="Views\AdminCustomer\RoomBooking.cshtml" />
     <Content Include="Views\AdminCustomer\ActivePay.cshtml" />
+    <Content Include="Views\Hotel\Create.cshtml" />
+    <Content Include="Views\Hotel\Delete.cshtml" />
+    <Content Include="Views\Hotel\Details.cshtml" />
+    <Content Include="Views\Hotel\Edit.cshtml" />
+    <Content Include="Views\Hotel\Index.cshtml" />
+    <Content Include="Views\Room\Create.cshtml" />
+    <Content Include="Views\Room\Delete.cshtml" />
+    <Content Include="Views\Room\Details.cshtml" />
+    <Content Include="Views\Room\Edit.cshtml" />
+    <Content Include="Views\Room\Index.cshtml" />
+    <Content Include="Views\RoomType\Create.cshtml" />
+    <Content Include="Views\RoomType\Delete.cshtml" />
+    <Content Include="Views\RoomType\Details.cshtml" />
+    <Content Include="Views\RoomType\Edit.cshtml" />
+    <Content Include="Views\RoomType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

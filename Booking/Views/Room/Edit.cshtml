@@ -1,0 +1,131 @@
+﻿@model Booking.Models.ROOM
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Quản lý Khách Sạn
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cập nhật thông tin Phòng:</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.ROOM_ID)
+                        <div class="box-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ROOM_TYPE_ID, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_TYPE_ID)
+                                @Html.DropDownList("ROOM_TYPE_ID",null, "--Chọn Khách Sạn--", new { @class = "form-control", Required = "Required" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HOTEL_ID, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.HOTEL_ID)
+                                @Html.DropDownList("HOTEL_ID", null, "--Chọn Khách Sạn--", new { @class = "form-control", Required = "Required" })
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Custom Tabs -->
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            @{  int count = 0;}
+                                            @foreach (var item in ViewBag.Language)
+                                            {
+                                                <li class="@(count == 0 ? "active" :"")"><a href="@("#tab_" + item.LANGUAGE_ID)" data-toggle="tab">@item.LANGUAGE_NAME</a></li>
+                                                count = (int)item.LANGUAGE_ID;
+                                            }
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab_1">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.ROOM_NAME, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_NAME)
+                                                    @Html.TextBoxFor(model => model.ROOM_NAME, new { @class = "form-control", Required = "Required" })
+
+                                                </div>
+                                            </div>
+                                            @{ count = 0;}
+                                            @foreach (var item in Model.TRANSLATION_ROOM)
+                                            {
+                                                @Html.HiddenFor(model => model.TRANSLATION_ROOM[count].ID)
+                                                @Html.HiddenFor(model => model.TRANSLATION_ROOM[count].ROOM_ID)
+                                                @Html.HiddenFor(model => model.TRANSLATION_ROOM[count].LANGUAGE_ID)
+                                            <!-- /.tab-pane -->
+                                                <div class="tab-pane" id="@("tab_" + item.LANGUAGE_ID)">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.TRANSLATION_ROOM[count].ROOM_NAME, new { @class = "control-label" })@Html.ValidationMessageFor(model => model.TRANSLATION_ROOM[count].ROOM_NAME)
+                                                        @Html.TextBoxFor(model => model.TRANSLATION_ROOM[count].ROOM_NAME, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                count++;
+                                            }
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ROOM_CODE, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_CODE)
+                                @Html.TextBoxFor(model => model.ROOM_CODE, new { @class = "form-control", Required = "Required" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ROOM_ACREAGE, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_ACREAGE)
+                                @Html.TextBoxFor(model => model.ROOM_ACREAGE, new { @class = "form-control" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.NUMBER_BED, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.NUMBER_BED)
+                                @Html.TextBoxFor(model => model.NUMBER_BED, new { @class = "form-control", Required = "Required" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ROOM_PRICE, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_PRICE)
+                                @Html.TextBoxFor(model => model.ROOM_PRICE, new { @class = "form-control", Required = "Required" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ROOM_IMAGE, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_IMAGE)
+                                @Html.TextBoxFor(model => model.ROOM_IMAGE, new { @type = "file", @class = "form-control" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ROOM_STATUS, new { @class = "control-label" }) @Html.ValidationMessageFor(model => model.ROOM_STATUS)
+                                @Html.EditorFor(model => model.ROOM_STATUS, new { htmlAttributes = new { @class = "form-control" }, })
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class=" col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

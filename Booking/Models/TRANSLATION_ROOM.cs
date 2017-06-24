@@ -11,13 +11,21 @@ namespace Booking.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TRANSLATION_ROOM
     {
-        public decimal ID { get; set; }
+        public decimal? ID { get; set; }
+        [Required]
         public decimal LANGUAGE_ID { get; set; }
-        public string TEXT { get; set; }
-    
+        [DisplayName("Tên Phòng")]
+        [StringLength(200)]
+        public string ROOM_NAME { get; set; }
+        [Required]
+        public decimal ROOM_ID { get; set; }
+
         public virtual LANGUAGE LANGUAGE { get; set; }
+        public virtual ROOM ROOM { get; set; }
     }
 }

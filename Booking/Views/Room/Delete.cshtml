@@ -1,0 +1,97 @@
+﻿@model Booking.Models.ROOM
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ROOM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_CODE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_CODE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_ACREAGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_ACREAGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NUMBER_BED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NUMBER_BED)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_PRICE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_PRICE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_IMAGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_IMAGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_STATUS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTEL.HOTEL_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEL.HOTEL_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOM_TYPE.ROOM_TYPE_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOM_TYPE.ROOM_TYPE_NAME)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -14,21 +14,15 @@ namespace Booking.Models
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     
-    public partial class ROOM_TYPE
+    public partial class TRANSLATION_ROOM_TYPE
     {
-        public ROOM_TYPE()
-        {
-            this.ROOMs = new HashSet<ROOM>();
-            this.TRANSLATION_ROOM_TYPE = new List<TRANSLATION_ROOM_TYPE>();
-        }
-
-        public decimal? ROOM_TYPE_ID { get; set; }
-        [Required]
+        public decimal? ID { get; set; }
+        public Nullable<decimal> ROOM_TYPE_ID { get; set; }
+        public Nullable<decimal> LANGUAGE_ID { get; set; }
         [DisplayName("Loại Phòng")]
         [StringLength(200)]
         public string ROOM_TYPE_NAME { get; set; }
-    
-        public virtual ICollection<ROOM> ROOMs { get; set; }
-        public virtual List<TRANSLATION_ROOM_TYPE> TRANSLATION_ROOM_TYPE { get; set; }
+        public virtual LANGUAGE LANGUAGE { get; set; }
+        public virtual ROOM_TYPE ROOM_TYPE { get; set; }
     }
 }

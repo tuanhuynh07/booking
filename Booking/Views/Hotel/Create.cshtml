@@ -211,22 +211,7 @@
 <script src="@(urlHome + "content/ckeditor/ckeditor.js")"></script>
 <script src="@(urlHome + "content/ckfinder/ckfinder.js")"></script>
 <script>
-    CKEDITOR.replace('HOTEL_DESCRIPTION', {
-        filebrowserImageUploadUrl: '/Upload.ashx',
-        height: 350
-    });
-    CKEDITOR.config.autoParagraph = false;
-    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
-    CKEDITOR.replace('TRANSLATION_HOTEL_2__DESCRIPTION', {
-        filebrowserImageUploadUrl: '/Upload.ashx',
-        height: 350
-    });
-    CKEDITOR.replace('TRANSLATION_HOTEL_3__DESCRIPTION', {
-        filebrowserImageUploadUrl: '/Upload.ashx',
-        height: 350
-    });
-    CKEDITOR.config.autoParagraph = false;
-    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+   
 
     // In the following example, markers appear when the user clicks on the map.
     // The markers are stored in an array.
@@ -285,7 +270,22 @@
         clearMarkers();
         markers = [];
     }
+    
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-bdmMGElqIq6_ZZDHzPvGqLKEKfPTmNI&callback=initMap">
+</script>
+<script type="text/javascript">
+    CKEDITOR.replace('HOTEL_DESCRIPTION', {
+        filebrowserImageUploadUrl: '/Upload.ashx',
+        height: 350
+    });
+    CKEDITOR.config.autoParagraph = false;
+    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+    CKEDITOR.replace('TRANSLATION_HOTEL_2__DESCRIPTION', {
+        filebrowserImageUploadUrl: '/Upload.ashx',
+        height: 350
+    });
+    CKEDITOR.config.autoParagraph = false;
+    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
 </script>

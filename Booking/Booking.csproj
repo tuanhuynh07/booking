@@ -222,6 +222,9 @@
     <Compile Include="Models\BOOKING_ROOM.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BOOKING_ROOM_DETAIL.cs">
+      <DependentUpon>BookDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CATEGORY.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
@@ -284,24 +287,6 @@
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSLATION_ROOM_TYPE.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TRANSLATION.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TRANSLATION_ARTICLE.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TRANSLATION_CATEGORY.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TRANSLATION_CUSTOMER.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TRANSLATION_HOTEL.cs">
-      <DependentUpon>BookDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TRANSLATION_ROOM.cs">
       <DependentUpon>BookDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

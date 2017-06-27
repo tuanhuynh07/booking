@@ -11,7 +11,7 @@ namespace Booking.Controllers
 {
     public class AdminController : Controller
     {
-        private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
+        private  DB_BOOKINGEntities db = new DB_BOOKINGEntities();
         public ActionResult Index()
         {
             if (UserManager.Authenticated)

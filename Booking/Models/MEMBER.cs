@@ -24,6 +24,7 @@ namespace Booking.Models
         public Nullable<int> NUMBER_BOOK { get; set; }
         public decimal MEMBER_ID { get; set; }
         public Nullable<System.DateTime> LAST_DATE_VISIT { get; set; }
+        public Nullable<bool> MEMBER_ACTIVE { get; set; }
     
         public virtual CUSTOMER CUSTOMER { get; set; }
     }

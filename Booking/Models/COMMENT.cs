@@ -15,6 +15,7 @@ namespace Booking.Models
     public partial class COMMENT
     {
         public decimal COMMENT_ID { get; set; }
+        public string CUSTOMER_FULLNAME { get; set; }
         public Nullable<decimal> FROM_ID_CUSTOMER { get; set; }
         public Nullable<decimal> TO_ID_HOTEL { get; set; }
         public string MESSEGER { get; set; }

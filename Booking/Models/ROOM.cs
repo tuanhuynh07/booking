@@ -11,47 +11,28 @@ namespace Booking.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class ROOM
     {
         public ROOM()
         {
-            this.BOOKING_ROOM = new HashSet<BOOKING_ROOM>();
+            this.BOOKING_ROOM_DETAIL = new HashSet<BOOKING_ROOM_DETAIL>();
             this.TRANSLATION_ROOM = new List<TRANSLATION_ROOM>();
         }
     
         public decimal? ROOM_ID { get; set; }
-        [Required]
-        [DisplayName("Tên Phòng")]
-        [StringLength(200)]
         public string ROOM_NAME { get; set; }
-        [Required]
-        [DisplayName("Mã Phòng")]
         public string ROOM_CODE { get; set; }
         public string ROOM_ACREAGE { get; set; }
-        [Required]
-        [DisplayName("Số Giường")]
         public Nullable<int> NUMBER_BED { get; set; }
-        [Required]
-        [DisplayName("Giá Phòng")]
         public Nullable<int> ROOM_PRICE { get; set; }
-        [Required]
-        [DisplayName("Loại Phòng")]
         public Nullable<decimal> ROOM_TYPE_ID { get; set; }
-        [Required]
-        [DisplayName("Khách Sạn")]
         public Nullable<decimal> HOTEL_ID { get; set; }
-        [DisplayName("Hình Ảnh")]
         public string ROOM_IMAGE { get; set; }
-        [Required]
-        [DisplayName("Trạng Thái")]
         public Nullable<bool> ROOM_STATUS { get; set; }
-        public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
         public string ROOM_PRICE_SELL { get; set; }
     
-        public virtual ICollection<BOOKING_ROOM> BOOKING_ROOM { get; set; }
+        public virtual ICollection<BOOKING_ROOM_DETAIL> BOOKING_ROOM_DETAIL { get; set; }
         public virtual HOTEL HOTEL { get; set; }
         public virtual ROOM_TYPE ROOM_TYPE { get; set; }
         public virtual List<TRANSLATION_ROOM> TRANSLATION_ROOM { get; set; }

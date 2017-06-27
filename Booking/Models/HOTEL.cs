@@ -11,29 +11,21 @@ namespace Booking.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class HOTEL
     {
         public HOTEL()
         {
-            this.ROOMs = new HashSet<ROOM>();
             this.TRANSLATION_HOTEL = new List<TRANSLATION_HOTEL>();
+            this.BOOKING_ROOM_DETAIL = new HashSet<BOOKING_ROOM_DETAIL>();
+            this.ROOMs = new HashSet<ROOM>();
         }
     
         public decimal? HOTEL_ID { get; set; }
-        [Required]
-        [DisplayName("Tên Khách Sạn")]
         public string HOTEL_NAME { get; set; }
-        [Required]
-        [DisplayName("Địa chỉ")]
         public string HOTEL_ADDRESS { get; set; }
-        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> HOTEL_CREATEDATE { get; set; }
-        [DisplayName("Mô tả ngắn")]
         public string HOTEL_DESCRIPTION { get; set; }
-        [DisplayName("Mô tả ngắn")]
         public string HOTEL_BRIEF { get; set; }
         public Nullable<int> NUMBER_RATING { get; set; }
         public Nullable<int> TOTAL_RATING { get; set; }
@@ -46,16 +38,10 @@ namespace Booking.Models
         public string MEDIA_ARRAY { get; set; }
         public string HOTEL_CHECKIN { get; set; }
         public string HOTEL_MAP { get; set; }
-<<<<<<< HEAD
-        public Nullable<decimal> NAME_TRANSLATION_ID { get; set; }
-        public Nullable<decimal> ADDRESS_TRANSLATION_ID { get; set; }
-        public Nullable<decimal> DESCRIPTION_TRANSLATION_ID { get; set; }
-        public Nullable<decimal> BRIEF_TRANSLATION_ID { get; set; }
-=======
->>>>>>> refs/remotes/origin/master
         public string HOTEL_ALIAS { get; set; }
     
-        public virtual ICollection<ROOM> ROOMs { get; set; }
         public virtual List<TRANSLATION_HOTEL> TRANSLATION_HOTEL { get; set; }
+        public virtual ICollection<BOOKING_ROOM_DETAIL> BOOKING_ROOM_DETAIL { get; set; }
+        public virtual ICollection<ROOM> ROOMs { get; set; }
     }
 }

@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý Ngôn ngữ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ListOfCategory = ViewBag.ListOfCategory;
+    var stt = 0;
+    
+}
+<section class="content-header">
+    <h1>
+        Quản lý Ngôn ngữ
+    </h1>
+</section>
+<section class="content">
+    <div class="row" style="padding-bottom:10px;">
+        <div class="col-md-12">
+            @Html.ActionLink("Tạo mới", "create", new { controller = "AdminLanguage" }, new { @class = "btn btn-primary pull-left" })
+        </div>
+    </div>
+    @if (TempData["message_success"] != null)
+    {
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["message_success"]
+        </div>
+    }
+    @if (TempData["message_fail"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["message_fail"]
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 10px">STT</th>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Trạng thái</th>
+                                <th>Ngôn ngữ</th>
+                                <th style="width: 10px; text-align:center">Chức năng</th>
+                            </tr>
+                            @if (ListOfCategory != null && ListOfCategory.Count > 0)
+                            {
+                                foreach (var item in ListOfCategory)
+                                {
+                                    stt = stt + 1;
+                                    <tr>
+                                        <td style="text-align:center;">@stt</td>
+                                        <td>@item.LANGUAGE_CODE</td>
+                                        <td>@item.LANGUAGE_NAME</td>                                        
+                                        <td style="text-align:center;">
+                                            @if (item.LANGUAGE_ACTIVE)
+                                            {
+                                                <a class="display" data="@item.LANGUAGE_ID">
+                                                    <i title="Đang hoạt động" class="fa fa-check" aria-hidden="true" style="cursor: pointer;color:green"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="display" data="@item.LANGUAGE_ID">
+                                                    <i title="Không hoạt động" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color:red"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td style="text-align:center;">
+                                            @if (item.LANGUAGE_IS_PRIMARY)
+                                            {
+                                                <a class="display_footer" data="@item.LANGUAGE_ID">
+                                                    <i title="Ngôn ngữ chính" class="fa fa-key" aria-hidden="true" style="cursor: pointer; color: red"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="display_footer" data="@item.LANGUAGE_ID">
+                                                    <i title="Ngôn ngữ phụ" class="fa fa-key" aria-hidden="true" style="cursor: pointer;"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <ul class="contro_function">
+                                                <li>
+                                                    <a title="Cập nhật" href="/AdminLanguage/edit/@item.LANGUAGE_ID">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </li>                                               
+                                                <li>|</li>
+                                                <li>
+                                                    <a title="Xóa" href="/AdminLanguage/delete/@item.LANGUAGE_ID" onclick="return confirm('Bạn có muốn xóa không?');">
+                                                        <i class="fa fa-remove" style="color:red;"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

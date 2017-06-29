@@ -1,20 +1,20 @@
 ﻿@model Booking.Models.ARTICLE
 @{
     ViewBag.Title = " Cập nhật Bài viết";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    string strUrl = Request.Url.AbsoluteUri;
-    string strPath = Request.ApplicationPath;
-    string host = Request.Url.Host;
-    string urlHome = "/";
-    if (strPath != "/")
-    {
-        urlHome = strPath + urlHome;
-    }
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";   
 }
+<script src="/content/ckeditor/ckeditor.js"></script>
+<script src="/content/ckfinder/ckfinder.js"></script>
 <section class="content-header">
     <h1>
-        Quản lý Bài viết
+        Cập nhật Bài viết thuộc Danh mục: <b><i>@ViewBag.categoryName</i></b>
     </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li><a href="/AdminArticle">Danh mục Bài viết</a></li>
+        <li><a href="/adminarticle/articelincategory/@ViewBag.id">Danh sách Bài viết</a></li>
+        <li class="active">Cập nhật Bài viết</li>
+    </ol>
 </section>
 <section class="content">
     @if (TempData["articleNameError"] != null)
@@ -39,18 +39,19 @@
         </div>
     }
     <div class="row">
+	@using (Html.BeginForm("Edit", "adminarticle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cập nhật bài viết</h3>
+                    <h3 class="box-title">Thông tin</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    @using (Html.BeginForm("edit", "adminarticle", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
+                    
                         @Html.AntiForgeryToken()
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="ARTICLE_TITLE">Tiêu đề bài viết(*)</label>
+                                <label for="ARTICLE_TITLE">Tiêu đề bài viết <span style="color:red;">(*)</span></label>@Html.ValidationMessageFor(model => model.ARTICLE_TITLE, "", new { @class = "text-danger" })
                                 @Html.TextBoxFor(model => model.ARTICLE_TITLE, new { @class = "form-control", @placeholder = "Nhập tiêu đề..." })
                             </div>
                             <div class="form-group">
@@ -58,94 +59,171 @@
                                 @Html.TextAreaFor(model => model.ARTICLE_BRIEF, new { @class = "form-control", @placeholder = "Nhập mô tả...", @cols = "80", @rows = "4" })
                             </div>
                             <div class="form-group">
-                                <label for="ARTICLE_CONTENT">Nội dung (*) </label>
+                                <label for="ARTICLE_CONTENT">Nội dung <span style="color:red;">(*)</span></label>
                                 @Html.TextAreaFor(model => model.ARTICLE_CONTENT, new { @class = "form-control", @placeholder = "Nhập nội dung...", @cols = "80", @rows = "4" })
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_TAGS">Từ khóa <span style="color:red"><i>(Các từ khóa cách nhau bởi dấu ";")</i></span></label>
-                                @Html.TextBoxFor(model => model.ARTICLE_TAGS, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_CREATEDATE">Ngày đăng</label>
-                                @Html.TextBoxFor(model => model.ARTICLE_CREATEDATE, "{0:dd/MM/yyyy}", new { @class = "form-control" })
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("ARTICLE_IS_HOT") Bài viết nổi bật
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_IMAGE_LARGE">Ảnh đại diện (*) (Kích thước 600x450)</label>
-                                @Html.TextBoxFor(model => model.ARTICLE_IMAGE_LARGE, new { @type = "file", @class = "form-control", @onchange = "displayImage(this)" })
-                                @if (Model.ARTICLE_IMAGE_LARGE + "" != "")
-                                {
-                                    <a id="delete_large" style="cursor:pointer;" onclick="deleteImageArticle(@Model.ARTICLE_ID,'large')">Xóa ảnh</a><br />
-                                    <img style="max-width:600px;height:auto" id="image_large" src="@(Model.ARTICLE_IMAGE_LARGE)" />
-                                }
-                                @*<div class="container col-md-12">
-                                        <div class="row">
-                                            <div class="col col-6 img-container">
-                                                <img style="max-width:100%;height:auto" id="image" src="@Model.ARTICLE_IMAGE_LARGE"/>
-                                            </div>
-                                            <div class="col col-6 img-container" style="padding-top:10px;">
-                                                <canvas id="canvas" height="5" width="5"></canvas>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="imgX1" id="imgX1" />
-                                        <input type="hidden" name="imgY1" id="imgY1" />
-                                        <input type="hidden" name="imgWidth" id="imgWidth" />
-                                        <input type="hidden" name="imgHeight" id="imgHeight" />
-                                        <input type="hidden" name="imgCropped" id="imgCropped" />
-                                    </div>*@
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_IMAGE_THUMB">Ảnh nhỏ (*) (Kích thước 160x120)</label>
-                                @Html.TextBoxFor(model => model.ARTICLE_IMAGE_THUMB, new { @type = "file", @class = "form-control", @onchange = "displayImageThumb(this)" })
-                                @if (Model.ARTICLE_IMAGE_THUMB + "" != "")
-                                {
-                                    <img style="width:auto;height:auto" id="image_thumb" src="@(Model.ARTICLE_IMAGE_THUMB)" />
-                                    <a id="delete_thumb" style="cursor:pointer;" onclick="deleteImageArticle(@Model.ARTICLE_ID,'thumb')">Xóa ảnh</a><br />
-                                }
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_FILE_NAME_1">File đính kèm 1</label>
-                                @Html.TextBoxFor(model => model.ARTICLE_FILE_NAME_1, new { @type = "file", @class = "form-control", })
-                                @if (Model.ARTICLE_FILE_PATH_1 + "" != "")
-                                {
-                                    <a id="file1" href="@(Model.ARTICLE_FILE_PATH_1)">@Model.ARTICLE_FILE_NAME_1</a><a id="deleteFile1" style="cursor:pointer;" onclick="deleteFileArticle(@Model.ARTICLE_ID,1)"> | Xóa file</a>
-                                }
-                            </div>
-                            <div class="form-group">
-                                <label for="ARTICLE_FILE_NAME_2">File đính kèm 2</label>
-                                @Html.TextBoxFor(model => model.ARTICLE_FILE_NAME_2, new { @type = "file", @class = "form-control" })
-                                @if (Model.ARTICLE_FILE_PATH_2 + "" != "")
-                                {
-                                    <a id="file2" href="@(Model.ARTICLE_FILE_PATH_2)">@Model.ARTICLE_FILE_NAME_2</a><a id="deleteFile2" style="cursor:pointer;" onclick="deleteFileArticle(@Model.ARTICLE_ID,2)"> | Xóa file</a>
-                                }
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("ARTICLE_DISABLE") Xuất bản bài viết
-                                </label>
-                            </div>
-                        </div>
-                        <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                            <a href="@(urlHome + "adminarticle/articelincategory/" + ViewBag.ctId)" class="btn btn-default">Quay lại</a>
-                        </div>
-                    }
+                                <script>
+                                    CKEDITOR.replace('ARTICLE_CONTENT', {
+                                        filebrowserImageUploadUrl: '/Upload.ashx',
+                                        height: 350
+                                    });
+                                    CKEDITOR.config.autoParagraph = false;
+                                    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+                                </script>
+                            </div>                                                        
+                        </div>                    
                 </div>
             </div>
+			 @{
+                List<SelectListItem> listlanguage = ViewBag.BindListLanguage;
+                foreach (var item in listlanguage)
+                {
+                    decimal idl = Convert.ToDecimal(item.Value);                   
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Language: @item.Text </h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="ARTICLE_TITLE">Tiêu đề</label>
+                                @if(Model.TITLE_TRANSLATION_ID!=null)
+                                {                                    
+                                    Booking.Models.DB_BOOKINGEntities db = new Booking.Models.DB_BOOKINGEntities();                                    
+                                    var gettran = db.TRANSLATION_ARTICLE.Where(m => m.ID == Model.TITLE_TRANSLATION_ID.Value && m.LANGUAGE_ID == idl);
+                                    if(gettran!=null && gettran.Count()>0)
+                                    {
+                                        @Html.TextBox("ARTICLE_TITLE_" + item.Value,gettran.First().TEXT, new { @class = "form-control", @placeholder = "Nhập" })                                        
+                                    }
+                                    else 
+                                    {
+                                         @Html.TextBox("ARTICLE_TITLE_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập" })
+                                    }
+                                }
+                                else
+                                { 
+                                    @Html.TextBox("ARTICLE_TITLE_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập" })
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label for="Brief">Mô tả</label>
+                                @if (Model.BRIEF_TRANSLATION_ID != null)
+                                {
+                                    Booking.Models.DB_BOOKINGEntities db = new Booking.Models.DB_BOOKINGEntities();
+                                    var gettran = db.TRANSLATION_ARTICLE.Where(m => m.ID == Model.BRIEF_TRANSLATION_ID.Value && m.LANGUAGE_ID == idl);
+                                    if (gettran != null && gettran.Count() > 0)
+                                    {
+                                        @Html.TextArea("ARTICLE_BRIEF_" + item.Value, gettran.First().TEXT, new { @class = "form-control", @placeholder = "Nhập" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextArea("ARTICLE_BRIEF_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập" })
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.TextArea("ARTICLE_BRIEF_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập" })
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Nội dung</label>
+                                @if (Model.CONTENT_TRANSLATION_ID != null)
+                                {
+                                    Booking.Models.DB_BOOKINGEntities db = new Booking.Models.DB_BOOKINGEntities();
+                                    var gettran = db.TRANSLATION_ARTICLE.Where(m => m.ID == Model.CONTENT_TRANSLATION_ID.Value && m.LANGUAGE_ID == idl);
+                                    if (gettran != null && gettran.Count() > 0)
+                                    {                                       
+                                        @Html.TextArea("ARTICLE_CONTENT_" + item.Value, gettran.First().TEXT, new { @class = "form-control", @placeholder = "Nhập nội dung...", @cols = "80", @rows = "4" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextArea("ARTICLE_CONTENT_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập nội dung...", @cols = "80", @rows = "4" })
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.TextArea("ARTICLE_CONTENT_" + item.Value, "", new { @class = "form-control", @placeholder = "Nhập nội dung...", @cols = "80", @rows = "4" })
+                                }
+                                <script>
+                                    CKEDITOR.replace('ARTICLE_CONTENT_@item.Value', {
+                                        filebrowserImageUploadUrl: '/Upload.ashx',
+                                        height: 350
+                                    });
+                                    CKEDITOR.config.autoParagraph = false;
+                                    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                }
+            } 
         </div>
+		<div class="col-md-12">
+			<div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Thuộc tính</h3>
+                </div>
+                <div class="box-body">
+					<div class="form-group">
+                        <label for="ARTICLE_TAGS">Từ khóa <span><i>(Các từ khóa cách nhau bởi dấu ";")</i></span></label>
+                        @Html.TextBoxFor(model => model.ARTICLE_TAGS, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
+                    </div>
+                    <div class="form-group">
+                        <label for="ARTICLE_CREATEDATE">Ngày đăng</label>
+                        @Html.TextBoxFor(model => model.ARTICLE_CREATEDATE, "{0:dd/MM/yyyy}", new { @Value = DateTime.Now.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture), @class = "form-control" })
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("ARTICLE_IS_HOT") Bài viết nổi bật
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="ARTICLE_IMAGE_LARGE">Ảnh đại diện </label>
+                        @Html.TextBoxFor(model => model.ARTICLE_IMAGE_LARGE, new { @type = "file", @class = "form-control", @onchange = "displayImage(this)" })
+                        @if (Model.ARTICLE_IMAGE_LARGE + "" != "")
+                        {
+                            <img style="max-width:100%;height:auto;padding:20px;" id="image_large" src="@Model.ARTICLE_IMAGE_LARGE">
+                            @Html.CheckBox("deleteImg")
+                            <span>Xóa ảnh</span>
+                        }
+                                
+                    </div>                    
+                    <div class="form-group">
+                        <label for="ARTICLE_FILE_NAME_1">File đính kèm 1</label>
+                        @Html.TextBoxFor(model => model.ARTICLE_FILE_NAME_1, new { @type = "file", @class = "form-control" })
+                        @if (Model.ARTICLE_FILE_PATH_1 + "" != "")
+                        {
+                            <span><a href="@Model.ARTICLE_FILE_PATH_1" title="@Model.ARTICLE_FILE_NAME_1">@Model.ARTICLE_FILE_NAME_1</a></span>
+                            @Html.CheckBox("deleteFile1")
+                            <span>Xóa file</span>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label for="ARTICLE_FILE_NAME_2">File đính kèm 2</label>
+                        @Html.TextBoxFor(model => model.ARTICLE_FILE_NAME_2, new { @type = "file", @class = "form-control" })
+                        @if (Model.ARTICLE_FILE_PATH_2 + "" != "")
+                        {
+                            <span><a href="@Model.ARTICLE_FILE_PATH_2" title="@Model.ARTICLE_FILE_NAME_2">@Model.ARTICLE_FILE_NAME_2</a></span>
+                            @Html.CheckBox("deleteFile2")
+                            <span>Xóa file</span>
+                        }
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("ARTICLE_DISABLE") Xuất bản (Hiển thị) bài viết 
+                        </label>
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+            <div class="box-footer">
+                <div class="form-group">
+                    <label style="color:red;"><i>(*) là trường bắt buột nhập.</i></label>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a href="/adminarticle/articelincategory/@ViewBag.ctId" class="btn btn-default">Quay lại</a>
+            </div>
+        </div>
+	}
     </div>
 </section>
-<script src="@(urlHome + "content/ckeditor/ckeditor.js")"></script>
-<script src="@(urlHome + "content/ckfinder/ckfinder.js")"></script>
-<script>
-    CKEDITOR.replace('ARTICLE_CONTENT', {
-        filebrowserImageUploadUrl: '/Upload.ashx',
-        height: 350
-    });
-    CKEDITOR.config.autoParagraph = false;
-    CKFinder.setupCKEditor(null, "/Content/ckfinder/");
-</script>
+

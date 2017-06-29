@@ -2,6 +2,8 @@
 using Classes;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,12 +15,16 @@ namespace Booking.Controllers
     {
         private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
         private RewriteUrl ru = new RewriteUrl();
+        private Int32 thumb_height=Convert.ToInt32(ConfigurationManager.AppSettings["Thumb_height"]+"");
+        private Int32 thumb_width = Convert.ToInt32(ConfigurationManager.AppSettings["Thumb_width"] + "");
+        private Int32 medium_height = Convert.ToInt32(ConfigurationManager.AppSettings["Medium_height"] + "");
+        private Int32 medium_width = Convert.ToInt32(ConfigurationManager.AppSettings["Medium_width"] + "");
         public ActionResult Index()
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminCategory"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             List<CATEGORY> lc = new List<CATEGORY>();
             foreach (CATEGORY it in db.CATEGORies.ToList())
             {
@@ -42,33 +48,30 @@ namespace Booking.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminCategory"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             BindDropDownCategory();
+            BindListLanguage();
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "CATEGORY_ISMEDIA,CATEGORY_ID,CATEGORY_NAME,CATEGORY_ORDER,CATEGORY_IS_SHOW_MENU,CATEGORY_IS_SHOW_FOOTER,CATEGORY_LINK,CATEGORY_ALIAS,CATEGORY_CREATEDATE,CATEGORY_CREATEBY,CATEGORY_PARENT_ID")] CATEGORY category)
+        public ActionResult Create([Bind(Include = "CATEGORY_ISMEDIA,CATEGORY_ID,CATEGORY_NAME,CATEGORY_ORDER,CATEGORY_IS_SHOW_MENU,CATEGORY_IS_SHOW_FOOTER,CATEGORY_LINK,CATEGORY_ALIAS,CATEGORY_CREATEDATE,CATEGORY_CREATEBY,CATEGORY_PARENT_ID,NAME_TRANSLATION_ID")] CATEGORY category)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminCategory"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             BindDropDownCategory();
+            BindListLanguage();
             if (category.CATEGORY_NAME + "" == "")
             {
                 TempData["categogyNameError"] = "Tên Danh mục không được bỏ trống";
                 return View(category);
             }
-            var categoryImage = Request.Files["CATEGORY_IMAGE"];
-            if (categoryImage.ContentLength == 0)
-            {
-                TempData["categogyImageError"] = "Ảnh đại điện không được bỏ trống";
-                return View(category);
-            }
+            var categoryImage = Request.Files["CATEGORY_IMAGE"];            
             if (categoryImage != null && categoryImage.ContentLength > 0)
             {
                 if (Path.GetExtension(categoryImage.FileName).ToLower() != ".jpg"
@@ -79,7 +82,7 @@ namespace Booking.Controllers
                     TempData["categogyImageError"] = "Ảnh đại điện phải là kiểu ảnh .jpg .png .gif .jpeg";
                     return View(category);
                 }
-            }
+            }           
             if (ModelState.IsValid)
             {
                 //Tìm max id
@@ -94,21 +97,16 @@ namespace Booking.Controllers
                 //tìm alias
                 String alias = ru.SlugLink(category.CATEGORY_NAME.Trim());
                 String title = category.CATEGORY_NAME.Trim();
-                int i = db.CATEGORies.Where(x => x.CATEGORY_NAME.Trim() == category.CATEGORY_NAME.Trim()).Count();
+                int i = db.CATEGORies.Where(x => x.CATEGORY_ALIAS == alias).Count();
                 if (i > 0)
                 {
-                    //alias = alias + "-" + i;
-                    //title = title + " ("+i+")";
-                    TempData["categogyNameError"] = "Tên Danh mục đã tồn tại!";
-                    return View(category);
+                    alias = alias + (maxId + 1);
                 }
                 //lưu ảnh
                 String categoryImagePath = null;
-                if (categoryImage != null && categoryImage.ContentLength > 0)
-                {
-                    categoryImagePath = "/upload/images/" + GetNewFileName(categoryImage.FileName);
-                    categoryImage.SaveAs(Path.Combine(Server.MapPath(categoryImagePath)));
-                }
+                string fileName = GetNewFileName(categoryImage.FileName);
+                SaveImageCrop(categoryImage, fileName, "Thumb", ref categoryImagePath, thumb_height, thumb_width);
+                SaveImageCrop(categoryImage, fileName, "Medium", ref categoryImagePath, medium_height, medium_width);                      
                 category.CATEGORY_ID = maxId + 1;
                 category.CATEGORY_IMAGE = categoryImagePath;
                 if (category.CATEGORY_PARENT_ID == 0) category.CATEGORY_PARENT_ID = null;
@@ -116,8 +114,36 @@ namespace Booking.Controllers
                 category.CATEGORY_CREATEBY = UserManager.GetUserName;
                 category.CATEGORY_ALIAS = alias;
                 category.CATEGORY_NAME = title;
+                if (category.CATEGORY_ORDER == null) category.CATEGORY_ORDER = 0;
+                var listLanguage = db.LANGUAGEs.Where(m => m.LANGUAGE_IS_PRIMARY != true).ToArray();
+                if (listLanguage.Count() > 0)
+                {
+                    decimal maxIdTran = 0;
+                    try
+                    {
+                        maxIdTran = db.TRANSLATION_CATEGORY.Max(x => x.ID);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    foreach (var item in listLanguage)
+                    {
+                        string name = Request.Form["CATEGORY_NAME_" + item.LANGUAGE_ID] + "";
+                        if (name != "")
+                        {
+                            TRANSLATION_CATEGORY tran = new TRANSLATION_CATEGORY();                            
+                            tran.ID = maxIdTran + 1;
+                            tran.LANGUAGE_ID = item.LANGUAGE_ID;
+                            tran.TEXT = name;
+                            category.NAME_TRANSLATION_ID = maxIdTran + 1;
+                            db.TRANSLATION_CATEGORY.Add(tran);
+                            db.SaveChanges();
+                        }
+                    }
+                }
                 db.CATEGORies.Add(category);
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -126,10 +152,10 @@ namespace Booking.Controllers
         [HttpGet]
         public ActionResult Edit(String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminCategory"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -140,15 +166,16 @@ namespace Booking.Controllers
                 return RedirectToAction("Index");
             }
             BindDropDownCategoryForEdit(category.CATEGORY_ID);
+            BindListLanguage();
             return View(category);
         }
         [HttpPost]
         public ActionResult Edit(CATEGORY category, String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminCategory"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (ModelState.IsValid)
             {
                 if (id == null)
@@ -160,6 +187,7 @@ namespace Booking.Controllers
                 {
                     return RedirectToAction("Index");
                 }
+                BindListLanguage();
                 BindDropDownCategoryForEdit(category_old.CATEGORY_ID);
                 if (category.CATEGORY_NAME + "" == "")
                 {
@@ -176,21 +204,19 @@ namespace Booking.Controllers
                     category_old.CATEGORY_PARENT_ID = category.CATEGORY_PARENT_ID;
                 }
                 //tìm alias
-                if (category_old.CATEGORY_NAME.Trim() != category.CATEGORY_NAME.Trim())
+                String title = category.CATEGORY_NAME.Trim();
+                String alias = ru.SlugLink(category.CATEGORY_NAME.Trim());
+                if (category_old.CATEGORY_ALIAS!= alias)
                 {
-                    String title = category.CATEGORY_NAME.Trim();
-                    String alias = ru.SlugLink(category.CATEGORY_NAME.Trim());
-                    int i = db.CATEGORies.Where(x => x.CATEGORY_NAME.Trim() == category.CATEGORY_NAME.Trim()).Count();
+                    int i = db.CATEGORies.Where(x => x.CATEGORY_ALIAS == alias).Count();
                     if (i > 0)
                     {
-                        //alias = alias + "-" + i;
-                        //title = title + " ("+i+")";
-                        TempData["categogyNameError"] = "Tên Danh mục đã tồn tại!";
-                        return View(category);
+                        alias = alias + category.CATEGORY_ID;
                     }
                     category_old.CATEGORY_NAME = title;
                     category_old.CATEGORY_ALIAS = alias;
                     //cập nhật lại category alias cho các bài viết.
+
                     //kiểm tra có category con không
                     var category_child = db.CATEGORies.Where(x => x.CATEGORY_PARENT_ID == category_old.CATEGORY_ID).ToList();
                     if (category_child != null && category_child.Count() > 0)
@@ -232,11 +258,20 @@ namespace Booking.Controllers
                 String imagePath = category_old.CATEGORY_IMAGE;
                 if (categoryImage != null && categoryImage.ContentLength > 0)
                 {
-                    //Xóa file cũ
-                    deleteFile(Path.Combine(Server.MapPath(imagePath)));
+                    //Xóa file cũ                    
+                    deleteFile(imagePath);                    
                     //Lưu file
-                    imagePath = "/upload/images/" + GetNewFileName(categoryImage.FileName);
-                    categoryImage.SaveAs(Path.Combine(Server.MapPath(imagePath)));
+                    string fileName = GetNewFileName(categoryImage.FileName);
+                    SaveImageCrop(categoryImage,fileName,"Thumb", ref imagePath, thumb_height, thumb_width);
+                    SaveImageCrop(categoryImage,fileName,"Medium", ref imagePath, medium_height, medium_width);
+                }
+                else
+                {
+                    if (Request.Form["deleteImg"] != null && Request.Form["deleteImg"] + "" != "false")
+                    {
+                        deleteFile(imagePath);
+                        imagePath = "";
+                    }
                 }
                 category_old.CATEGORY_IMAGE = imagePath;
                 category_old.CATEGORY_ISMEDIA = category.CATEGORY_ISMEDIA;
@@ -245,6 +280,65 @@ namespace Booking.Controllers
                 category_old.CATEGORY_IS_SHOW_MENU = category.CATEGORY_IS_SHOW_MENU;
                 category_old.CATEGORY_IS_SHOW_FOOTER = category.CATEGORY_IS_SHOW_FOOTER;
                 category_old.CATEGORY_LINK = category.CATEGORY_LINK;
+                var listLanguage = db.LANGUAGEs.Where(m => m.LANGUAGE_IS_PRIMARY != true).ToArray();
+                if (category.NAME_TRANSLATION_ID != null)
+                {
+                    foreach (var item in listLanguage)
+                    {
+                        string name = Request.Form["CATEGORY_NAME_" + item.LANGUAGE_ID] + "";
+                        var gettran = db.TRANSLATION_CATEGORY.Where(m => m.LANGUAGE_ID == item.LANGUAGE_ID && m.ID == category.NAME_TRANSLATION_ID);
+                        if (gettran!=null && gettran.Count()>0)
+                        {
+                            if (name != "")
+                            {
+                                gettran.First().TEXT = name;
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                db.TRANSLATION_CATEGORY.Remove(gettran.First());
+                                db.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            if(name!="")
+                            {
+                                TRANSLATION_CATEGORY tran = new TRANSLATION_CATEGORY();                                
+                                tran.ID = category.NAME_TRANSLATION_ID.Value;
+                                tran.LANGUAGE_ID = item.LANGUAGE_ID;
+                                tran.TEXT = name;
+                                db.TRANSLATION_CATEGORY.Add(tran);
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    TRANSLATION_CATEGORY tran = new TRANSLATION_CATEGORY();
+                    decimal maxIdTran = 0;
+                    try
+                    {
+                        maxIdTran = db.TRANSLATION_CATEGORY.Max(x => x.ID);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    foreach (var item in listLanguage)
+                    {
+                        string name = Request.Form["CATEGORY_NAME_" + item.LANGUAGE_ID] + "";
+                        if (name != "")
+                        {
+                            tran.ID = maxIdTran + 1;
+                            tran.LANGUAGE_ID = item.LANGUAGE_ID;
+                            tran.TEXT = name;
+                            category.NAME_TRANSLATION_ID = maxIdTran + 1;
+                            db.TRANSLATION_CATEGORY.Add(tran);
+                            db.SaveChanges();
+                        }
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -254,10 +348,10 @@ namespace Booking.Controllers
         [HttpGet]
         public ActionResult Delete(String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminCategory"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -292,11 +386,17 @@ namespace Booking.Controllers
             //    TempData["message_fail"] = "Không thể xóa danh mục này. Xóa quyền của danh mục trước!";
             //    return RedirectToAction("Index");
             //}
+            if(category.NAME_TRANSLATION_ID!=null)
+            {
+                var gettran = db.TRANSLATION_CATEGORY.Where(m => m.ID == category.NAME_TRANSLATION_ID);
+                db.TRANSLATION_CATEGORY.RemoveRange(gettran);
+                db.SaveChanges();
+            }
             var categoryImage = category.CATEGORY_IMAGE;
             if (categoryImage + "" != "")
             {
                 //Xóa file cũ
-                deleteFile(Path.Combine(Server.MapPath(categoryImage)));
+                deleteFile(categoryImage);
             }
             db.CATEGORies.Remove(category);
             db.SaveChanges();
@@ -388,6 +488,20 @@ namespace Booking.Controllers
             }
             ViewBag.BindDropDownCategory = list;
         }
+        public void BindListLanguage()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var getlist = db.LANGUAGEs.Where(m => m.LANGUAGE_IS_PRIMARY != true).ToArray();
+            foreach(var item in getlist)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = item.LANGUAGE_NAME+"",
+                    Value = item.LANGUAGE_ID+""
+                });
+            }
+            ViewBag.BindListLanguage = list;
+        }
         public void BindDropDownCategoryForEdit(decimal cateId)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -408,20 +522,50 @@ namespace Booking.Controllers
             string fileName = "";
             if (a.Length > 0)
             {
-                Random rnd = new Random();
-                DateTime date = DateTime.Now;
-                fileName = date.Day + "-" + date.Month + "-" + date.Year + "-" + date.Hour + "-" + date.Minute + "-" + date.Second + "-" + rnd.Next(1, 100) + Path.GetExtension(a);
+                fileName =Path.GetFileNameWithoutExtension(a)+"-"+DateTime.Now.Ticks + Path.GetExtension(a);
             }
             return fileName;
         }
         public bool deleteFile(String path)
         {
-            if (System.IO.File.Exists(path))
+            if (path + "" != "")
             {
-                System.IO.File.Delete(path);
-                return true;
+                int startIndex = path.LastIndexOf("/") + 1;
+                int endIndex = path.Length;
+                string filename = path.Substring(startIndex, (endIndex - startIndex));
+                string path1 = Path.Combine(Server.MapPath("/upload/images/" + filename));
+                string path2 = Path.Combine(Server.MapPath("/upload/images/Thumb/" + filename));
+                string path3 = Path.Combine(Server.MapPath("/upload/images/Medium/" + filename));
+                try
+                {
+                    if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+                    if (System.IO.File.Exists(path2)) System.IO.File.Delete(path2);
+                    if (System.IO.File.Exists(path3)) System.IO.File.Delete(path3);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
-            return false;
+            else return true;
+        }
+        public void SaveImageCrop(HttpPostedFileBase img,string filename,string folder,ref string path_default,int height,int width)
+        {
+            if (img != null && img.ContentLength > 0)
+            {
+                var originalDirectory = new DirectoryInfo(string.Format("{0}Upload\\images\\", Server.MapPath(@"\")));
+                path_default = "/upload/images/" + filename;
+                img.SaveAs(Path.Combine(Server.MapPath(path_default)));//Lưu thư mục chính
+                string pathString = System.IO.Path.Combine(originalDirectory.ToString(), folder);
+                bool isExists = System.IO.Directory.Exists(pathString);
+                if (!isExists) System.IO.Directory.CreateDirectory(pathString);
+                var path = string.Format("{0}\\{1}", pathString, filename);
+                var newPath = ImageTool.GetNewPathForDupes(path, ref filename);
+                //Lưu hình ảnh Resize từ file sử dụng file.InputStream
+                ImageTool.SaveCroppedImage(Image.FromStream(img.InputStream), width, height, newPath);
+                path_default = "/upload/images/Thumb/" + filename;
+            }
         }
 	}
 }

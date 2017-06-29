@@ -16,11 +16,18 @@ namespace Booking.Controllers
         {
             if (UserManager.Authenticated)
             {
-                    decimal clist = db.HOTELs.Count();
-                    ViewBag.NumberOfHotels = clist;
-                    var listHotels = db.HOTELs.Take(20).OrderByDescending(a => a.HOTEL_CREATEDATE).ToList();
-                    ViewBag.listhotels = listHotels;
-                    return View();
+                decimal clist = db.HOTELs.Count();
+                ViewBag.NumberOfHotels = clist;
+                var listHotels = db.HOTELs.Take(20).OrderByDescending(a => a.HOTEL_CREATEDATE).ToList();
+                ViewBag.listhotels = listHotels;
+                var listLang = db.LANGUAGEs.ToList();
+                if (listLang.Count() > 0)
+                {
+                    if (listLang.Where(m => m.LANGUAGE_IS_PRIMARY.Value).Count() > 0) ViewBag.nameLanguage = listLang.Where(m => m.LANGUAGE_IS_PRIMARY.Value).First().LANGUAGE_NAME;
+                    else ViewBag.nameLanguage = listLang.First().LANGUAGE_NAME;
+                }
+                else ViewBag.nameLanguage = "Tiếng Việt";
+                return View();
             }
             else
             {

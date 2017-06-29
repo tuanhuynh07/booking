@@ -1,14 +1,14 @@
 ﻿//datepicker
-$(function () {
-    $("#ARTICLE_CREATEDATE").datepicker({
-        dateFormat: 'dd/mm/yy',
-        changeYear: true,
-    });
-    $("#MEDIA_CREATEDATE").datepicker({
-        dateFormat: 'dd/mm/yy',
-        changeYear: true,
-    });
-});
+//$(function () {
+//    $("#ARTICLE_CREATEDATE").datepicker({
+//        dateFormat: 'dd/mm/yy',
+//        changeYear: true,
+//    });
+//    $("#MEDIA_CREATEDATE").datepicker({
+//        dateFormat: 'dd/mm/yy',
+//        changeYear: true,
+//    });
+//});
 //display image when chosen file
 function displayImage(input) {
     if (input.files && input.files[0]) {
@@ -31,79 +31,81 @@ function displayImageThumb(input) {
     }
 }
 //kích hoạt
-$('.display').click(function () {
+//$('.display').click(function () {
+//    var chossen = $(this);
+//    var id = $(this).attr("data");
+//    var data = new FormData();
+//    data.append('id', id);
+//    if (id + "" != "") {
+//        $.ajax({
+//            url: "/admin/category/DisplayOnMenu",
+//            type: "POST",
+//            data: data,
+//            processData: false,
+//            contentType: false,
+//            success: function (data) {
+//                if (data + "" != "") {
+//                    if (data.message == "0") {
+//                        chossen.html('<i title="Không" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color:red"></i>');
+//                    }
+//                    else {
+//                        chossen.html('<i title="Có" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>');
+//                    }
+//                }
+//            }
+//        });
+//    }
+//});
+//$('.display_footer').click(function () {
+//    var chossen = $(this);
+//    var id = $(this).attr("data");
+//    var data = new FormData();
+//    data.append('id', id);
+//    if (id + "" != "") {
+//        $.ajax({
+//            url: "/admincategory/DisplayOnMenuFooter",
+//            type: "POST",
+//            data: data,
+//            processData: false,
+//            contentType: false,
+//            success: function (data) {
+//                if (data + "" != "") {
+//                    if (data.message == "0") {
+//                        chossen.html('<i title="Không" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color:red"></i>');
+//                    }
+//                    else {
+//                        chossen.html('<i title="Có" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>');
+//                    }
+//                }
+//            }
+//        });
+//    }
+//});
+$('.active_pay_booking').click(function () {
     var chossen = $(this);
     var id = $(this).attr("data");
     var data = new FormData();
     data.append('id', id);
     if (id + "" != "") {
-        $.ajax({
-            url: "/admin/category/DisplayOnMenu",
-            type: "POST",
-            data: data,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                if (data + "" != "") {
-                    if (data.message == "0") {
-                        chossen.html('<i title="Không" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color:red"></i>');
-                    }
-                    else {
-                        chossen.html('<i title="Có" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>');
-                    }
-                }
-            }
-        });
-    }
-});
-$('.display_footer').click(function () {
-    var chossen = $(this);
-    var id = $(this).attr("data");
-    var data = new FormData();
-    data.append('id', id);
-    if (id + "" != "") {
-        $.ajax({
-            url: "/admin/category/DisplayOnMenuFooter",
-            type: "POST",
-            data: data,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                if (data + "" != "") {
-                    if (data.message == "0") {
-                        chossen.html('<i title="Không" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color:red"></i>');
-                    }
-                    else {
-                        chossen.html('<i title="Có" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>');
+        if (confirm('Bạn đang chuyển sang trạng thái đã thanh toán. Bạn có chắc chắn điều này không?')) {
+            $.ajax({
+                url: "/adminCustomer/ActivePay",
+                type: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data + "" != "") {
+                        if (data.message == "0") {
+                            chossen.html('<i title="Đã thanh toán" class="fa fa-check" aria-hidden="true"></i>');
+                        }
+                        else {
+                            chossen.html('<i title="Chưa thanh toán" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color: red;"></i>');
+                        }
                     }
                 }
-            }
-        });
-    }
-});
-$('.active_new').click(function () {
-    var chossen = $(this);
-    var id = $(this).attr("data");
-    var data = new FormData();
-    data.append('id', id);
-    if (id + "" != "") {
-        $.ajax({
-            url: "/admin/article/Active",
-            type: "POST",
-            data: data,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                if (data + "" != "") {
-                    if (data.message == "0") {
-                        chossen.html('<i title="Chưa kích hoạt" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color:red"></i>');
-                    }
-                    else {
-                        chossen.html('<i title="Kích hoạt" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>');
-                    }
-                }
-            }
-        });
+            });
+        }
     }
 });
 $('.active_media').click(function () {
@@ -113,7 +115,7 @@ $('.active_media').click(function () {
     data.append('id', id);
     if (id + "" != "") {
         $.ajax({
-            url: "/admin/media/Active",
+            url: "/adminmedia/Active",
             type: "POST",
             data: data,
             processData: false,
@@ -186,7 +188,7 @@ function deleteImageArticle(id,isThumb) {
     data.append('isThumb', isThumb);
     if (confirm('Bạn có muốn xóa ảnh này không?')) {
         $.ajax({
-            url: "/admin/article/deleteImage",
+            url: "/adminarticle/deleteImage",
             type: "POST",
             data: data,
             processData: false,

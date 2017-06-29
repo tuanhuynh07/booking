@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Configuration;
 
 namespace Booking.Controllers
 {
@@ -21,41 +22,27 @@ namespace Booking.Controllers
         string strUrl = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
         string strPath = System.Web.HttpContext.Current.Request.ApplicationPath;
         string host = System.Web.HttpContext.Current.Request.Url.Host;
-
-
+        private Int32 thumb_height = Convert.ToInt32(ConfigurationManager.AppSettings["Thumb_height"] + "");
+        private Int32 thumb_width = Convert.ToInt32(ConfigurationManager.AppSettings["Thumb_width"] + "");
+        private Int32 medium_height = Convert.ToInt32(ConfigurationManager.AppSettings["Medium_height"] + "");
+        private Int32 medium_width = Convert.ToInt32(ConfigurationManager.AppSettings["Medium_width"] + "");
         public ActionResult Index()
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
-            string urlHome = "/";if (strPath != "/")
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminArticle"))
             {
-                urlHome = strPath + urlHome;
+                return RedirectToAction("Index", "Admin");
             }
-            int start = 0;
-            String rs = "<ul class='nav nav-stacked'>";
             var categorys = db.CATEGORies.Where(x => x.CATEGORY_ISMEDIA == false).Where(x => x.CATEGORY_PARENT_ID == null).ToList();
-            if (categorys != null && categorys.Count() > 0)
-            {
-                foreach (var item in categorys)
-                {
-                    int aCount = db.ARTICLEs.Where(x => x.CATEGORY_ID == item.CATEGORY_ID).Count();
-                    rs += "<li style='clear:both;'><a href='" + urlHome + "adminarticle/articelincategory/" + item.CATEGORY_ID + "' class='col-md-11'>" + item.CATEGORY_NAME + "<span title='Có " + aCount + " bài viết' class='pull-right badge bg-blue'>" + aCount + "</span></a><a class='col-md-1' title='Thêm bài viết' href='" + urlHome + "adminarticle/create/" + item.CATEGORY_ID + "'><i class='fa fa-plus' style='color:green;'></i></a></li>";
-                    GetChildCategory(item.CATEGORY_ID, ref rs, start);
-                }
-            }
-            rs += "</ul>";
-            ViewBag.ListOfCategory = rs;
+            ViewBag.ListOfCategory = categorys;            
             return View();
         }
 
         public ActionResult ArticelInCategory(String id, string currentFilter, string searchString, int? page)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminArticle"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -86,15 +73,15 @@ namespace Booking.Controllers
                     var ls = new ARTICLE();
                     ls.ARTICLE_ID = a.ARTICLE_ID;
                     ls.ARTICLE_TITLE = a.ARTICLE_TITLE;
-                    ls.ARTICLE_BRIEF = a.ARTICLE_BRIEF;
+                    ls.ARTICLE_CREATEDATE = a.ARTICLE_CREATEDATE;
+                    ls.ARTICLE_CREATEBY = a.ARTICLE_CREATEBY;
                     ls.ARTICLE_ALIAS = a.ARTICLE_ALIAS;
                     ls.ARTICLE_DISABLE = a.ARTICLE_DISABLE;
                     articles.Add(ls);
                 }
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    articles = db.ARTICLEs.Where(x => x.ARTICLE_TITLE.Contains(searchString)
-                                                    || x.ARTICLE_BRIEF.Contains(searchString)).ToList();
+                    articles = db.ARTICLEs.Where(x => x.ARTICLE_TITLE.Contains(searchString)).ToList();
                 }
                 int pageSize = 15;
                 int currentPage = (page ?? 1);
@@ -106,11 +93,12 @@ namespace Booking.Controllers
 
         public ActionResult Create(String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminArticle"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             ViewBag.Id = id;
+            BindListLanguage();
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -131,27 +119,13 @@ namespace Booking.Controllers
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Create(ARTICLE article, String id)
-        {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+        {            
             #region validate
             if (article.ARTICLE_TITLE + "" == "")
             {
                 TempData["articleNameError"] = "Tiêu đề bài viết không được bỏ trống";
                 return View(article);
-            }
-            if (Request.Files["ARTICLE_IMAGE_LARGE"].ContentLength == 0)
-            {
-                TempData["articleImageError"] = "Ảnh đại điện không được bỏ trống";
-                return View(article);
-            }
-            if (Request.Files["ARTICLE_IMAGE_THUMB"].ContentLength == 0)
-            {
-                TempData["articleImageError"] = "Ảnh nhỏ không được bỏ trống";
-                return View(article);
-            }
+            }           
             if (Request.Files["ARTICLE_IMAGE_LARGE"] != null && Request.Files["ARTICLE_IMAGE_LARGE"].ContentLength > 0)
             {
                 if (Path.GetExtension(Request.Files["ARTICLE_IMAGE_LARGE"].FileName).ToLower() != ".jpg"
@@ -162,18 +136,7 @@ namespace Booking.Controllers
                     TempData["articleImageError"] = "Ảnh đại điện phải là kiểu ảnh .jpg .png .gif .jpeg";
                     return View(article);
                 }
-            }
-            if (Request.Files["ARTICLE_IMAGE_THUMB"] != null && Request.Files["ARTICLE_IMAGE_THUMB"].ContentLength > 0)
-            {
-                if (Path.GetExtension(Request.Files["ARTICLE_IMAGE_THUMB"].FileName).ToLower() != ".jpg"
-                        && Path.GetExtension(Request.Files["ARTICLE_IMAGE_THUMB"].FileName).ToLower() != ".png"
-                        && Path.GetExtension(Request.Files["ARTICLE_IMAGE_THUMB"].FileName).ToLower() != ".gif"
-                        && Path.GetExtension(Request.Files["ARTICLE_IMAGE_THUMB"].FileName).ToLower() != ".jpeg")
-                {
-                    TempData["articleImageError"] = "Ảnh nhỏ phải là kiểu ảnh .jpg .png .gif .jpeg";
-                    return View(article);
-                }
-            }
+            }            
             if (article.ARTICLE_CONTENT + "" == "")
             {
                 TempData["articleContentError"] = "Nội dung bài viết không được bỏ trống";
@@ -181,6 +144,7 @@ namespace Booking.Controllers
             }
             #endregion
             ViewBag.Id = id;
+            BindListLanguage();
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -205,54 +169,23 @@ namespace Booking.Controllers
                 //tìm alias
                 String alias = ru.SlugLink(article.ARTICLE_TITLE.Trim());
                 String title = article.ARTICLE_TITLE.Trim();
-                int i = db.ARTICLEs.Where(x => x.CATEGORY_ID == cateogryId).Where(x => x.ARTICLE_TITLE.Trim() == article.ARTICLE_TITLE.Trim()).Count();
+                int i = db.ARTICLEs.Where(x => x.CATEGORY_ID == cateogryId).Where(x => x.ARTICLE_ALIAS == alias).Count();
                 if (i > 0)
                 {
-                    //alias = alias + "-" + i;
-                    //title = title + " (" + i + ")";
-                    TempData["articleNameError"] = "Tiêu đề này đã tồn tại!";
-                    return View(article);
+                    alias = alias + (maxId + 1);
                 }
                 article.ARTICLE_ID = maxId + 1;
                 #region //Lưu ảnh
                 String largeImagePath = null;
-                String thumbImagePath = null;
                 var largeImage = Request.Files["ARTICLE_IMAGE_LARGE"];
                 if (largeImage != null && largeImage.ContentLength > 0)
                 {
-                    String fileName = GetNewFileName(largeImage.FileName);
-                    largeImagePath = "/upload/images/" + fileName;
-                    largeImage.SaveAs(Path.Combine(Server.MapPath(largeImagePath)));
-                    ////lưu image croped dùng cho jcrop.js
-                    ////string imgCropped = Request["imgCropped"];
-                    ////if (imgCropped + "" != "")
-                    ////{
-                    ////    byte[] bytes = Convert.FromBase64String(imgCropped.Split(',')[1]);
-                    ////    thumbImagePath = "/upload/_thumbs/Images/" + GetNewFileName(largeImage.FileName);
-                    ////    FileStream stream = new FileStream(Path.Combine(Server.MapPath(thumbImagePath)), System.IO.FileMode.Create);
-                    ////    stream.Write(bytes, 0, bytes.Length);
-                    ////    stream.Flush();
-                    ////    stream.Close();
-                    ////}
-                    Image image = Image.FromStream(largeImage.InputStream);
-                    String largeImagePath1 = "/upload/images1/" + fileName;
-                    Image thumb = ResizeImage(image, 229, 172, false);
-                    thumb.Save(Path.Combine(Server.MapPath(largeImagePath1)));
-                }
-                var thumbImage = Request.Files["ARTICLE_IMAGE_THUMB"];
-                if (thumbImage != null && thumbImage.ContentLength > 0)
-                {
-                    String fileName = GetNewFileName(thumbImage.FileName);
-                    thumbImagePath = "/upload/_thumbs/Images/" + fileName;
-                    thumbImage.SaveAs(Path.Combine(Server.MapPath(thumbImagePath)));
-                    //resize kích thước (149x112)
-                    Image image = Image.FromStream(thumbImage.InputStream);
-                    String thumbImagePath1 = "/upload/_thumbs/Images1/" + fileName;
-                    Image thumb = ResizeImage(image, 149, 112, false);
-                    thumb.Save(Path.Combine(Server.MapPath(thumbImagePath1)));
-                }
+                    string fileName = GetNewFileName(largeImage.FileName);
+                    SaveImageCrop(largeImage, fileName, "Thumb", ref largeImagePath, thumb_height, thumb_width);
+                    SaveImageCrop(largeImage, fileName, "Medium", ref largeImagePath, medium_height, medium_width); 
+
+                }                
                 article.ARTICLE_IMAGE_LARGE = largeImagePath;
-                article.ARTICLE_IMAGE_THUMB = thumbImagePath;
                 #endregion
                 #region //Lưu file
                 String filePath1 = null;
@@ -264,13 +197,13 @@ namespace Booking.Controllers
                 if (file1 != null && file1.ContentLength > 0)
                 {
                     fileName1 = file1.FileName;
-                    filePath1 = "/upload/file/" + GetNewFileName(fileName1);
+                    filePath1 = "/upload/files/" + GetNewFileName(fileName1);
                     file1.SaveAs(Path.Combine(Server.MapPath(filePath1)));
                 }
                 if (file2 != null && file2.ContentLength > 0)
                 {
                     fileName2 = file2.FileName;
-                    filePath2 = "/upload/file/" + GetNewFileName(fileName2);
+                    filePath2 = "/upload/files/" + GetNewFileName(fileName2);
                     file2.SaveAs(Path.Combine(Server.MapPath(filePath2)));
                 }
                 article.ARTICLE_FILE_NAME_1 = fileName1;
@@ -297,23 +230,32 @@ namespace Booking.Controllers
                 article.CATEGORY_NAME = category.CATEGORY_NAME;
                 article.ARTICLE_TITLE = title;
                 article.ARTICLE_ALIAS = alias;
+                article.NAME_TRANSLATION_ID = category.NAME_TRANSLATION_ID;
                 String categoryAlias = "";
                 GetCategoryAlias(cateogryId, ref categoryAlias);
                 article.CATEGORY_ALIAS = categoryAlias;
+                decimal idTranTitle = 0;
+                decimal idTranBrief=0;
+                decimal idTranContent=0;
+                createLanguage("ARTICLE_TITLE_", ref idTranTitle);
+                createLanguage("ARTICLE_BRIEF_", ref idTranBrief);
+                createLanguage("ARTICLE_CONTENT_", ref idTranContent);
+                if(idTranTitle!=0) article.TITLE_TRANSLATION_ID=idTranTitle;
+                if (idTranBrief != 0) article.BRIEF_TRANSLATION_ID = idTranBrief;
+                if (idTranContent != 0) article.CONTENT_TRANSLATION_ID = idTranContent;
                 db.ARTICLEs.Add(article);
                 db.SaveChanges();
                 ViewBag.categoryName = category.CATEGORY_NAME;
-
                 return RedirectToAction("articelincategory/" + cateogryId);
             }
         }
 
         public ActionResult Delete(String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminArticle"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -326,20 +268,30 @@ namespace Booking.Controllers
                 return RedirectToAction("Index");
             }
             //xóa ảnh
-            deleteFile(Path.Combine(Server.MapPath(article.ARTICLE_IMAGE_LARGE)));
-            if (article.ARTICLE_IMAGE_LARGE + "" != "")
-            {
-                deleteFile(Path.Combine(Server.MapPath((article.ARTICLE_IMAGE_LARGE).Replace("images", "images1"))));
-            }
-            deleteFile(Path.Combine(Server.MapPath(article.ARTICLE_IMAGE_THUMB)));
-            if (article.ARTICLE_IMAGE_THUMB + "" != "")
-            {
-                deleteFile(Path.Combine(Server.MapPath((article.ARTICLE_IMAGE_THUMB).Replace("Images", "Images1"))));
-            }
+            deleteImg(article.ARTICLE_IMAGE_LARGE);            
             //xóa file
-            deleteFile(Path.Combine(Server.MapPath(article.ARTICLE_FILE_PATH_1)));
-            deleteFile(Path.Combine(Server.MapPath(article.ARTICLE_FILE_PATH_2)));
-            String ac = "articelincategory/" + article.CATEGORY_ID.ToString();
+            deleteFile(article.ARTICLE_FILE_PATH_1);
+            deleteFile(article.ARTICLE_FILE_PATH_2);
+            String ac = "/articelincategory/" + article.CATEGORY_ID.ToString();
+            //xóa ngon ngu khác
+            if (article.TITLE_TRANSLATION_ID != null)
+            {
+                var gettran = db.TRANSLATION_ARTICLE.Where(m => m.ID == article.TITLE_TRANSLATION_ID);
+                db.TRANSLATION_ARTICLE.RemoveRange(gettran);
+                db.SaveChanges();
+            }
+            if (article.BRIEF_TRANSLATION_ID != null)
+            {
+                var gettran = db.TRANSLATION_ARTICLE.Where(m => m.ID == article.BRIEF_TRANSLATION_ID);
+                db.TRANSLATION_ARTICLE.RemoveRange(gettran);
+                db.SaveChanges();
+            }
+            if (article.CONTENT_TRANSLATION_ID != null)
+            {
+                var gettran = db.TRANSLATION_ARTICLE.Where(m => m.ID == article.CONTENT_TRANSLATION_ID);
+                db.TRANSLATION_ARTICLE.RemoveRange(gettran);
+                db.SaveChanges();
+            }
             db.ARTICLEs.Remove(article);
             db.SaveChanges();
             TempData["message_success"] = "Xóa thành công!";
@@ -348,14 +300,15 @@ namespace Booking.Controllers
 
         public ActionResult Edit(String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            if (!UserManager.Authenticated || !UserManager.RoleController("AdminArticle"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             if (id != null)
             {
                 decimal articleId = decimal.Parse(id);
                 ARTICLE article = db.ARTICLEs.Find(articleId);
+                BindListLanguage();
                 if (article != null)
                 {
                     article.ARTICLE_CONTENT = HttpUtility.HtmlDecode(article.ARTICLE_CONTENT);
@@ -371,10 +324,7 @@ namespace Booking.Controllers
         [ValidateInput(false)]
         public ActionResult Edit(ARTICLE article, String id)
         {
-            //if (!UserManager.Authenticated)
-            //{
-            //    return RedirectToAction("Login", "Admin");
-            //}
+            BindListLanguage();
             #region validate
             if (article.ARTICLE_TITLE + "" == "")
             {
@@ -398,17 +348,14 @@ namespace Booking.Controllers
                 return RedirectToAction("Index");
             }
             //tìm alias
-            if (article_old.ARTICLE_TITLE.Trim() != article.ARTICLE_TITLE.Trim())
-            {
-                String title = article.ARTICLE_TITLE.Trim();
-                String alias = ru.SlugLink(article.ARTICLE_TITLE.Trim());
-                int i = db.ARTICLEs.Where(x => x.CATEGORY_ID == article_old.CATEGORY_ID).Where(x => x.ARTICLE_TITLE.Trim() == article.ARTICLE_TITLE.Trim()).Count();
+            String title = article.ARTICLE_TITLE.Trim();
+            String alias = ru.SlugLink(article.ARTICLE_TITLE.Trim());
+            if (article_old.ARTICLE_ALIAS.Trim() != alias)
+            {                
+                int i = db.ARTICLEs.Where(x => x.CATEGORY_ID != article_old.CATEGORY_ID).Where(x => x.ARTICLE_ALIAS == alias).Count();
                 if (i > 0)
                 {
-                    //alias = alias + "-" + i;
-                    //title = title + " ("+i+")";
-                    TempData["articleNameError"] = "Tiêu đề này đã tồn tại!";
-                    return View(article);
+                    alias = alias + aId;
                 }
                 article_old.ARTICLE_TITLE = title;
                 article_old.ARTICLE_ALIAS = alias;
@@ -425,56 +372,25 @@ namespace Booking.Controllers
             }
             #region ảnh
             String largeImagePath = article_old.ARTICLE_IMAGE_LARGE;
-            String thumbImagePath = article_old.ARTICLE_IMAGE_THUMB;
             var largeImage = Request.Files["ARTICLE_IMAGE_LARGE"];
             if (largeImage != null && largeImage.ContentLength > 0)
             {
-                String fileName = GetNewFileName(largeImage.FileName);
-                //xóa file cũ
-                deleteFile(Path.Combine(Server.MapPath(largeImagePath)));
-                if (largeImagePath + "" != "")
-                {
-                    deleteFile(Path.Combine(Server.MapPath(largeImagePath.Replace("images", "images1"))));
-                }
-                //lưu mới
-                largeImagePath = "/upload/images/" + fileName;
-                largeImage.SaveAs(Path.Combine(Server.MapPath(largeImagePath)));
-                //////lưu image croped dùng Jcrop.js
-                ////string imgCropped = Request["imgCropped"];
-                ////if (imgCropped + "" != "")
-                ////{
-                ////    byte[] bytes = Convert.FromBase64String(imgCropped.Split(',')[1]);
-                ////    thumbImagePath = "/upload/_thumbs/Images/" + GetNewFileName(largeImage.FileName);
-                ////    FileStream stream = new FileStream(Path.Combine(Server.MapPath(thumbImagePath)), System.IO.FileMode.Create);
-                ////    stream.Write(bytes, 0, bytes.Length);
-                ////    stream.Flush();
-                ////    stream.Close();
-                ////}
-                //resize kích thước (229x172)
-                Image image = Image.FromStream(largeImage.InputStream);
-                String largeImagePath1 = "/upload/images1/" + fileName;
-                Image thumb = ResizeImage(image, 229, 172, false);
-                thumb.Save(Path.Combine(Server.MapPath(largeImagePath1)));
+                //Xóa file cũ                    
+                deleteImg(largeImagePath);
+                //Lưu file
+                string fileName = GetNewFileName(largeImage.FileName);
+                SaveImageCrop(largeImage, fileName, "Thumb", ref largeImagePath, thumb_height, thumb_width);
+                SaveImageCrop(largeImage, fileName, "Medium", ref largeImagePath, medium_height, medium_width);
             }
-            var thumbImage = Request.Files["ARTICLE_IMAGE_THUMB"];
-            if (thumbImage != null && thumbImage.ContentLength > 0)
+            else
             {
-                String fileName = GetNewFileName(thumbImage.FileName);
-                deleteFile(Path.Combine(Server.MapPath(thumbImagePath)));
-                if (thumbImagePath + "" != "")
+                if (Request.Form["deleteImg"] != null && Request.Form["deleteImg"] + "" != "false")
                 {
-                    deleteFile(Path.Combine(Server.MapPath(thumbImagePath.Replace("Images", "Images1"))));
+                    deleteImg(largeImagePath);
+                    largeImagePath = "";
                 }
-                thumbImagePath = "/upload/_thumbs/Images/" + fileName;
-                thumbImage.SaveAs(Path.Combine(Server.MapPath(thumbImagePath)));
-                //resize kích thước (1)
-                Image image = Image.FromStream(thumbImage.InputStream);
-                String thumbImagePath1 = "/upload/_thumbs/Images1/" + fileName;
-                Image thumb = ResizeImage(image, 149, 112, false);
-                thumb.Save(Path.Combine(Server.MapPath(thumbImagePath1)));
             }
             article_old.ARTICLE_IMAGE_LARGE = largeImagePath;
-            article_old.ARTICLE_IMAGE_THUMB = thumbImagePath;
             #endregion
             #region file
             String filePath1 = article_old.ARTICLE_FILE_PATH_1;
@@ -486,20 +402,38 @@ namespace Booking.Controllers
             if (file1 != null && file1.ContentLength > 0)
             {
                 //Xóa file cũ
-                deleteFile(Path.Combine(Server.MapPath(filePath1)));
+                deleteFile(filePath1);
                 //Lưu file
                 fileName1 = file1.FileName;
-                filePath1 = "/upload/file/" + GetNewFileName(fileName1);
+                filePath1 = "/upload/files/" + GetNewFileName(fileName1);
                 file1.SaveAs(Path.Combine(Server.MapPath(filePath1)));
+            }
+            else
+            {
+                if (Request.Form["deleteFile1"] != null && Request.Form["deleteFile1"] + "" != "false")
+                {
+                    deleteFile(filePath1);
+                    filePath1 = "";
+                    fileName1 = "";
+                }
             }
             if (file2 != null && file2.ContentLength > 0)
             {
                 //Xóa file cũ
-                deleteFile(Path.Combine(Server.MapPath(filePath2)));
+                deleteFile(filePath2);
                 //Lưu file
                 fileName2 = file2.FileName;
-                filePath2 = "/upload/file/" + GetNewFileName(fileName2);
+                filePath2 = "/upload/files/" + GetNewFileName(fileName2);
                 file2.SaveAs(Path.Combine(Server.MapPath(filePath2)));
+            }
+            else
+            {
+                if (Request.Form["deleteFile2"] !=null && Request.Form["deleteFile2"] + "" != "false")
+                {
+                    deleteFile(filePath2);
+                    filePath2 = "";
+                    fileName2 = "";
+                }
             }
             article_old.ARTICLE_FILE_NAME_1 = fileName1;
             article_old.ARTICLE_FILE_PATH_1 = filePath1;
@@ -512,6 +446,18 @@ namespace Booking.Controllers
             article_old.ARTICLE_TAGS = article.ARTICLE_TAGS;
             article_old.ARTICLE_IS_HOT = article.ARTICLE_IS_HOT;
             article_old.ARTICLE_DISABLE = article.ARTICLE_DISABLE;
+            decimal idTranTitle = article_old.TITLE_TRANSLATION_ID != null ? article_old.TITLE_TRANSLATION_ID.Value : 0;
+            decimal idTranBrief = article_old.BRIEF_TRANSLATION_ID != null ? article_old.BRIEF_TRANSLATION_ID.Value : 0;
+            decimal idTranContent = article_old.CONTENT_TRANSLATION_ID != null ? article_old.CONTENT_TRANSLATION_ID.Value : 0;
+            updateLanguage("ARTICLE_TITLE_", ref idTranTitle);
+            updateLanguage("ARTICLE_BRIEF_", ref idTranBrief);
+            updateLanguage("ARTICLE_CONTENT_", ref idTranContent);
+            if (idTranTitle != 0) article_old.TITLE_TRANSLATION_ID = idTranTitle;
+            else article_old.TITLE_TRANSLATION_ID = null;
+            if (idTranBrief != 0) article_old.BRIEF_TRANSLATION_ID = idTranBrief;
+            else article_old.BRIEF_TRANSLATION_ID = null;
+            if (idTranContent != 0) article_old.CONTENT_TRANSLATION_ID = idTranContent;
+            else article_old.CONTENT_TRANSLATION_ID = null;
             db.SaveChanges();
             return RedirectToAction("articelincategory/" + article_old.CATEGORY_ID);
         }
@@ -598,26 +544,24 @@ namespace Booking.Controllers
 
         public bool deleteFile(String path)
         {
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-                return true;
+            if (path + "" != "")
+            {               
+                try
+                {
+                    path = Path.Combine(Server.MapPath(path));
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                        return true;
+                    }
+                }
+                catch
+                {
+
+                }
             }
             return false;
-        }
-
-        public string GetNewFileName(string a)
-        {
-            string fileName = "";
-            if (a.Length > 0)
-            {
-                Random rnd = new Random();
-                DateTime date = DateTime.Now;
-                fileName = date.Day + "-" + date.Month + "-" + date.Year + "-" + date.Hour + "-" + date.Minute + "-" + date.Second + "-" + rnd.Next(1, 100) + Path.GetExtension(a);
-            }
-            return fileName;
-        }
-
+        }       
         public void GetChildCategory(decimal id, ref string rs, int start)
         {
             string urlHome = "/";
@@ -783,6 +727,164 @@ namespace Booking.Controllers
                 thumb.Save(Path.Combine(thumbImagePath1));
             }
             return RedirectToAction("Index");
+        }
+        public void BindListLanguage()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var getlist = db.LANGUAGEs.Where(m => m.LANGUAGE_IS_PRIMARY != true).ToArray();
+            foreach (var item in getlist)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = item.LANGUAGE_NAME + "",
+                    Value = item.LANGUAGE_ID + ""
+                });
+            }
+            ViewBag.BindListLanguage = list;
+        }
+        public string GetNewFileName(string a)
+        {
+            string fileName = "";
+            if (a.Length > 0)
+            {
+                fileName = Path.GetFileNameWithoutExtension(a) + "-" + DateTime.Now.Ticks + Path.GetExtension(a);
+            }
+            return fileName;
+        }
+        public bool deleteImg(String path)
+        {
+            if (path + "" != "")
+            {
+                int startIndex = path.LastIndexOf("/") + 1;
+                int endIndex = path.Length;
+                string filename = path.Substring(startIndex, (endIndex - startIndex));
+                string path1 = Path.Combine(Server.MapPath("/upload/images/" + filename));
+                string path2 = Path.Combine(Server.MapPath("/upload/images/Thumb/" + filename));
+                string path3 = Path.Combine(Server.MapPath("/upload/images/Medium/" + filename));
+                try
+                {
+                    if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+                    if (System.IO.File.Exists(path2)) System.IO.File.Delete(path2);
+                    if (System.IO.File.Exists(path3)) System.IO.File.Delete(path3);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else return true;
+        }
+        public void SaveImageCrop(HttpPostedFileBase img, string filename, string folder, ref string path_default, int height, int width)
+        {
+            if (img != null && img.ContentLength > 0)
+            {
+                var originalDirectory = new DirectoryInfo(string.Format("{0}Upload\\images\\", Server.MapPath(@"\")));
+                path_default = "/upload/images/" + filename;
+                img.SaveAs(Path.Combine(Server.MapPath(path_default)));//Lưu thư mục chính
+                string pathString = System.IO.Path.Combine(originalDirectory.ToString(), folder);
+                bool isExists = System.IO.Directory.Exists(pathString);
+                if (!isExists) System.IO.Directory.CreateDirectory(pathString);
+                var path = string.Format("{0}\\{1}", pathString, filename);
+                var newPath = ImageTool.GetNewPathForDupes(path, ref filename);
+                //Lưu hình ảnh Resize từ file sử dụng file.InputStream
+                ImageTool.SaveCroppedImage(Image.FromStream(img.InputStream), width, height, newPath);
+                path_default = "/upload/images/Thumb/" + filename;
+            }
+        }
+        private void createLanguage(string namecontrol,ref decimal valuecontrol)
+        {
+            var listLanguage = db.LANGUAGEs.Where(m => m.LANGUAGE_IS_PRIMARY != true).ToArray();
+            if (listLanguage.Count() > 0)
+            {
+                decimal maxIdTran = 0;
+                try
+                {
+                    maxIdTran = db.TRANSLATION_ARTICLE.Max(x => x.ID);
+                }
+                catch (Exception)
+                {
+                }
+                foreach (var item in listLanguage)
+                {
+                    string name = Request.Form[namecontrol + item.LANGUAGE_ID] + "";
+                    if (name != "")
+                    {
+                        TRANSLATION_ARTICLE tran = new TRANSLATION_ARTICLE();
+                        tran.ID = maxIdTran + 1;
+                        tran.LANGUAGE_ID = item.LANGUAGE_ID;
+                        tran.TEXT = name;
+                        valuecontrol = maxIdTran + 1;
+                        db.TRANSLATION_ARTICLE.Add(tran);
+                        db.SaveChanges();
+                    }
+                }
+
+            }
+        }
+        private void updateLanguage(string namecontrol, ref decimal valuecontrol)
+        {
+            var listLanguage = db.LANGUAGEs.Where(m => m.LANGUAGE_IS_PRIMARY != true).ToArray();
+            if (valuecontrol != 0)
+            {
+                foreach (var item in listLanguage)
+                {
+                    string name = Request.Form[namecontrol + item.LANGUAGE_ID] + "";
+                    decimal idTran = valuecontrol;
+                    var gettran = db.TRANSLATION_ARTICLE.Where(m => m.LANGUAGE_ID == item.LANGUAGE_ID && m.ID == idTran);
+                    if (gettran != null && gettran.Count() > 0)
+                    {
+                        if (name != "")
+                        {
+                            gettran.First().TEXT = name;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            db.TRANSLATION_ARTICLE.Remove(gettran.First());
+                            db.SaveChanges();
+
+                        }
+                    }
+                    else
+                    {
+                        if (name != "")
+                        {
+                            TRANSLATION_ARTICLE tran = new TRANSLATION_ARTICLE();
+                            tran.ID = valuecontrol;
+                            tran.LANGUAGE_ID = item.LANGUAGE_ID;
+                            tran.TEXT = name;
+                            db.TRANSLATION_ARTICLE.Add(tran);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                TRANSLATION_ARTICLE tran = new TRANSLATION_ARTICLE();
+                decimal maxIdTran = 0;
+                try
+                {
+                    maxIdTran = db.TRANSLATION_ARTICLE.Max(x => x.ID);
+                }
+                catch (Exception)
+                {
+                }
+                foreach (var item in listLanguage)
+                {
+                    string name = Request.Form[namecontrol + item.LANGUAGE_ID] + "";
+                    if (name != "")
+                    {
+                        tran.ID = maxIdTran + 1;
+                        tran.LANGUAGE_ID = item.LANGUAGE_ID;
+                        tran.TEXT = name;
+                        db.TRANSLATION_ARTICLE.Add(tran);
+                        db.SaveChanges();
+                    }
+                }
+                valuecontrol = maxIdTran + 1;
+            }
         }
 	}
 }

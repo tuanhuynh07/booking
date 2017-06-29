@@ -17,7 +17,7 @@ namespace Booking.Controllers.Admin
 {
     public class HotelController : Controller
     {
-        private  DB_BOOKINGEntities db = new DB_BOOKINGEntities();
+        private DB_BOOKINGEntities db = new DB_BOOKINGEntities();
 
         // GET: /Hotel/
         public async Task<ActionResult> Index()

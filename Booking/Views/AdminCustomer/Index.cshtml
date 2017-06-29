@@ -1,0 +1,147 @@
+﻿@model PagedList.IPagedList<Booking.Models.BOOKING_ROOM>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách đăng ký";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+     var id = ViewBag.Id;
+    //var LisArticles = ViewBag.ListOfCategory;
+    int stt = 0;
+
+}
+<link href="/Content/PagedList.css" rel="stylesheet" />
+@*<a href="/admin/article/toolResizeImage">ảnh</a>
+    <a href="/admin/article/toolResizeImageThumb">thumb</a>*@
+<section class="content-header">
+    <h1>
+        Danh sách đăng ký
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li class="active">Danh sách Đăng ký</li>
+    </ol>
+</section>
+<section class="content">    
+    @if (TempData["message_success"] != null)
+    {
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["message_success"]
+        </div>
+    }
+    @if (TempData["message_fail"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["message_fail"]
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">                
+                <div class="box-body">
+                    @using (Html.BeginForm("Index", "AdminCustomer", FormMethod.Get))
+                    {
+                        <p>
+                            Tìm kiếm: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @style = "width:300px" })
+                            <input type="submit" value="Tìm " />
+                        </p>
+                    }
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 10px">STT</th>
+                                <th>Mã Đặt phòng</th>
+                                <th>Tên người đặt</th>
+                                <th>Ngày đăng ký</th>
+                                <th>Ngày đặt</th>
+                                <th>Ngày trả</th>
+                                <th>Số phòng</th>
+                                <th>Thanh toán</th>
+                                <th>Thông tin thanh toán</th>
+                                <th style="width: 50px; text-align:center">Chức năng</th>
+                            </tr>
+                            @if (Model != null && Model.Count > 0)
+                            {
+                                stt = (ViewBag.currentPage - 1) * ViewBag.pageSize;
+                                foreach (var item in Model)
+                                {
+                                    stt = stt + 1;
+                                    string cls = "";
+                                    if (item.CANCEL_BOOKING.Value) 
+                                    {
+                                        cls = "background-color: #f5c5c5;";
+                                    }
+                                    <tr style="@cls">
+                                        <td style="text-align:center;">@stt</td>
+                                        <td>@item.BOOKING_CODE</td>
+                                        <td><a href="/AdminCustomer/InformationDetail/@item.CUSTOMER_ID" title="Thông tin khách hàng">@item.CUSTOMER_FULLNAME</a></td>
+                                        <td>@String.Format("{0:dd/MM/yyyy hh:mm:ss}",item.DATE_BOOKING)</td>
+                                        <td>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", item.DATE_BEGIN)</td>
+                                        <td>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", item.DATE_FINISH)</td>
+                                        <td>@item.NUMBER_ROOM</td>
+                                        <td style="text-align:center;">
+                                            @if ((bool)item.PAY_STATUS)
+                                            { 
+                                                <a class="" href="/admincustomer/ActivePay/@item.BOOKING_CODE">                                               
+                                                <i title="Đã thanh toán" class="fa fa-check" aria-hidden="true" style="cursor: pointer;"></i>   
+                                                    </a>                                            
+                                            }
+                                            else
+                                            {
+                                                <a class="" href="/admincustomer/ActivePay/@item.BOOKING_CODE">
+                                                    <i title="Chưa thanh toán" class="fa fa-ban" aria-hidden="true" style="cursor: pointer; color: red;"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td><span>Mã Thanh toán: @item.PAY_CODE - Ngày: @String.Format("{0:dd/MM/yyyy hh:mm:ss}", item.PAY_DATE) - Hình thức: @item.PAY_TYPE - Thông tin: @item.PAY_INFORMATION</span></td>
+                                        <td style="text-align:center;">
+                                            <ul class="contro_function">
+                                                <li>
+                                                    <a title="Thông tin phòng" href="/AdminCustomer/RoomBooking/@item.BOOKING_CODE">
+                                                        <i class="fa fa-info-circle"></i>
+                                                    </a>
+                                                </li>
+                                                @if(!item.CANCEL_BOOKING.Value)
+                                                { 
+                                                <li>|</li>                                               
+                                                <li>
+                                                    <a title="Hủy đăng ký" href="/AdminCustomer/CancelBooking/@item.BOOKING_CODE" onclick="return confirm('Bạn có muốn Hủy đăng ký không?');">
+                                                        <i class="fa fa-remove" style="color:red;"></i>
+                                                    </a>
+                                                </li>
+                                                }
+                                                else
+                                                {
+                                                   <li>|</li>                                               
+                                                <li>                                                    
+                                                    <i class="fa fa-remove" style="color:red;"></i> Đã hủy
+                                                  
+                                                </li> 
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10">
+                                        <p class="alert alert-danger alert-dismissable">
+                                            Không có thông tin!
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("/Index/",
+                                      new { page, currentFilter = ViewBag.CurrentFilter }))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,110 @@
+﻿@model Booking.Models.CUSTOMER
+@{
+    ViewBag.Title = "Thông tin chi tiết khách hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Thông tin chi tiết khách hàng
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li><a href="/AdminCustomer/Information">Danh sách khách hàng</a></li>
+        <li class="active">Thông tin Khách hàng</li>
+    </ol>
+</section>
+<section class="content">
+    @if (TempData["categogyNameError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["categogyNameError"]
+        </div>
+    }
+    @if (TempData["categogyImageError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["categogyImageError"]
+        </div>
+    }
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Khách hàng</h3>
+                </div>
+                <div class="box-body">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Họ: </label>
+                            <label for="LAST_NAME">@Model.LAST_NAME</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Tên: </label>
+                            <label for="FIRST_NAME">@Model.FIRST_NAME</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Email: </label>
+                            <label for="FIRST_NAME">@Model.EMAIL</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Điện thoại: </label>
+                            <label for="FIRST_NAME">@Model.PHONE</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Địa chỉ: </label>
+                            <label for="FIRST_NAME">@Model.ADDRESS</label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("IS_MEMBER", new { disabled = "disabled" }) Là Thành viên
+                            </label>
+                        </div>                             
+                    </div>
+                </div>
+            </div>    
+        </div>
+		<div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Thông tin khác</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="CATEGORY_NAME">Số CMND: </label>
+                        <label for="FIRST_NAME">@Model.PEOPLE_ID_NUMBER</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="CATEGORY_NAME">Ngày cấp: </label>
+                        <label for="FIRST_NAME">@Model.PEOPLE_ID_ISSUE_DATE</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="CATEGORY_NAME">Nơi cấp: </label>
+                        <label for="FIRST_NAME">@Model.PEOPLE_ID_ISSUE_PLACE</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="CATEGORY_NAME">Số Passprt: </label>
+                        <label for="FIRST_NAME">@Model.PASSPORT_NUMBER</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="CATEGORY_NAME">Nơi cấp Passport: </label>
+                        <label for="FIRST_NAME">@Model.PASSPORT_ISSUE_PLACE</label>
+                    </div>                    
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box-footer">
+                <div class="form-group">
+                    <label style="color:red;"><i>(*) là trường bắt buột nhập.</i></label>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a href="/adminCustomer/Information" class="btn btn-default">Quay lại</a>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -68,7 +68,12 @@ namespace Classes
                 {
                     return getUser.USER_ALLOW_MEDIA.Value;
                 }
-                else return false;
+                else
+                {
+                    string valid = Security.EncryptMd5(getUser.USER_IS_ADMIN + "&" + getUser.USER_ID).ToLower();
+                    if (getUser.USER_IS_ADMIN.Value && getUser.USER_VALID_ADMIN == valid) return true;
+                    else return false;
+                }                
             }
             else return false;
         }

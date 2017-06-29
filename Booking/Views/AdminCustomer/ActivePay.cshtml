@@ -1,0 +1,78 @@
+﻿@model Booking.Models.BOOKING_ROOM
+@{
+    ViewBag.Title = "Thông tin thanh toán";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Thông tin thanh toán
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li><a href="/AdminCustomer">Danh sách đặt phòng</a></li>
+        <li class="active">Thông tin thanh toán</li>
+    </ol>
+</section>
+<section class="content">
+    @if (TempData["articleNameError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @TempData["articleNameError"]
+        </div>
+    }
+    <div class="row">
+@using (Html.BeginForm("ActivePay", "admincustomer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Thông tin thanh toán của mã đặt phòng: <b><i>@Model.BOOKING_CODE - Khách hàng @Model.CUSTOMER_FULLNAME</i></b></h3>
+                </div><!-- /.box-header --> 
+                
+                <div class="box-body">
+                    @Html.AntiForgeryToken()
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Mã thanh toán <span style="color:red;">(*)</span></label>@Html.ValidationMessageFor(model => model.PAY_CODE, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.PAY_CODE, new { @class = "form-control", @placeholder = "Nhập mã..." })
+                        </div>  
+                        <div class="form-group">
+                            <label for="CATEGORY_NAME">Ngày thanh toán<span style="color:red;">(*)</span></label>@Html.ValidationMessageFor(model => model.PAY_DATE, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.PAY_DATE, new { @class = "form-control", @placeholder = "MM/dd/yyyy" })
+                        </div>  
+                        <div class="form-group">
+                            <label for="CATEGORY_IMAGE">Hình thức thanh toán <span style="color:red;">(*)</span></label>@Html.ValidationMessageFor(model => model.PAY_TYPE, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.PAY_TYPE, new { @class = "form-control", @placeholder = "Hình thức" })
+                            <img style="display: none; max-width:600px;height:auto" id="image" src="">
+                        </div>   
+                        <div class="form-group">
+                            <label for="CATEGORY_IMAGE">Thông tin thanh toán</label>@Html.ValidationMessageFor(model => model.PAY_INFORMATION, "", new { @class = "text-danger" })
+                            @Html.TextAreaFor(model => model.PAY_INFORMATION, new { @class = "form-control", @placeholder = "Thông tin" })
+                        </div>                  
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBox("PAY_STATUS") Trạng thái thanh toán.
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>            
+        </div>
+        
+        <div class="col-md-12">
+            <div class="box-footer">
+                <div class="form-group">
+                    <label style="color:red;"><i>(*) là trường bắt buột nhập.</i></label>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a href="/admincustomer" class="btn btn-default">Quay lại</a>
+            </div>
+        </div>
+}
+    </div>
+</section>
+
